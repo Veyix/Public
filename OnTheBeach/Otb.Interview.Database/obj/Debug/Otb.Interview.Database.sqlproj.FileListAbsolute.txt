@@ -1,0 +1,9 @@
+C:\Source\Personal\Public\OnTheBeach\Otb.Interview.Database\bin\Debug\Otb.Interview.Database.dacpac
+C:\Source\Personal\Public\OnTheBeach\Otb.Interview.Database\bin\Debug\Otb.Interview.Database.dll
+C:\Source\Personal\Public\OnTheBeach\Otb.Interview.Database\bin\Debug\Otb.Interview.Database.pdb
+C:\Source\Personal\Public\OnTheBeach\Otb.Interview.Database\obj\Debug\Otb.Interview.Database.dll
+C:\Source\Personal\Public\OnTheBeach\Otb.Interview.Database\obj\Debug\Otb.Interview.Database.pdb
+C:\Source\Personal\Public\OnTheBeach\Otb.Interview.Database\obj\Debug\Model.xml
+C:\Source\Personal\Public\OnTheBeach\Otb.Interview.Database\obj\Debug\refactor.xml
+C:\Source\Personal\Public\OnTheBeach\Otb.Interview.Database\obj\Debug\postdeploy.sql
+C:\Source\Personal\Public\OnTheBeach\Otb.Interview.Database\obj\Debug\predeploy.sql
