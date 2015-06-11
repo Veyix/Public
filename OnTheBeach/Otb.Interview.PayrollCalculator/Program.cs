@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 
 namespace Otb.Interview.PayrollCalculator
 {
@@ -24,8 +25,17 @@ namespace Otb.Interview.PayrollCalculator
                 return;
             }
 
+            // Get the connection string to the data source
+            string connectionString = GetConnectionString();
+            if (String.IsNullOrWhiteSpace(connectionString))
+            {
+                Console.WriteLine("Failed to resolve the data source connection.");
+
+                return;
+            }
+
             // Get the payroll information for the specified employee
-            var engine = new PayrollEngine();
+            var engine = new PayrollEngine(connectionString);
 
             string employeeName = args[0];
             var information = engine.RunEmployeePayroll(employeeName);
@@ -43,6 +53,17 @@ namespace Otb.Interview.PayrollCalculator
             Console.WriteLine("Employee:\t\t{0} ({1})", employeeName, information.EmployeeId);
             Console.WriteLine("Annual Salary ({0}):\t{1}", information.LocalCurrency, information.LocalAnnualSalary);
             Console.WriteLine("Annual Salary (GBP):\t{0}", information.ConvertedAnnualSalary);
+        }
+
+        private static string GetConnectionString()
+        {
+            var connectionStringContainer = ConfigurationManager.ConnectionStrings["PublicDatabase"];
+            if (connectionStringContainer == null)
+            {
+                return null;
+            }
+
+            return connectionStringContainer.ConnectionString;
         }
     }
 }

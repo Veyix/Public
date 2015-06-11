@@ -35,8 +35,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataReaderExtensions.cs" />
     <Compile Include="EmployeePaymentInformation.cs" />
     <Compile Include="PayrollEngine.cs" />
     <Compile Include="Program.cs" />
