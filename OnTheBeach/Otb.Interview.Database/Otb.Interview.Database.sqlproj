@@ -63,6 +63,7 @@
     <Folder Include="Keys\Foreign" />
     <Folder Include="PostDeployment" />
     <Folder Include="Stored Procedures" />
+    <Folder Include="Indexes" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Employee.table.sql" />
@@ -77,6 +78,7 @@
     <Build Include="Keys\Foreign\Salary.Employee.fkey.sql" />
     <Build Include="Keys\Foreign\Salary.Currency.fkey.sql" />
     <Build Include="Stored Procedures\Finance_RunAnnualPaymentCalculations.sql" />
+    <Build Include="Indexes\Employee.index.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="PostDeployment\Script.PostDeployment.sql" />
