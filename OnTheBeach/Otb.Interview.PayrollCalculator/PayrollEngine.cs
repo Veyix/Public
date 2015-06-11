@@ -52,10 +52,15 @@ namespace Otb.Interview.PayrollCalculator
             using (var connection = new SqlConnection(_connectionString))
             using (var command = connection.CreateCommand())
             {
-                command.CommandText = "Finance_RunAnnualPaymentCalculations @EmployeeName";
+                command.CommandText = "Finance_RunAnnualPaymentCalculations";
                 command.CommandType = System.Data.CommandType.StoredProcedure;
 
                 command.Parameters.AddWithValue("@EmployeeName", employeeName).DbType = System.Data.DbType.AnsiString;
+
+                if (connection.State != ConnectionState.Open)
+                {
+                    connection.Open();
+                }
 
                 // Execute the command and read the payment information
                 using (var reader = command.ExecuteReader())

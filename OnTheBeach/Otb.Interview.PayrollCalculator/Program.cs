@@ -20,7 +20,7 @@ namespace Otb.Interview.PayrollCalculator
             // Check for a single parameter as the employee name
             if (args.Length == 0)
             {
-                Console.WriteLine("No argument supplied. Please provide an employee name.");
+                ConsoleHelper.WriteInformation("No argument supplied. Please provide an employee name.");
 
                 return;
             }
@@ -29,30 +29,40 @@ namespace Otb.Interview.PayrollCalculator
             string connectionString = GetConnectionString();
             if (String.IsNullOrWhiteSpace(connectionString))
             {
-                Console.WriteLine("Failed to resolve the data source connection.");
+                ConsoleHelper.WriteInformation("Failed to resolve the data source connection.");
 
                 return;
             }
 
+            try
+            {
+                RunPayrollCalculations(connectionString, args[0]);
+            }
+            catch (Exception exception)
+            {
+                ConsoleHelper.WriteError(exception.Message);
+            }
+        }
+
+        private static void RunPayrollCalculations(string connectionString, string employeeName)
+        {
             // Get the payroll information for the specified employee
             var engine = new PayrollEngine(connectionString);
-
-            string employeeName = args[0];
             var information = engine.RunEmployeePayroll(employeeName);
 
             if (information == null)
             {
-                Console.WriteLine("Employee '{0}' was not found. Please provide a valid employee name.", employeeName);
+                ConsoleHelper.WriteInformation("Employee '{0}' was not found. Please provide a valid employee name.", employeeName);
 
                 return;
             }
 
             // Display the information to the user
-            Console.WriteLine("Payment Information:");
-            Console.WriteLine("====================");
-            Console.WriteLine("Employee:\t\t{0} ({1})", employeeName, information.EmployeeId);
-            Console.WriteLine("Annual Salary ({0}):\t{1}", information.LocalCurrency, information.LocalAnnualSalary);
-            Console.WriteLine("Annual Salary (GBP):\t{0}", information.ConvertedAnnualSalary);
+            ConsoleHelper.WriteInformation("Payment Information:");
+            ConsoleHelper.WriteInformation("====================");
+            ConsoleHelper.WriteInformation("Employee:\t\t{0} ({1})", employeeName, information.EmployeeId);
+            ConsoleHelper.WriteInformation("Annual Salary ({0}):\t{1}", information.LocalCurrency, information.LocalAnnualSalary);
+            ConsoleHelper.WriteInformation("Annual Salary (GBP):\t{0}", information.ConvertedAnnualSalary);
         }
 
         private static string GetConnectionString()
