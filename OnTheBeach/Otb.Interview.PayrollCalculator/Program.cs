@@ -77,7 +77,7 @@ namespace Otb.Interview.PayrollCalculator
             ConsoleHelper.WriteInformation("Payment Information:");
             ConsoleHelper.WriteInformation("====================");
             ConsoleHelper.WriteInformation("Employee:\t\t{0} ({1})", employeeName, information.EmployeeId);
-            ConsoleHelper.WriteInformation("Annual Salary ({0}):\t{1}", information.LocalCurrency, information.LocalAnnualSalary);
+            ConsoleHelper.WriteInformation("Annual Salary ({0}):\t{1}", information.LocalCurrency, information.GetLocalAnnualSalaryFormatted());
             ConsoleHelper.WriteInformation("Annual Salary (GBP):\t{0:C2}", information.ConvertedAnnualSalary);
         }
 
