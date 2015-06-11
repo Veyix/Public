@@ -29,5 +29,15 @@
         /// Gets or sets the annual salary paid to the employee in GBP.
         /// </summary>
         public decimal ConvertedAnnualSalary { get; set; }
+
+        /// <summary>
+        /// Gets a formatted string representation of the local annual salary using the culture specific to the currency.
+        /// </summary>
+        /// <returns>A string representation of the local currency salary.</returns>
+        public string GetLocalAnnualSalaryFormatted()
+        {
+            var culture = CurrencyCultureProvider.GetCurrencyCulture(LocalCurrency);
+            return LocalAnnualSalary.ToString("C2", culture);
+        }
     }
 }
