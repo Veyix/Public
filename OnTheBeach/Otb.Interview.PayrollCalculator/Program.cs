@@ -34,9 +34,25 @@ namespace Otb.Interview.PayrollCalculator
                 return;
             }
 
+            // Check to see if the user just wants to see staff information
+            string firstArgument = args[0];
+            if (firstArgument.Equals("staff", StringComparison.InvariantCultureIgnoreCase))
+            {
+                try
+                {
+                    ShowStaff(connectionString);
+                }
+                catch (Exception exception)
+                {
+                    ConsoleHelper.WriteError(exception.Message);
+                }
+
+                return;
+            }
+
             try
             {
-                RunPayrollCalculations(connectionString, args[0]);
+                RunPayrollCalculations(connectionString, firstArgument);
             }
             catch (Exception exception)
             {
@@ -62,7 +78,22 @@ namespace Otb.Interview.PayrollCalculator
             ConsoleHelper.WriteInformation("====================");
             ConsoleHelper.WriteInformation("Employee:\t\t{0} ({1})", employeeName, information.EmployeeId);
             ConsoleHelper.WriteInformation("Annual Salary ({0}):\t{1}", information.LocalCurrency, information.LocalAnnualSalary);
-            ConsoleHelper.WriteInformation("Annual Salary (GBP):\t{0}", information.ConvertedAnnualSalary);
+            ConsoleHelper.WriteInformation("Annual Salary (GBP):\t{0:C2}", information.ConvertedAnnualSalary);
+        }
+
+        private static void ShowStaff(string connectionString)
+        {
+            var engine = new PayrollEngine(connectionString);
+            var staffMembers = engine.GetPayrollStaff();
+
+            ConsoleHelper.WriteInformation("Staff Members:");
+            ConsoleHelper.WriteInformation("==============");
+
+            foreach (var staffMember in staffMembers)
+            {
+                ConsoleHelper.WriteInformation("{0} ({1}) - {2:C2}", staffMember.EmployeeName,
+                    staffMember.EmployeeId, staffMember.ConvertedAnnualSalary);
+            }
         }
 
         private static string GetConnectionString()

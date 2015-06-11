@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace Otb.Interview.PayrollCalculator
 {
@@ -72,6 +74,46 @@ namespace Otb.Interview.PayrollCalculator
                     }
 
                     return CreateFromReader(reader);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Retrieves all staff-level employees' payment information.
+        /// </summary>
+        /// <returns>A collection of objects containing payment information for staff-level employees.</returns>
+        public EmployeePaymentInformation[] GetPayrollStaff()
+        {
+            try
+            {
+                return GetPayrollStaffCore().ToArray();
+            }
+            catch (SqlException exception)
+            {
+                throw new InvalidOperationException("Failed to get payment information for staff-level employees. Check inner exception for details.", exception);
+            }
+        }
+
+        private IEnumerable<EmployeePaymentInformation> GetPayrollStaffCore()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = "Employee_GetStaff";
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+
+                if (connection.State != ConnectionState.Open)
+                {
+                    connection.Open();
+                }
+
+                // Execute the command and read the payment information
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        yield return CreateFromReader(reader);
+                    }
                 }
             }
         }
