@@ -1,0 +1,7 @@
+/OnTheBeach/*.suo
+
+bin
+
+obj
+
+/OnTheBeach/Otb.Interview.Database/*.dbmdl
