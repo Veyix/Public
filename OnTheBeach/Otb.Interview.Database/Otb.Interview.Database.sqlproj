@@ -81,6 +81,7 @@
     <Build Include="Stored Procedures\Finance_RunAnnualPaymentCalculations.sql" />
     <Build Include="Indexes\Employee.index.sql" />
     <Build Include="Functions\GetAnnualSalaries.function.sql" />
+    <Build Include="Stored Procedures\Employee_GetStaff.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="PostDeployment\Script.PostDeployment.sql" />
