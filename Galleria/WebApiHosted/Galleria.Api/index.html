@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Web API 2 with ASP.NET</title>
+    <meta charset="utf-8" />
+
+    <style type="text/css">
+        #error {
+            color: red;
+            border: 1px solid red;
+            padding: 10px;
+            margin: 10px;
+            font-family: 'Courier New';
+        }
+    </style>
+</head>
+<body>
+    <div id="content">
+        <h1>Values</h1>
+
+        <ul id="values">
+            <!-- Dynamic content -->
+        </ul>
+
+        <div id="error">
+            <!-- Dynamic content -->
+        </div>
+    </div>
+
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+
+    <script type="text/javascript">
+        var app = new App();
+        app.init();
+    </script>
+</body>
+</html>
