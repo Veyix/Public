@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galleria.Api.Console", "Gal
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galleria.Api", "Galleria.Api\Galleria.Api.csproj", "{C8A38572-12B4-4B24-89F2-6F5A884DEA46}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galleria.Api.WindowsService", "Galleria.Api.WindowsService\Galleria.Api.WindowsService.csproj", "{83152F6E-C46A-4AF9-9E98-CC66AB4B71DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{C8A38572-12B4-4B24-89F2-6F5A884DEA46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8A38572-12B4-4B24-89F2-6F5A884DEA46}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8A38572-12B4-4B24-89F2-6F5A884DEA46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83152F6E-C46A-4AF9-9E98-CC66AB4B71DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83152F6E-C46A-4AF9-9E98-CC66AB4B71DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83152F6E-C46A-4AF9-9E98-CC66AB4B71DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83152F6E-C46A-4AF9-9E98-CC66AB4B71DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
