@@ -1,4 +1,4 @@
-﻿namespace Galleria.Api.Console
+﻿namespace Galleria.Api
 {
     public class User
     {

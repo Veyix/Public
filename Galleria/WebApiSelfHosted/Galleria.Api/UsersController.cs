@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
 
-namespace Galleria.Api.Console
+namespace Galleria.Api
 {
     public class UsersController : ApiController
     {

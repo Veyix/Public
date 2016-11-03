@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Galleria.Api.Console
+namespace Galleria.Api
 {
     public class UserRepository
     {
