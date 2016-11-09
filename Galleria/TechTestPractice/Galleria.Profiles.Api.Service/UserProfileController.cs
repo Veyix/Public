@@ -32,5 +32,29 @@ namespace Galleria.Profiles.Api.Service
         {
             return _userProfileRepository.GetUserProfiles();
         }
+
+        /// <summary>
+        /// Gets the specified user profile.
+        /// </summary>
+        /// <param name="userId">The Id of the user profile to get.</param>
+        /// <returns>The specified user profile, if found; otherwise null..</returns>
+        [HttpGet]
+        [Route("api/users/{userId:int}")]
+        public UserProfile GetUserProfile(int userId)
+        {
+            return _userProfileRepository.GetUserProfile(userId);
+        }
+
+        /// <summary>
+        /// Gets the user profiles for the specified company.
+        /// </summary>
+        /// <param name="companyId">The Id of the company for which to get the user profiles.</param>
+        /// <returns>A collection of user profiles.</returns>
+        [HttpGet]
+        [Route("api/company/{companyId:int}/users")]
+        public IEnumerable<UserProfile> GetUserProfilesByCompanyId(int companyId)
+        {
+            return _userProfileRepository.GetUserProfiles(companyId);
+        }
     }
 }

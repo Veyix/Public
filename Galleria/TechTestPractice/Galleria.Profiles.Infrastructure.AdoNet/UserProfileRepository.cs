@@ -12,9 +12,9 @@ namespace Galleria.Profiles.Infrastructure.AdoNet
     /// </summary>
     public sealed class UserProfileRepository : IUserProfileRepository
     {
-        private const string COMMAND_GET_USER_PROFILE = "dbo.UserProfileGetById @intUserId";
+        private const string COMMAND_GET_USER_PROFILE = "dbo.UserProfileGetById";
         private const string COMMAND_GET_USER_PROFILES = "dbo.UserProfileGetAll";
-        private const string COMMAND_GET_USER_PROFILES_COMPANY = "dbo.UserProfileGetByCompanyId @intCompanyId";
+        private const string COMMAND_GET_USER_PROFILES_COMPANY = "dbo.UserProfileGetByCompanyId";
 
         private readonly SqlConnection _connection;
 
