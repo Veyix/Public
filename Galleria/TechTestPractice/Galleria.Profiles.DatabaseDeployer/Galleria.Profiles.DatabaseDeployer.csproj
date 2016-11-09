@@ -55,6 +55,11 @@
   <ItemGroup>
     <EmbeddedResource Include="Scripts\0001-UserProfile.table.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\0003-UserProfileGetById.proc.sql" />
+    <EmbeddedResource Include="Scripts\0004-UserProfileGetAll.proc.sql" />
+    <EmbeddedResource Include="Scripts\0005-UserProfileGetByCompanyId.proc.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
