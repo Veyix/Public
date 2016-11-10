@@ -11,7 +11,7 @@ namespace Galleria.Profiles.Api.Client
     /// <summary>
     /// A class that handles the client interaction with the user profile API.
     /// </summary>
-    public sealed class UserProfileService : IUserProfileService
+    public sealed class UserProfileService : IUserProfileService, IDisposable
     {
         private readonly HttpClient _client;
 
@@ -137,6 +137,11 @@ namespace Galleria.Profiles.Api.Client
             resultTask.Wait();
 
             Console.WriteLine(resultTask.Result);
+        }
+
+        public void Dispose()
+        {
+            _client.Dispose();
         }
     }
 }
