@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 namespace Galleria.Profiles.Api.Client
 {
@@ -81,6 +82,31 @@ namespace Galleria.Profiles.Api.Client
             var task = _client.PostAsync("api/users", content);
             task.Wait();
 
+            HandleResponse(task);
+        }
+
+        /// <summary>
+        /// Updates the associated record with the given user profile.
+        /// </summary>
+        /// <param name="profile">The profile to be updated.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="profile"/> is null.</exception>
+        /// <exception cref="InvalidOperationException">Thrown when <paramref name="profile"/> is new.</exception>
+        public void UpdateUserProfile(UserProfile profile)
+        {
+            if (profile == null) throw new ArgumentNullException(nameof(profile));
+
+            var data = JsonConvert.SerializeObject(profile);
+            var content = new StringContent(data);
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            var task = _client.PutAsync("api/users", content);
+            task.Wait();
+
+            HandleResponse(task);
+        }
+
+        private void HandleResponse(Task<HttpResponseMessage> task)
+        {
             if (task.IsFaulted)
             {
                 string error = task.Exception?.Message;

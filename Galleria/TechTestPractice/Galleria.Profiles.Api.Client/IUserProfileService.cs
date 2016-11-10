@@ -34,5 +34,13 @@ namespace Galleria.Profiles.Api.Client
         /// <param name="profile">The profile to be created.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="profile"/> is null.</exception>
         void CreateUserProfile(UserProfile profile);
+
+        /// <summary>
+        /// Updates the associated record with the given user profile.
+        /// </summary>
+        /// <param name="profile">The profile to be updated.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="profile"/> is null.</exception>
+        /// <exception cref="InvalidOperationException">Thrown when <paramref name="profile"/> is new.</exception>
+        void UpdateUserProfile(UserProfile profile);
     }
 }

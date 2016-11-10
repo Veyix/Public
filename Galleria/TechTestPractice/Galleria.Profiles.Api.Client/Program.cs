@@ -96,6 +96,10 @@ namespace Galleria.Profiles.Api.Client
                     CreateUserProfile(command);
                     break;
 
+                case "update":
+                    UpdateUserProfile(command);
+                    break;
+
                 default:
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine($"{command.CommandText} is not a recognised command");
@@ -173,6 +177,38 @@ namespace Galleria.Profiles.Api.Client
             }
 
             _userProfileService.CreateUserProfile(profile);
+        }
+
+        private void UpdateUserProfile(InputCommand command)
+        {
+            var profile = new UserProfile();
+
+            // Extract all of the parameter values
+            string userIdValue = command.GetParameterValue("UserId");
+            if (!String.IsNullOrWhiteSpace(userIdValue))
+            {
+                profile.Id = Convert.ToInt32(userIdValue);
+            }
+
+            string companyIdValue = command.GetParameterValue("CompanyId");
+            if (!String.IsNullOrWhiteSpace(companyIdValue))
+            {
+                profile.CompanyId = Convert.ToInt32(companyIdValue);
+            }
+
+            profile.Title = command.GetParameterValue("Title");
+            profile.Forename = command.GetParameterValue("Forename");
+            profile.Surname = command.GetParameterValue("Surname");
+
+            string dateOfBirthValue = command.GetParameterValue("DateOfBirth");
+            string dateFormat = command.GetParameterValue("DateFormat") ?? "yyyy-MM-dd";
+
+            if (!String.IsNullOrWhiteSpace(dateOfBirthValue))
+            {
+                profile.DateOfBirth = DateTime.ParseExact(dateOfBirthValue, dateFormat, CultureInfo.InvariantCulture);
+            }
+
+            _userProfileService.UpdateUserProfile(profile);
         }
 
         /// <summary>
