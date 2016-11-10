@@ -63,5 +63,21 @@ namespace Galleria.Profiles.Api.Client
 
             return JsonConvert.DeserializeObject<UserProfile>(task.Result);
         }
+
+        /// <summary>
+        /// Creates a new user profile record.
+        /// </summary>
+        /// <param name="profile">The profile to be created.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="profile"/> is null.</exception>
+        public void CreateUserProfile(UserProfile profile)
+        {
+            if (profile == null) throw new ArgumentNullException(nameof(profile));
+
+            var data = JsonConvert.SerializeObject(profile);
+            var content = new StringContent(data);
+
+            var task = _client.PostAsync("api/users", content);
+            task.Wait();
+        }
     }
 }

@@ -27,5 +27,12 @@ namespace Galleria.Profiles.Api.Client
         /// <param name="companyId">The Id of the company for which to get the user profiles.</param>
         /// <returns>A collection of user profiles.</returns>
         IEnumerable<UserProfile> GetUserProfilesByCompanyId(int companyId);
+
+        /// <summary>
+        /// Creates a new user profile record.
+        /// </summary>
+        /// <param name="profile">The profile to be created.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="profile"/> is null.</exception>
+        void CreateUserProfile(UserProfile profile);
     }
 }
