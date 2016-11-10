@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Galleria.Profiles.ObjectModel;
+using System;
 using System.Configuration;
-using System.Net.Http;
 
 namespace Galleria.Profiles.Api.Client
 {
@@ -10,25 +10,22 @@ namespace Galleria.Profiles.Api.Client
     public sealed class Program
     {
         private readonly IInputReceiver _inputReceiver;
-        private readonly HttpClient _client;
+        private readonly IUserProfileService _userProfileService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Program"/> class.
         /// </summary>
         /// <param name="inputReceiver">A receiver of input commands.</param>
-        /// <param name="apiAddress">The URL to the hosted API.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="inputReceiver"/> is null.</exception>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="apiAddress"/> is null or empty.</exception>
-        public Program(IInputReceiver inputReceiver, string apiAddress)
+        /// <param name="userProfileService">A service providing access to the user profile API.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="inputReceiver"/> or
+        /// <paramref name="userProfileService"/> is null.</exception>
+        public Program(IInputReceiver inputReceiver, IUserProfileService userProfileService)
         {
             if (inputReceiver == null) throw new ArgumentNullException(nameof(inputReceiver));
-            if (String.IsNullOrWhiteSpace(apiAddress)) throw new ArgumentException("The API address cannot be empty", nameof(apiAddress));
+            if (userProfileService == null) throw new ArgumentNullException(nameof(userProfileService));
 
             _inputReceiver = inputReceiver;
-
-            // Setup and initialize the API client
-            _client = new HttpClient();
-            _client.BaseAddress = new Uri(apiAddress);
+            _userProfileService = userProfileService;
         }
 
         private void Run()
@@ -105,37 +102,45 @@ namespace Galleria.Profiles.Api.Client
 
         private void ShowAllUserProfiles()
         {
-            var task = _client.GetStringAsync("api/users");
-            task.Wait();
-
-            string result = task.Result;
-            // TODO: Parse object from JSON.
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine(result);
-            Console.ResetColor();
+            var profiles = _userProfileService.GetUserProfiles();
+            foreach (var profile in profiles)
+            {
+                ShowUserProfile(profile);
+            }
         }
 
         private void ShowUserProfilesByCompany(int companyId)
         {
-            var task = _client.GetStringAsync($"api/company/{companyId}/users");
-            task.Wait();
-
-            string result = task.Result;
-            // TODO: Parse object from JSON.
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine(result);
-            Console.ResetColor();
+            var profiles = _userProfileService.GetUserProfilesByCompanyId(companyId);
+            foreach (var profile in profiles)
+            {
+                ShowUserProfile(profile);
+            }
         }
 
         private void ShowSpecificUserProfile(int userId)
         {
-            var task = _client.GetStringAsync($"api/users/{userId}");
-            task.Wait();
+            var profile = _userProfileService.GetUserProfile(userId);
+            ShowUserProfile(profile);
+        }
 
-            string result = task.Result;
-            // TODO: Parse object from JSON.
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine(result);
+        private void ShowUserProfile(UserProfile profile)
+        {
+            if (profile == null)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("No user profile");
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine($" --- USER {profile.Id} ---");
+                Console.WriteLine($"Company Id: {profile.CompanyId}");
+                Console.WriteLine($"Name: {profile.Title} {profile.Forename} {profile.Surname}");
+                Console.WriteLine($"DOB: {profile.DateOfBirth:dd MMM yyyy}");
+                Console.WriteLine("===========================");
+            }
+
             Console.ResetColor();
         }
 
@@ -145,12 +150,13 @@ namespace Galleria.Profiles.Api.Client
         public static void Main()
         {
             var receiver = new ConsoleInputReceiver();
+            var service = new UserProfileService(GetApiAddress());
 
             try
             {
                 Console.WriteLine("Starting client...");
 
-                var program = new Program(receiver, GetApiAddress());
+                var program = new Program(receiver, service);
                 program.Run();
             }
             catch (Exception exception)
