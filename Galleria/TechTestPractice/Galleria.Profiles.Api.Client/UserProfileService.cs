@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -35,7 +36,11 @@ namespace Galleria.Profiles.Api.Client
         public IEnumerable<UserProfile> GetUserProfiles()
         {
             var task = _client.GetStringAsync("api/users");
-            task.Wait();
+
+            if (IsFailure(task))
+            {
+                return Enumerable.Empty<UserProfile>();
+            }
 
             return JsonConvert.DeserializeObject<IEnumerable<UserProfile>>(task.Result);
         }
@@ -48,7 +53,11 @@ namespace Galleria.Profiles.Api.Client
         public IEnumerable<UserProfile> GetUserProfilesByCompanyId(int companyId)
         {
             var task = _client.GetStringAsync($"api/company/{companyId}/users");
-            task.Wait();
+
+            if (IsFailure(task))
+            {
+                return Enumerable.Empty<UserProfile>();
+            }
 
             return JsonConvert.DeserializeObject<IEnumerable<UserProfile>>(task.Result);
         }
@@ -61,7 +70,11 @@ namespace Galleria.Profiles.Api.Client
         public UserProfile GetUserProfile(int userId)
         {
             var task = _client.GetStringAsync($"api/users/{userId}");
-            task.Wait();
+
+            if (IsFailure(task))
+            {
+                return null;
+            }
 
             return JsonConvert.DeserializeObject<UserProfile>(task.Result);
         }
@@ -80,7 +93,11 @@ namespace Galleria.Profiles.Api.Client
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
             var task = _client.PostAsync("api/users", content);
-            task.Wait();
+
+            if (IsFailure(task))
+            {
+                return;
+            }
 
             HandleResponse(task);
         }
@@ -100,7 +117,11 @@ namespace Galleria.Profiles.Api.Client
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
             var task = _client.PutAsync("api/users", content);
-            task.Wait();
+
+            if (IsFailure(task))
+            {
+                return;
+            }
 
             HandleResponse(task);
         }
@@ -112,7 +133,11 @@ namespace Galleria.Profiles.Api.Client
         public void DeleteUserProfile(int userId)
         {
             var task = _client.DeleteAsync($"api/users/{userId}");
-            task.Wait();
+
+            if (IsFailure(task))
+            {
+                return;
+            }
 
             HandleResponse(task);
         }
@@ -137,6 +162,36 @@ namespace Galleria.Profiles.Api.Client
             resultTask.Wait();
 
             Console.WriteLine(resultTask.Result);
+        }
+
+        private bool IsFailure(Task task)
+        {
+            try
+            {
+                task.Wait();
+            }
+            catch (AggregateException exception)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+
+                string message = String.Join(Environment.NewLine, exception.InnerExceptions.Select(x => x.Message).ToArray());
+                Console.WriteLine(message);
+
+                return true;
+            }
+            catch (Exception exception)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(exception.Message);
+
+                return true;
+            }
+            finally
+            {
+                Console.ResetColor();
+            }
+
+            return false;
         }
 
         public void Dispose()

@@ -27,6 +27,12 @@ namespace Galleria.Profiles.Api.Client
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(exception.Message);
+
+                if (System.Diagnostics.Debugger.IsAttached)
+                {
+                    Console.WriteLine("Press any key to continue...");
+                    Console.ReadKey();
+                }
             }
             finally
             {
