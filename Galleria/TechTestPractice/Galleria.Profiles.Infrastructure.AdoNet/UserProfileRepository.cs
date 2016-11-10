@@ -17,6 +17,7 @@ namespace Galleria.Profiles.Infrastructure.AdoNet
         private const string COMMAND_GET_USER_PROFILES_COMPANY = "dbo.UserProfileGetByCompanyId";
         private const string COMMAND_ADD_USER_PROFILE = "dbo.UserProfileCreate";
         private const string COMMAND_UPDATE_USER_PROFILE = "dbo.UserProfileUpdate";
+        private const string COMMAND_DELETE_USER_PROFILE = "dbo.UserProfileDelete";
 
         private readonly SqlConnection _connection;
 
@@ -142,6 +143,24 @@ namespace Galleria.Profiles.Infrastructure.AdoNet
                 command.Parameters.AddWithValue("@strForename", profile.Forename).SqlDbType = SqlDbType.VarChar;
                 command.Parameters.AddWithValue("@strSurname", profile.Surname).SqlDbType = SqlDbType.VarChar;
                 command.Parameters.AddWithValue("@dteDateOfBirth", profile.DateOfBirth).SqlDbType = SqlDbType.Date;
+
+                command.ExecuteNonQuery();
+            }
+        }
+
+        /// <summary>
+        /// Deletes the specified user profile.
+        /// </summary>
+        /// <param name="userId">The Id of the user profile to be deleted.</param>
+        public void DeleteUserProfile(int userId)
+        {
+            EnsureConnectionOpen();
+
+            using (var command = _connection.CreateCommand())
+            {
+                command.CommandText = COMMAND_DELETE_USER_PROFILE;
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@intUserId", userId).SqlDbType = SqlDbType.Int;
 
                 command.ExecuteNonQuery();
             }

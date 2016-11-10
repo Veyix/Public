@@ -42,5 +42,11 @@ namespace Galleria.Profiles.Api.Client
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="profile"/> is null.</exception>
         /// <exception cref="InvalidOperationException">Thrown when <paramref name="profile"/> is new.</exception>
         void UpdateUserProfile(UserProfile profile);
+
+        /// <summary>
+        /// Deletes the specified user profile.
+        /// </summary>
+        /// <param name="userId">The Id of the user profile to be deleted.</param>
+        void DeleteUserProfile(int userId);
     }
 }

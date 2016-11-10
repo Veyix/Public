@@ -100,6 +100,10 @@ namespace Galleria.Profiles.Api.Client
                     UpdateUserProfile(command);
                     break;
 
+                case "delete":
+                    DeleteUserProfile(command);
+                    break;
+
                 default:
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine($"{command.CommandText} is not a recognised command");
@@ -209,6 +213,24 @@ namespace Galleria.Profiles.Api.Client
             }
 
             _userProfileService.UpdateUserProfile(profile);
+        }
+
+        private void DeleteUserProfile(InputCommand command)
+        {
+            string userIdValue = command.GetParameterValue("UserId");
+
+            int userId;
+            if (String.IsNullOrWhiteSpace(userIdValue) || !Int32.TryParse(userIdValue, out userId))
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+
+                Console.WriteLine("Missing 'userId' parameter");
+                Console.ResetColor();
+
+                return;
+            }
+
+            _userProfileService.DeleteUserProfile(userId);
         }
 
         /// <summary>

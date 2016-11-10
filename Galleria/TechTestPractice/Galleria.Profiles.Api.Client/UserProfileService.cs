@@ -105,6 +105,18 @@ namespace Galleria.Profiles.Api.Client
             HandleResponse(task);
         }
 
+        /// <summary>
+        /// Deletes the specified user profile.
+        /// </summary>
+        /// <param name="userId">The Id of the user profile to be deleted.</param>
+        public void DeleteUserProfile(int userId)
+        {
+            var task = _client.DeleteAsync($"api/users/{userId}");
+            task.Wait();
+
+            HandleResponse(task);
+        }
+
         private void HandleResponse(Task<HttpResponseMessage> task)
         {
             if (task.IsFaulted)

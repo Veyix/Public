@@ -33,5 +33,11 @@ namespace Galleria.Profiles.ObjectModel
         /// <param name="profile">The user profile record to be saved.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="profile"/> is null.</exception>
         void SaveUserProfile(UserProfile profile);
+
+        /// <summary>
+        /// Deletes the specified user profile.
+        /// </summary>
+        /// <param name="userId">The Id of the user profile to be deleted.</param>
+        void DeleteUserProfile(int userId);
     }
 }

@@ -87,5 +87,16 @@ namespace Galleria.Profiles.Api.Service
 
             _userProfileRepository.SaveUserProfile(profile);
         }
+
+        /// <summary>
+        /// Deletes the specified user profile.
+        /// </summary>
+        /// <param name="userId">The Id of the user profile to be deleted.</param>
+        [HttpDelete]
+        [Route("api/users/{userId:int}")]
+        public void DeleteUserProfile(int userId)
+        {
+            _userProfileRepository.DeleteUserProfile(userId);
+        }
     }
 }
