@@ -26,5 +26,12 @@ namespace Galleria.Profiles.ObjectModel
         /// <param name="userId">The Id of the user profile to get.</param>
         /// <returns>The specified user profile if found; otherwise null.</returns>
         UserProfile GetUserProfile(int userId);
+
+        /// <summary>
+        /// Adds or updates the given user profile record in the database.
+        /// </summary>
+        /// <param name="profile">The user profile record to be saved.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="profile"/> is null.</exception>
+        void SaveUserProfile(UserProfile profile);
     }
 }

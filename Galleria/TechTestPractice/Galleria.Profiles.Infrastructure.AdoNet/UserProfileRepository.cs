@@ -15,6 +15,8 @@ namespace Galleria.Profiles.Infrastructure.AdoNet
         private const string COMMAND_GET_USER_PROFILE = "dbo.UserProfileGetById";
         private const string COMMAND_GET_USER_PROFILES = "dbo.UserProfileGetAll";
         private const string COMMAND_GET_USER_PROFILES_COMPANY = "dbo.UserProfileGetByCompanyId";
+        private const string COMMAND_ADD_USER_PROFILE = "dbo.UserProfileCreate";
+        private const string COMMAND_UPDATE_USER_PROFILE = "dbo.UserProfileUpdate";
 
         private readonly SqlConnection _connection;
 
@@ -80,14 +82,6 @@ namespace Galleria.Profiles.Infrastructure.AdoNet
             }
         }
 
-        private void EnsureConnectionOpen()
-        {
-            if (_connection.State != ConnectionState.Open)
-            {
-                _connection.Open();
-            }
-        }
-
         private static IEnumerable<UserProfile> CreateUserProfiles(IDataReader reader)
         {
             while (reader.Read())
@@ -118,6 +112,45 @@ namespace Galleria.Profiles.Infrastructure.AdoNet
                 CreatedDate = createdDate,
                 LastChangedDate = lastChangedDate
             };
+        }
+
+        /// <summary>
+        /// Adds or updates the given user profile record in the database.
+        /// </summary>
+        /// <param name="profile">The user profile record to be saved.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="profile"/> is null.</exception>
+        public void SaveUserProfile(UserProfile profile)
+        {
+            if (profile == null) throw new ArgumentNullException(nameof(profile));
+
+            using (var command = _connection.CreateCommand())
+            {
+                command.CommandText = COMMAND_ADD_USER_PROFILE;
+                command.CommandType = CommandType.StoredProcedure;
+
+                if (profile.Id != 0)
+                {
+                    // This is not a new profile, so adjust the command to update the existing record
+                    command.CommandText = COMMAND_UPDATE_USER_PROFILE;
+                    command.Parameters.AddWithValue("@intUserId", profile.Id).SqlDbType = SqlDbType.Int;
+                }
+
+                command.Parameters.AddWithValue("@intCompanyId", profile.CompanyId).SqlDbType = SqlDbType.Int;
+                command.Parameters.AddWithValue("@strTitle", profile.Title).SqlDbType = SqlDbType.VarChar;
+                command.Parameters.AddWithValue("@strForename", profile.Forename).SqlDbType = SqlDbType.VarChar;
+                command.Parameters.AddWithValue("@strSurname", profile.Surname).SqlDbType = SqlDbType.VarChar;
+                command.Parameters.AddWithValue("@dteDateOfBirth", profile.DateOfBirth).SqlDbType = SqlDbType.Date;
+
+                command.ExecuteNonQuery();
+            }
+        }
+
+        private void EnsureConnectionOpen()
+        {
+            if (_connection.State != ConnectionState.Open)
+            {
+                _connection.Open();
+            }
         }
     }
 }
