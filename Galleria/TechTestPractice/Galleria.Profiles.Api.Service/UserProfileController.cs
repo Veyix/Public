@@ -65,7 +65,7 @@ namespace Galleria.Profiles.Api.Service
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="profile"/> is null.</exception>
         [HttpPost]
         [Route("api/users")]
-        public void CreateUserProfile(UserProfile profile)
+        public void CreateUserProfile([FromBody] UserProfile profile)
         {
             if (profile == null) throw new ArgumentNullException(nameof(profile));
 

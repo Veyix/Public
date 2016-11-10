@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace Galleria.Profiles.Api.Client
 {
@@ -75,9 +76,29 @@ namespace Galleria.Profiles.Api.Client
 
             var data = JsonConvert.SerializeObject(profile);
             var content = new StringContent(data);
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
             var task = _client.PostAsync("api/users", content);
             task.Wait();
+
+            if (task.IsFaulted)
+            {
+                string error = task.Exception?.Message;
+                if (String.IsNullOrWhiteSpace(error))
+                {
+                    var responseTask = task.Result.Content.ReadAsStringAsync();
+                    responseTask.Wait();
+
+                    error = responseTask.Result;
+                }
+
+                throw new InvalidOperationException(error);
+            }
+
+            var resultTask = task.Result.Content.ReadAsStringAsync();
+            resultTask.Wait();
+
+            Console.WriteLine(resultTask.Result);
         }
     }
 }

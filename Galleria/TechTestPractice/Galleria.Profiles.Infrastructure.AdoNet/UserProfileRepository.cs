@@ -123,6 +123,8 @@ namespace Galleria.Profiles.Infrastructure.AdoNet
         {
             if (profile == null) throw new ArgumentNullException(nameof(profile));
 
+            EnsureConnectionOpen();
+
             using (var command = _connection.CreateCommand())
             {
                 command.CommandText = COMMAND_ADD_USER_PROFILE;
