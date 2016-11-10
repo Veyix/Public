@@ -1,5 +1,6 @@
 ﻿using Galleria.Profiles.Infrastructure.AdoNet;
 using Galleria.Profiles.ObjectModel;
+using System;
 using System.Collections.Generic;
 using System.Web.Http;
 
@@ -55,6 +56,20 @@ namespace Galleria.Profiles.Api.Service
         public IEnumerable<UserProfile> GetUserProfilesByCompanyId(int companyId)
         {
             return _userProfileRepository.GetUserProfiles(companyId);
+        }
+
+        /// <summary>
+        /// Creates a new user profile record.
+        /// </summary>
+        /// <param name="profile">The profile to be created.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="profile"/> is null.</exception>
+        [HttpPost]
+        [Route("api/users")]
+        public void CreateUserProfile(UserProfile profile)
+        {
+            if (profile == null) throw new ArgumentNullException(nameof(profile));
+
+            _userProfileRepository.SaveUserProfile(profile);
         }
     }
 }
