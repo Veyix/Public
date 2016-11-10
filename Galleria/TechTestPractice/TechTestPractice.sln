@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galleria.Profiles.DatabaseDeployer", "Galleria.Profiles.DatabaseDeployer\Galleria.Profiles.DatabaseDeployer.csproj", "{561F397D-4859-41F9-98AE-6777B908C82E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galleria.Profiles.ObjectModel", "Galleria.Profiles.ObjectModel\Galleria.Profiles.ObjectModel.csproj", "{EFA7F57F-6EFF-4F72-9A92-2BB67FE070DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galleria.Profiles.Infrastructure.AdoNet", "Galleria.Profiles.Infrastructure.AdoNet\Galleria.Profiles.Infrastructure.AdoNet.csproj", "{C54093D1-5FE7-4C52-BCDA-B54193548AD7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galleria.Profiles.Api.Service", "Galleria.Profiles.Api.Service\Galleria.Profiles.Api.Service.csproj", "{F0D86CD0-7DF4-4BB8-BE54-95412334BCB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galleria.Profiles.Api.Client", "Galleria.Profiles.Api.Client\Galleria.Profiles.Api.Client.csproj", "{793FE937-9CBD-4544-9ED1-B59E784F8BD6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{561F397D-4859-41F9-98AE-6777B908C82E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{561F397D-4859-41F9-98AE-6777B908C82E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{561F397D-4859-41F9-98AE-6777B908C82E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{561F397D-4859-41F9-98AE-6777B908C82E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFA7F57F-6EFF-4F72-9A92-2BB67FE070DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFA7F57F-6EFF-4F72-9A92-2BB67FE070DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFA7F57F-6EFF-4F72-9A92-2BB67FE070DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFA7F57F-6EFF-4F72-9A92-2BB67FE070DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C54093D1-5FE7-4C52-BCDA-B54193548AD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C54093D1-5FE7-4C52-BCDA-B54193548AD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C54093D1-5FE7-4C52-BCDA-B54193548AD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C54093D1-5FE7-4C52-BCDA-B54193548AD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0D86CD0-7DF4-4BB8-BE54-95412334BCB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0D86CD0-7DF4-4BB8-BE54-95412334BCB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0D86CD0-7DF4-4BB8-BE54-95412334BCB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0D86CD0-7DF4-4BB8-BE54-95412334BCB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{793FE937-9CBD-4544-9ED1-B59E784F8BD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{793FE937-9CBD-4544-9ED1-B59E784F8BD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{793FE937-9CBD-4544-9ED1-B59E784F8BD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{793FE937-9CBD-4544-9ED1-B59E784F8BD6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
