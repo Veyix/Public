@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Galleria.Support;
 
 namespace Galleria.Profiles.Api.Client.CommandHandling
 {
@@ -9,7 +9,7 @@ namespace Galleria.Profiles.Api.Client.CommandHandling
     {
         public void Invoke(InputCommand command)
         {
-            if (command == null) throw new ArgumentNullException(nameof(command));
+            Verify.NotNull(command, nameof(command));
 
             InvokeCore(command);
         }

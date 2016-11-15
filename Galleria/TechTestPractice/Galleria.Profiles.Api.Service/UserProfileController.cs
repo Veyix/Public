@@ -1,5 +1,5 @@
-﻿using Galleria.Profiles.Infrastructure.AdoNet;
-using Galleria.Profiles.ObjectModel;
+﻿using Galleria.Profiles.ObjectModel;
+using Galleria.Support;
 using System;
 using System.Collections.Generic;
 using System.Web.Http;
@@ -16,11 +16,13 @@ namespace Galleria.Profiles.Api.Service
         /// <summary>
         /// Initializes a new instance of the <see cref="UserProfileController"/> class.
         /// </summary>
-        public UserProfileController()
+        /// <param name="userProfileRepository">A repository for managing instances of the <see cref="UserProfile"/> class.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="userProfileRepository"/> is null.</exception>
+        public UserProfileController(IUserProfileRepository userProfileRepository)
         {
-            // TODO: Move this to be injected.
-            var connection = ConnectionFactory.CreateConnection();
-            _userProfileRepository = new UserProfileRepository(connection);
+            Verify.NotNull(userProfileRepository, nameof(userProfileRepository));
+
+            _userProfileRepository = userProfileRepository;
         }
 
         /// <summary>
@@ -71,7 +73,7 @@ namespace Galleria.Profiles.Api.Service
         [Authorize(Roles = SecurityRoles.Administrator)]
         public void CreateUserProfile([FromBody] UserProfile profile)
         {
-            if (profile == null) throw new ArgumentNullException(nameof(profile));
+            Verify.NotNull(profile, nameof(profile));
 
             _userProfileRepository.SaveUserProfile(profile);
         }
@@ -87,8 +89,12 @@ namespace Galleria.Profiles.Api.Service
         [Authorize(Roles = SecurityRoles.Administrator)]
         public void UpdateUserProfile([FromBody] UserProfile profile)
         {
-            if (profile == null) throw new ArgumentNullException(nameof(profile));
-            if (profile.Id == 0) throw new InvalidOperationException("Cannot update a new record");
+            Verify.NotNull(profile, nameof(profile));
+
+            if (profile.Id == 0)
+            {
+                throw new InvalidOperationException("Cannot update a new record");
+            }
 
             _userProfileRepository.SaveUserProfile(profile);
         }

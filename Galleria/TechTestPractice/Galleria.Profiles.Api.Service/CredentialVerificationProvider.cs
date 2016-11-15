@@ -1,6 +1,6 @@
 ﻿using Galleria.Profiles.ObjectModel;
+using Galleria.Support;
 using Microsoft.Owin.Security.OAuth;
-using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -20,7 +20,7 @@ namespace Galleria.Profiles.Api.Service
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="securityUserRepository"/> is null.</exception>
         public CredentialVerificationProvider(ISecurityUserRepository securityUserRepository)
         {
-            if (securityUserRepository == null) throw new ArgumentNullException(nameof(securityUserRepository));
+            Verify.NotNull(securityUserRepository, nameof(securityUserRepository));
 
             _securityUserRepository = securityUserRepository;
         }

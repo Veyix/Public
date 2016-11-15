@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Galleria.Support;
 
 namespace Galleria.Profiles.Api.Client.CommandHandling
 {
@@ -11,7 +11,7 @@ namespace Galleria.Profiles.Api.Client.CommandHandling
 
         public GetAllCommandHandler(IUserProfileService userProfileService)
         {
-            if (userProfileService == null) throw new ArgumentNullException(nameof(userProfileService));
+            Verify.NotNull(userProfileService, nameof(userProfileService));
 
             _userProfileService = userProfileService;
         }

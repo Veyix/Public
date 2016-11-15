@@ -1,4 +1,5 @@
 ﻿using Galleria.Profiles.ObjectModel;
+using Galleria.Support;
 using System;
 using System.Data;
 using System.Data.SqlClient;
@@ -17,18 +18,18 @@ namespace Galleria.Profiles.Infrastructure.AdoNet
         /// <summary>
         /// Initializes a new instance of the <see cref="SecurityUserRepository"/> class.
         /// </summary>
-        /// <param name="connection">A connection to the database.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="connection"/> is null.</exception>
-        public SecurityUserRepository(SqlConnection connection)
+        /// <param name="connectionFactory">A factory that creates database connections.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="connectionFactory"/> is null.</exception>
+        public SecurityUserRepository(ISqlConnectionFactory connectionFactory)
         {
-            if (connection == null) throw new ArgumentNullException(nameof(connection));
+            Verify.NotNull(connectionFactory, nameof(connectionFactory));
 
-            _connection = connection;
+            _connection = connectionFactory.CreateConnection();
         }
 
         public SecurityUser GetByUsername(string username)
         {
-            if (String.IsNullOrWhiteSpace(username)) throw new ArgumentException("The username cannot be empty", nameof(username));
+            Verify.NotNullOrEmpty(username, nameof(username));
 
             EnsureConnectionOpen();
 

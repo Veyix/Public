@@ -71,6 +71,10 @@
       <Project>{efa7f57f-6eff-4f72-9a92-2bb67fe070db}</Project>
       <Name>Galleria.Profiles.ObjectModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Galleria.Support\Galleria.Support.csproj">
+      <Project>{c473afc4-ea72-495b-a60d-77b1bda87de9}</Project>
+      <Name>Galleria.Support</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

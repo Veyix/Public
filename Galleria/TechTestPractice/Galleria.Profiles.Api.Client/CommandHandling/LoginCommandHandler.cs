@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Galleria.Support;
+using System;
 
 namespace Galleria.Profiles.Api.Client.CommandHandling
 {
@@ -16,7 +17,7 @@ namespace Galleria.Profiles.Api.Client.CommandHandling
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="userProfileService"/> is null.</exception>
         public LoginCommandHandler(IUserProfileService userProfileService)
         {
-            if (userProfileService == null) throw new ArgumentNullException(nameof(userProfileService));
+            Verify.NotNull(userProfileService, nameof(userProfileService));
 
             _userProfileService = userProfileService;
         }

@@ -5,12 +5,10 @@ namespace Galleria.Profiles.Api.Client.CommandHandling
     /// <summary>
     /// A class that handles an unsupported command.
     /// </summary>
-    public sealed class UnsupportedCommandHandler : ICommandHandler
+    public sealed class UnsupportedCommandHandler : CommandHandler
     {
-        public void Invoke(InputCommand command)
+        protected override void InvokeCore(InputCommand command)
         {
-            if (command == null) throw new ArgumentNullException(nameof(command));
-
             Console.ForegroundColor = ConsoleColor.Yellow;
 
             Console.WriteLine($"'{command.CommandText}' is not a recognised command");
