@@ -1,4 +1,6 @@
-﻿using Microsoft.Owin;
+﻿using Galleria.Profiles.Infrastructure.AdoNet;
+using Galleria.Profiles.ObjectModel;
+using Microsoft.Owin;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
 using Owin;
@@ -23,7 +25,7 @@ namespace Galleria.Profiles.Api.Service
                 new OAuthAuthorizationServerOptions()
                 {
                     AllowInsecureHttp = true,
-                    Provider = new CredentialVerificationProvider(),
+                    Provider = new CredentialVerificationProvider(CreateRepository()),
                     TokenEndpointPath = new PathString("/api/login")
                 }
             );
@@ -41,6 +43,13 @@ namespace Galleria.Profiles.Api.Service
             // JSON Formatting
             var formatter = config.Formatters.OfType<JsonMediaTypeFormatter>().First();
             formatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+        }
+
+        private static ISecurityUserRepository CreateRepository()
+        {
+            // TODO: DI this or add it into the OwinContext.
+            var connection = ConnectionFactory.CreateConnection();
+            return new SecurityUserRepository(connection);
         }
     }
 }
