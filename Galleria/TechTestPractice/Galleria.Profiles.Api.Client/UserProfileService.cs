@@ -1,4 +1,5 @@
 ﻿using Galleria.Profiles.ObjectModel;
+using Galleria.Support;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -26,7 +27,7 @@ namespace Galleria.Profiles.Api.Client
         /// <exception cref="ArgumentException">Thrown when <paramref name="address"/> is null or empty.</exception>
         public UserProfileService(string address)
         {
-            if (String.IsNullOrWhiteSpace(address)) throw new ArgumentException("The service address cannot be empty", nameof(address));
+            Verify.NotNullOrEmpty(address, nameof(address));
 
             _client = new HttpClient();
             _client.BaseAddress = new Uri(address);
@@ -41,8 +42,8 @@ namespace Galleria.Profiles.Api.Client
         /// <paramref name="password"/> is null or empty.</exception>
         public void Login(string username, string password)
         {
-            if (String.IsNullOrWhiteSpace(username)) throw new ArgumentException("The username cannot be empty", nameof(username));
-            if (String.IsNullOrWhiteSpace(password)) throw new ArgumentException("The password cannot be empty", nameof(password));
+            Verify.NotNullOrEmpty(username, nameof(username));
+            Verify.NotNullOrEmpty(password, nameof(password));
 
             // Send a form data URL encoded message to the API to gain an authorization token
             var content = new FormUrlEncodedContent(
@@ -145,7 +146,7 @@ namespace Galleria.Profiles.Api.Client
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="profile"/> is null.</exception>
         public void CreateUserProfile(UserProfile profile)
         {
-            if (profile == null) throw new ArgumentNullException(nameof(profile));
+            Verify.NotNull(profile, nameof(profile));
 
             var data = JsonConvert.SerializeObject(profile);
             var content = new StringContent(data);
@@ -169,7 +170,7 @@ namespace Galleria.Profiles.Api.Client
         /// <exception cref="InvalidOperationException">Thrown when <paramref name="profile"/> is new.</exception>
         public void UpdateUserProfile(UserProfile profile)
         {
-            if (profile == null) throw new ArgumentNullException(nameof(profile));
+            Verify.NotNull(profile, nameof(profile));
 
             var data = JsonConvert.SerializeObject(profile);
             var content = new StringContent(data);

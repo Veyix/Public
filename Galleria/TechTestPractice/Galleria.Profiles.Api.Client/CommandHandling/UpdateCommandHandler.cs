@@ -1,4 +1,5 @@
 ﻿using Galleria.Profiles.ObjectModel;
+using Galleria.Support;
 using System;
 using System.Globalization;
 
@@ -13,7 +14,7 @@ namespace Galleria.Profiles.Api.Client.CommandHandling
 
         public UpdateCommandHandler(IUserProfileService userProfileService)
         {
-            if (userProfileService == null) throw new ArgumentNullException(nameof(userProfileService));
+            Verify.NotNull(userProfileService, nameof(userProfileService));
 
             _userProfileService = userProfileService;
         }

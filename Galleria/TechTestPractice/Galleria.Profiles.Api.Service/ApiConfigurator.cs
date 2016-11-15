@@ -1,11 +1,11 @@
 ﻿using Autofac;
 using Autofac.Integration.WebApi;
 using Galleria.Profiles.Infrastructure.AdoNet;
+using Galleria.Support;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
 using Owin;
-using System;
 using System.Linq;
 using System.Net.Http.Formatting;
 using System.Web.Http;
@@ -19,7 +19,7 @@ namespace Galleria.Profiles.Api.Service
     {
         public void Configuration(IAppBuilder builder)
         {
-            if (builder == null) throw new ArgumentNullException(nameof(builder));
+            Verify.NotNull(builder, nameof(builder));
 
             // Setup the HTTP config and enable the attribute routing
             var config = new HttpConfiguration();

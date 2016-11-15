@@ -1,4 +1,5 @@
 ﻿using Galleria.Profiles.ObjectModel;
+using Galleria.Support;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -28,7 +29,7 @@ namespace Galleria.Profiles.Infrastructure.AdoNet
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="connectionFactory"/> is null.</exception>
         public UserProfileRepository(ISqlConnectionFactory connectionFactory)
         {
-            if (connectionFactory == null) throw new ArgumentNullException(nameof(connectionFactory));
+            Verify.NotNull(connectionFactory, nameof(connectionFactory));
 
             _connection = connectionFactory.CreateConnection();
         }
@@ -122,7 +123,7 @@ namespace Galleria.Profiles.Infrastructure.AdoNet
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="profile"/> is null.</exception>
         public void SaveUserProfile(UserProfile profile)
         {
-            if (profile == null) throw new ArgumentNullException(nameof(profile));
+            Verify.NotNull(profile, nameof(profile));
 
             EnsureConnectionOpen();
 

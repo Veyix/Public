@@ -1,5 +1,5 @@
 ﻿using Galleria.Profiles.Api.Client.CommandHandling;
-using System;
+using Galleria.Support;
 
 namespace Galleria.Profiles.Api.Client
 {
@@ -19,8 +19,8 @@ namespace Galleria.Profiles.Api.Client
         /// <exception cref="ArgumentNullException">Thrown when any of the given parameters are null.</exception>
         public ClientApplication(IInputReceiver inputReceiver, IUserProfileService userProfileService)
         {
-            if (inputReceiver == null) throw new ArgumentNullException(nameof(inputReceiver));
-            if (userProfileService == null) throw new ArgumentNullException(nameof(userProfileService));
+            Verify.NotNull(inputReceiver, nameof(inputReceiver));
+            Verify.NotNull(userProfileService, nameof(userProfileService));
 
             _inputReceiver = inputReceiver;
             _commandHandlerFactory = new CommandHandlerFactory(userProfileService);

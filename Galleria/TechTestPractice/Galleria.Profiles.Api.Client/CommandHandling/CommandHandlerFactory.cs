@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Galleria.Support;
 
 namespace Galleria.Profiles.Api.Client.CommandHandling
 {
@@ -11,7 +11,7 @@ namespace Galleria.Profiles.Api.Client.CommandHandling
 
         public CommandHandlerFactory(IUserProfileService userProfileService)
         {
-            if (userProfileService == null) throw new ArgumentNullException(nameof(userProfileService));
+            Verify.NotNull(userProfileService, nameof(userProfileService));
 
             _userProfileService = userProfileService;
         }
@@ -24,7 +24,7 @@ namespace Galleria.Profiles.Api.Client.CommandHandling
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="command"/> is null.</exception>
         public ICommandHandler Create(InputCommand command)
         {
-            if (command == null) throw new ArgumentNullException(nameof(command));
+            Verify.NotNull(command, nameof(command));
 
             switch (command.CommandText)
             {

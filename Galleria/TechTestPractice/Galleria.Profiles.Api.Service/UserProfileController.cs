@@ -1,4 +1,5 @@
 ﻿using Galleria.Profiles.ObjectModel;
+using Galleria.Support;
 using System;
 using System.Collections.Generic;
 using System.Web.Http;
@@ -19,7 +20,7 @@ namespace Galleria.Profiles.Api.Service
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="userProfileRepository"/> is null.</exception>
         public UserProfileController(IUserProfileRepository userProfileRepository)
         {
-            if (userProfileRepository == null) throw new ArgumentNullException(nameof(userProfileRepository));
+            Verify.NotNull(userProfileRepository, nameof(userProfileRepository));
 
             _userProfileRepository = userProfileRepository;
         }
@@ -72,7 +73,7 @@ namespace Galleria.Profiles.Api.Service
         [Authorize(Roles = SecurityRoles.Administrator)]
         public void CreateUserProfile([FromBody] UserProfile profile)
         {
-            if (profile == null) throw new ArgumentNullException(nameof(profile));
+            Verify.NotNull(profile, nameof(profile));
 
             _userProfileRepository.SaveUserProfile(profile);
         }
@@ -88,8 +89,12 @@ namespace Galleria.Profiles.Api.Service
         [Authorize(Roles = SecurityRoles.Administrator)]
         public void UpdateUserProfile([FromBody] UserProfile profile)
         {
-            if (profile == null) throw new ArgumentNullException(nameof(profile));
-            if (profile.Id == 0) throw new InvalidOperationException("Cannot update a new record");
+            Verify.NotNull(profile, nameof(profile));
+
+            if (profile.Id == 0)
+            {
+                throw new InvalidOperationException("Cannot update a new record");
+            }
 
             _userProfileRepository.SaveUserProfile(profile);
         }

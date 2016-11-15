@@ -1,4 +1,5 @@
-﻿using Microsoft.Owin.Hosting;
+﻿using Galleria.Support;
+using Microsoft.Owin.Hosting;
 using System;
 using System.ServiceProcess;
 
@@ -16,7 +17,7 @@ namespace Galleria.Profiles.Api.Service
         /// <exception cref="ArgumentException">Thrown when <paramref name="hostAddress"/> is null or empty.</exception>
         public HostService(string hostAddress)
         {
-            if (String.IsNullOrWhiteSpace(hostAddress)) throw new ArgumentException("The host address cannot be empty.", nameof(hostAddress));
+            Verify.NotNullOrEmpty(hostAddress, nameof(hostAddress));
 
             _hostAddress = hostAddress;
 
