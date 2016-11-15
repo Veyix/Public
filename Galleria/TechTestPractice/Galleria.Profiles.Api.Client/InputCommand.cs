@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Galleria.Support;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -43,7 +44,7 @@ namespace Galleria.Profiles.Api.Client
         /// <exception cref="ArgumentException">Thrown when <paramref name="parameterName"/> is a null or empty string.</exception>
         public string GetParameterValue(string parameterName)
         {
-            if (String.IsNullOrWhiteSpace(parameterName)) throw new ArgumentException("The parameter name cannot be empty", nameof(parameterName));
+            Verify.NotNullOrEmpty(parameterName, nameof(parameterName));
 
             string parameterValue;
             if (!_parameters.TryGetValue(parameterName, out parameterValue))
@@ -62,7 +63,7 @@ namespace Galleria.Profiles.Api.Client
         /// <exception cref="ArgumentException">Thrown when <paramref name="inputText"/> is null or empty.</exception>
         public static InputCommand Create(string inputText)
         {
-            if (String.IsNullOrWhiteSpace(inputText)) throw new ArgumentException("The input cannot be empty", nameof(inputText));
+            Verify.NotNullOrEmpty(inputText, nameof(inputText));
 
             string[] components = GetComponents(inputText);
 

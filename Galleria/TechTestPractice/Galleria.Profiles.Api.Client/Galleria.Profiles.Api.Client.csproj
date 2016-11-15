@@ -42,7 +42,19 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClientApplication.cs" />
+    <Compile Include="CommandHandling\CommandHandler.cs" />
+    <Compile Include="CommandHandling\CommandHandlerFactory.cs" />
+    <Compile Include="CommandHandling\CreateCommandHandler.cs" />
+    <Compile Include="CommandHandling\DeleteCommandHandler.cs" />
+    <Compile Include="CommandHandling\GetAllCommandHandler.cs" />
+    <Compile Include="CommandHandling\GetCommandHandler.cs" />
+    <Compile Include="CommandHandling\LoginCommandHandler.cs" />
+    <Compile Include="CommandHandling\PrintUserProfileCommandHandler.cs" />
+    <Compile Include="CommandHandling\UnsupportedCommandHandler.cs" />
+    <Compile Include="CommandHandling\UpdateCommandHandler.cs" />
     <Compile Include="ConsoleInputReceiver.cs" />
+    <Compile Include="CommandHandling\ICommandHandler.cs" />
     <Compile Include="IInputReceiver.cs" />
     <Compile Include="InputCommand.cs" />
     <Compile Include="IUserProfileService.cs" />
@@ -58,6 +70,10 @@
     <ProjectReference Include="..\Galleria.Profiles.ObjectModel\Galleria.Profiles.ObjectModel.csproj">
       <Project>{efa7f57f-6eff-4f72-9a92-2bb67fe070db}</Project>
       <Name>Galleria.Profiles.ObjectModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galleria.Support\Galleria.Support.csproj">
+      <Project>{c473afc4-ea72-495b-a60d-77b1bda87de9}</Project>
+      <Name>Galleria.Support</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

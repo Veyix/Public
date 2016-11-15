@@ -1,4 +1,5 @@
 ﻿using Galleria.Profiles.ObjectModel;
+using Galleria.Support;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,19 +16,22 @@ namespace Galleria.Profiles.Infrastructure.AdoNet
         private const string COMMAND_GET_USER_PROFILE = "dbo.UserProfileGetById";
         private const string COMMAND_GET_USER_PROFILES = "dbo.UserProfileGetAll";
         private const string COMMAND_GET_USER_PROFILES_COMPANY = "dbo.UserProfileGetByCompanyId";
+        private const string COMMAND_ADD_USER_PROFILE = "dbo.UserProfileCreate";
+        private const string COMMAND_UPDATE_USER_PROFILE = "dbo.UserProfileUpdate";
+        private const string COMMAND_DELETE_USER_PROFILE = "dbo.UserProfileDelete";
 
         private readonly SqlConnection _connection;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserProfileRepository"/> class.
         /// </summary>
-        /// <param name="connection">A connection to the database.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="connection"/> is null.</exception>
-        public UserProfileRepository(SqlConnection connection)
+        /// <param name="connectionFactory">A factory that creates database connections.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="connectionFactory"/> is null.</exception>
+        public UserProfileRepository(ISqlConnectionFactory connectionFactory)
         {
-            if (connection == null) throw new ArgumentNullException(nameof(connection));
+            Verify.NotNull(connectionFactory, nameof(connectionFactory));
 
-            _connection = connection;
+            _connection = connectionFactory.CreateConnection();
         }
 
         public UserProfile GetUserProfile(int userId)
@@ -80,14 +84,6 @@ namespace Galleria.Profiles.Infrastructure.AdoNet
             }
         }
 
-        private void EnsureConnectionOpen()
-        {
-            if (_connection.State != ConnectionState.Open)
-            {
-                _connection.Open();
-            }
-        }
-
         private static IEnumerable<UserProfile> CreateUserProfiles(IDataReader reader)
         {
             while (reader.Read())
@@ -118,6 +114,65 @@ namespace Galleria.Profiles.Infrastructure.AdoNet
                 CreatedDate = createdDate,
                 LastChangedDate = lastChangedDate
             };
+        }
+
+        /// <summary>
+        /// Adds or updates the given user profile record in the database.
+        /// </summary>
+        /// <param name="profile">The user profile record to be saved.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="profile"/> is null.</exception>
+        public void SaveUserProfile(UserProfile profile)
+        {
+            Verify.NotNull(profile, nameof(profile));
+
+            EnsureConnectionOpen();
+
+            using (var command = _connection.CreateCommand())
+            {
+                command.CommandText = COMMAND_ADD_USER_PROFILE;
+                command.CommandType = CommandType.StoredProcedure;
+
+                if (profile.Id != 0)
+                {
+                    // This is not a new profile, so adjust the command to update the existing record
+                    command.CommandText = COMMAND_UPDATE_USER_PROFILE;
+                    command.Parameters.AddWithValue("@intUserId", profile.Id).SqlDbType = SqlDbType.Int;
+                }
+
+                command.Parameters.AddWithValue("@intCompanyId", profile.CompanyId).SqlDbType = SqlDbType.Int;
+                command.Parameters.AddWithValue("@strTitle", profile.Title).SqlDbType = SqlDbType.VarChar;
+                command.Parameters.AddWithValue("@strForename", profile.Forename).SqlDbType = SqlDbType.VarChar;
+                command.Parameters.AddWithValue("@strSurname", profile.Surname).SqlDbType = SqlDbType.VarChar;
+                command.Parameters.AddWithValue("@dteDateOfBirth", profile.DateOfBirth).SqlDbType = SqlDbType.Date;
+
+                command.ExecuteNonQuery();
+            }
+        }
+
+        /// <summary>
+        /// Deletes the specified user profile.
+        /// </summary>
+        /// <param name="userId">The Id of the user profile to be deleted.</param>
+        public void DeleteUserProfile(int userId)
+        {
+            EnsureConnectionOpen();
+
+            using (var command = _connection.CreateCommand())
+            {
+                command.CommandText = COMMAND_DELETE_USER_PROFILE;
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@intUserId", userId).SqlDbType = SqlDbType.Int;
+
+                command.ExecuteNonQuery();
+            }
+        }
+
+        private void EnsureConnectionOpen()
+        {
+            if (_connection.State != ConnectionState.Open)
+            {
+                _connection.Open();
+            }
         }
     }
 }

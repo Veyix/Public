@@ -1,8 +1,10 @@
-/OnTheBeach/*.suo
+*.suo
 
 bin
 
 obj
 
-/OnTheBeach/Otb.Interview.Database/*.dbmdl
-/Galleria/TechTestPractice/packages
+*.dbmdl
+packages
+.vs
+*.user
