@@ -49,6 +49,7 @@
     <Compile Include="CommandHandling\DeleteCommandHandler.cs" />
     <Compile Include="CommandHandling\GetAllCommandHandler.cs" />
     <Compile Include="CommandHandling\GetCommandHandler.cs" />
+    <Compile Include="CommandHandling\LoginCommandHandler.cs" />
     <Compile Include="CommandHandling\PrintUserProfileCommandHandler.cs" />
     <Compile Include="CommandHandling\UnsupportedCommandHandler.cs" />
     <Compile Include="CommandHandling\UpdateCommandHandler.cs" />

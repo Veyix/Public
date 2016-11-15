@@ -9,6 +9,15 @@ namespace Galleria.Profiles.Api.Client
     public interface IUserProfileService
     {
         /// <summary>
+        /// Logs into the system with the given credentials.
+        /// </summary>
+        /// <param name="username">The username to use when logging into the system.</param>
+        /// <param name="password">The password to use when logging into the system.</param>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="username"/> or
+        /// <paramref name="password"/> is null or empty.</exception>
+        void Login(string username, string password);
+
+        /// <summary>
         /// Gets all user profiles.
         /// </summary>
         /// <returns>A collection of user profiles.</returns>
