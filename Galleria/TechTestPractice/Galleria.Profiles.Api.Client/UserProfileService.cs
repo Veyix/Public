@@ -1,5 +1,6 @@
 ﻿using Galleria.Profiles.ObjectModel;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,8 @@ namespace Galleria.Profiles.Api.Client
     public sealed class UserProfileService : IUserProfileService, IDisposable
     {
         private readonly HttpClient _client;
+        private string _authenticationScheme;
+        private string _authorizationToken;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserProfileService"/> class.
@@ -27,6 +30,62 @@ namespace Galleria.Profiles.Api.Client
 
             _client = new HttpClient();
             _client.BaseAddress = new Uri(address);
+        }
+
+        /// <summary>
+        /// Logs into the system with the given credentials.
+        /// </summary>
+        /// <param name="username">The username to use when logging into the system.</param>
+        /// <param name="password">The password to use when logging into the system.</param>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="username"/> or
+        /// <paramref name="password"/> is null or empty.</exception>
+        public void Login(string username, string password)
+        {
+            if (String.IsNullOrWhiteSpace(username)) throw new ArgumentException("The username cannot be empty", nameof(username));
+            if (String.IsNullOrWhiteSpace(password)) throw new ArgumentException("The password cannot be empty", nameof(password));
+
+            // Send a form data URL encoded message to the API to gain an authorization token
+            var content = new FormUrlEncodedContent(
+                new[] {
+                    new KeyValuePair<string, string>("grant_type", "password"),
+                    new KeyValuePair<string, string>("username", username),
+                    new KeyValuePair<string, string>("password", password)
+                }
+            );
+
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
+
+            var task = _client.PostAsync("api/login", content);
+            if (IsFailure(task))
+            {
+                return;
+            }
+
+            var result = HandleResponse(task);
+            if (result == null)
+            {
+                return;
+            }
+
+            // Read and store the auth token from the task result
+            JToken schemeToken;
+            if (result.TryGetValue("token_type", out schemeToken))
+            {
+                _authenticationScheme = schemeToken.Value<string>();
+            }
+
+            JToken authToken;
+            if (result.TryGetValue("access_token", out authToken))
+            {
+                _authorizationToken = authToken.Value<string>();
+            }
+
+            if (!String.IsNullOrWhiteSpace(_authenticationScheme) && !String.IsNullOrWhiteSpace(_authorizationToken))
+            {
+                // Add the auth token to the client's default headers
+                _client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue(_authenticationScheme, _authorizationToken);
+            }
         }
 
         /// <summary>
@@ -142,7 +201,7 @@ namespace Galleria.Profiles.Api.Client
             HandleResponse(task);
         }
 
-        private void HandleResponse(Task<HttpResponseMessage> task)
+        private JObject HandleResponse(Task<HttpResponseMessage> task)
         {
             if (task.IsFaulted)
             {
@@ -162,6 +221,25 @@ namespace Galleria.Profiles.Api.Client
             resultTask.Wait();
 
             Console.WriteLine(resultTask.Result);
+
+            JObject resultObject;
+            try
+            {
+                resultObject = JObject.Parse(resultTask.Result);
+            }
+            catch
+            {
+                // Ignore - this isn't a JSON response
+                return null;
+            }
+
+            JToken errorObject;
+            if (resultObject.TryGetValue("error_description", out errorObject))
+            {
+                throw new InvalidOperationException(errorObject.Value<string>());
+            }
+
+            return resultObject;
         }
 
         private bool IsFailure(Task task)

@@ -28,6 +28,9 @@ namespace Galleria.Profiles.Api.Client.CommandHandling
 
             switch (command.CommandText)
             {
+                case "login":
+                    return new LoginCommandHandler(_userProfileService);
+
                 case "getall":
                     return new GetAllCommandHandler(_userProfileService);
 
