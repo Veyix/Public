@@ -9,7 +9,6 @@ namespace Galleria.Profiles.Api.Service
     /// <summary>
     /// A class that provides the API for managing User Profiles.
     /// </summary>
-    [Authorize]
     public sealed class UserProfileController : ApiController
     {
         private readonly IUserProfileRepository _userProfileRepository;
@@ -30,6 +29,7 @@ namespace Galleria.Profiles.Api.Service
         /// <returns>A collection of user profiles.</returns>
         [HttpGet]
         [Route("api/users")]
+        [AuthorizeRoles(SecurityRoles.Administrator, SecurityRoles.BasicUser)]
         public IEnumerable<UserProfile> GetUserProfiles()
         {
             return _userProfileRepository.GetUserProfiles();
@@ -42,6 +42,7 @@ namespace Galleria.Profiles.Api.Service
         /// <returns>The specified user profile, if found; otherwise null..</returns>
         [HttpGet]
         [Route("api/users/{userId:int}")]
+        [AuthorizeRoles(SecurityRoles.Administrator, SecurityRoles.BasicUser)]
         public UserProfile GetUserProfile(int userId)
         {
             return _userProfileRepository.GetUserProfile(userId);
@@ -54,6 +55,7 @@ namespace Galleria.Profiles.Api.Service
         /// <returns>A collection of user profiles.</returns>
         [HttpGet]
         [Route("api/company/{companyId:int}/users")]
+        [AuthorizeRoles(SecurityRoles.Administrator, SecurityRoles.BasicUser)]
         public IEnumerable<UserProfile> GetUserProfilesByCompanyId(int companyId)
         {
             return _userProfileRepository.GetUserProfiles(companyId);
@@ -66,7 +68,7 @@ namespace Galleria.Profiles.Api.Service
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="profile"/> is null.</exception>
         [HttpPost]
         [Route("api/users")]
-        [Authorize(Roles = "Administrators")]
+        [Authorize(Roles = SecurityRoles.Administrator)]
         public void CreateUserProfile([FromBody] UserProfile profile)
         {
             if (profile == null) throw new ArgumentNullException(nameof(profile));
@@ -82,7 +84,7 @@ namespace Galleria.Profiles.Api.Service
         /// <exception cref="InvalidOperationException">Thrown when <paramref name="profile"/> is new.</exception>
         [HttpPut]
         [Route("api/users")]
-        [Authorize(Roles = "Administrators")]
+        [Authorize(Roles = SecurityRoles.Administrator)]
         public void UpdateUserProfile([FromBody] UserProfile profile)
         {
             if (profile == null) throw new ArgumentNullException(nameof(profile));
@@ -97,7 +99,7 @@ namespace Galleria.Profiles.Api.Service
         /// <param name="userId">The Id of the user profile to be deleted.</param>
         [HttpDelete]
         [Route("api/users/{userId:int}")]
-        [Authorize(Roles = "Administrators")]
+        [Authorize(Roles = SecurityRoles.Administrator)]
         public void DeleteUserProfile(int userId)
         {
             _userProfileRepository.DeleteUserProfile(userId);
