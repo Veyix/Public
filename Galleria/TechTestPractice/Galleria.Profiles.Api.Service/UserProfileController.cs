@@ -1,5 +1,4 @@
-﻿using Galleria.Profiles.Infrastructure.AdoNet;
-using Galleria.Profiles.ObjectModel;
+﻿using Galleria.Profiles.ObjectModel;
 using System;
 using System.Collections.Generic;
 using System.Web.Http;
@@ -16,11 +15,13 @@ namespace Galleria.Profiles.Api.Service
         /// <summary>
         /// Initializes a new instance of the <see cref="UserProfileController"/> class.
         /// </summary>
-        public UserProfileController()
+        /// <param name="userProfileRepository">A repository for managing instances of the <see cref="UserProfile"/> class.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="userProfileRepository"/> is null.</exception>
+        public UserProfileController(IUserProfileRepository userProfileRepository)
         {
-            // TODO: Move this to be injected.
-            var connection = ConnectionFactory.CreateConnection();
-            _userProfileRepository = new UserProfileRepository(connection);
+            if (userProfileRepository == null) throw new ArgumentNullException(nameof(userProfileRepository));
+
+            _userProfileRepository = userProfileRepository;
         }
 
         /// <summary>

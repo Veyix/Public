@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using Galleria.Profiles.Infrastructure.AdoNet;
+using System.Configuration;
 using System.Data.SqlClient;
 
 namespace Galleria.Profiles.Api.Service
@@ -6,9 +7,9 @@ namespace Galleria.Profiles.Api.Service
     /// <summary>
     /// A class that handles the creation of connections to the database.
     /// </summary>
-    public static class ConnectionFactory
+    public sealed class ConnectionFactory : ISqlConnectionFactory
     {
-        public static SqlConnection CreateConnection()
+        public SqlConnection CreateConnection()
         {
             string connectionString = GetConnectionString();
             return new SqlConnection(connectionString);
