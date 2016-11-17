@@ -9,6 +9,6 @@ namespace Galleria.Api.Contract
         UserProfile GetUser(int userId);
         void CreateUser(UserProfile profile);
         void UpdateUser(UserProfile profile);
-        void DeleteUser(UserProfile profile);
+        void DeleteUser(int userId);
     }
 }

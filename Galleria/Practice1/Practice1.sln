@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galleria.Api.Contract", "Ga
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galleria.Api.Database", "Galleria.Api.Database\Galleria.Api.Database.csproj", "{7B9BF43A-061D-404D-8E9F-DFC2CCA4042C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galleria.Api.Server", "Galleria.Api.Server\Galleria.Api.Server.csproj", "{5C003E7D-F9DC-4B2E-9A7F-399124E911CC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{7B9BF43A-061D-404D-8E9F-DFC2CCA4042C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B9BF43A-061D-404D-8E9F-DFC2CCA4042C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B9BF43A-061D-404D-8E9F-DFC2CCA4042C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C003E7D-F9DC-4B2E-9A7F-399124E911CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C003E7D-F9DC-4B2E-9A7F-399124E911CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C003E7D-F9DC-4B2E-9A7F-399124E911CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C003E7D-F9DC-4B2E-9A7F-399124E911CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
