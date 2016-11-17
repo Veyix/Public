@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using System.Configuration;
 
 namespace Galleria.Api.Server
 {
@@ -8,9 +9,19 @@ namespace Galleria.Api.Server
         {
             base.Load(builder);
 
+            builder.RegisterType<DatabaseContext>()
+                .WithParameter("connectionString", GetConnectionString())
+                .AsSelf()
+                .InstancePerLifetimeScope();
+
             builder.RegisterType<UserProfileRepository>()
                 .AsSelf()
                 .InstancePerLifetimeScope();
+        }
+
+        private static string GetConnectionString()
+        {
+            return ConfigurationManager.ConnectionStrings["Galleria"].ConnectionString;
         }
     }
 }
