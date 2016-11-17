@@ -24,6 +24,12 @@ namespace Galleria.Api.Client
             {
                 Console.ResetColor();
             }
+
+            if (Environment.UserInteractive)
+            {
+                Console.WriteLine("Press any key to continue...");
+                Console.ReadKey(intercept: true);
+            }
         }
     }
 }

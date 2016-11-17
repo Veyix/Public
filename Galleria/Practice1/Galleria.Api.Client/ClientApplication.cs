@@ -38,6 +38,7 @@ namespace Galleria.Api.Client
                 DateOfBirth = new DateTime(1988, 9, 13)
             };
 
+            Console.WriteLine("Creating user 1...");
             _client.CreateUser(user);
         }
 
@@ -52,6 +53,7 @@ namespace Galleria.Api.Client
                 DateOfBirth = new DateTime(1990, 1, 4)
             };
 
+            Console.WriteLine("Creating user 2...");
             _client.CreateUser(user);
         }
 
@@ -66,17 +68,22 @@ namespace Galleria.Api.Client
                 DateOfBirth = new DateTime(1975, 1, 6)
             };
 
+            Console.WriteLine("Creating user 3...");
             _client.CreateUser(user);
         }
 
         private void ShowAllUsers()
         {
+            Console.WriteLine("Getting all users...");
+
             var users = _client.GetUsers();
             DisplayUsers(users);
         }
 
         private void ShowUsersForCompany2()
         {
+            Console.WriteLine("Getting users for company 2...");
+
             var users = _client.GetUsers(companyId: 2);
             DisplayUsers(users);
         }
@@ -92,17 +99,21 @@ namespace Galleria.Api.Client
                 DateOfBirth = new DateTime(1990, 1, 4)
             };
 
+            Console.WriteLine("Updating user 2...");
             _client.UpdateUser(user);
         }
 
         private void ShowUser2()
         {
+            Console.WriteLine("Getting user 2...");
+
             var user = _client.GetUser(userId: 2);
             DisplayUser(user);
         }
 
         private void DeleteUser3()
         {
+            Console.WriteLine("Deleting user 3...");
             _client.DeleteUser(userId: 3);
         }
 

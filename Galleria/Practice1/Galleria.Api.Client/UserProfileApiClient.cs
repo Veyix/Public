@@ -1,5 +1,6 @@
 ﻿using Galleria.Api.Contract;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -43,8 +44,12 @@ namespace Galleria.Api.Client
 
             var serializedProfile = JsonConvert.SerializeObject(profile);
             var content = new StringContent(serializedProfile);
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-            _client.PostAsync("api/users", content).Wait();
+            var task = _client.PostAsync("api/users", content);
+            task.Wait();
+
+            HandleResponse(task.Result);
         }
 
         public void UpdateUser(UserProfile profile)
@@ -53,17 +58,34 @@ namespace Galleria.Api.Client
 
             var serializedProfile = JsonConvert.SerializeObject(profile);
             var content = new StringContent(serializedProfile);
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
-            _client.PutAsync("api/users", content).Wait();
+            var task = _client.PutAsync("api/users", content);
+            task.Wait();
+
+            HandleResponse(task.Result);
         }
 
         public void DeleteUser(int userId)
         {
-            _client.DeleteAsync($"api/users/{userId}").Wait();
+            var task = _client.DeleteAsync($"api/users/{userId}");
+            task.Wait();
+
+            HandleResponse(task.Result);
+        }
+
+        public void Dispose()
+        {
+            _client.Dispose();
         }
 
         private static T GetResult<T>(Task<HttpResponseMessage> task)
         {
+            if (!HandleResponse(task.Result))
+            {
+                return default(T);
+            }
+
             task.Wait();
 
             var resultTask = task.Result.Content.ReadAsStringAsync();
@@ -72,9 +94,43 @@ namespace Galleria.Api.Client
             return JsonConvert.DeserializeObject<T>(resultTask.Result);
         }
 
-        public void Dispose()
+        private static bool HandleResponse(HttpResponseMessage response)
         {
-            _client.Dispose();
+            if (!response.IsSuccessStatusCode)
+            {
+                SignalError($"Error: {response.StatusCode}");
+
+                return false;
+            }
+
+            var resultTask = response.Content.ReadAsStringAsync();
+            resultTask.Wait();
+
+            try
+            {
+                var jsonObject = JObject.Parse(resultTask.Result);
+                JToken errorDescription;
+
+                if (jsonObject.TryGetValue("error_description", out errorDescription))
+                {
+                    SignalError(errorDescription.Value<string>());
+
+                    return false;
+                }
+            }
+            catch
+            {
+                //SignalError($"Unknown response: {resultTask.Result}");
+            }
+
+            return true;
+        }
+
+        private static void SignalError(string errorDescription)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(errorDescription);
+            Console.ResetColor();
         }
     }
 }
