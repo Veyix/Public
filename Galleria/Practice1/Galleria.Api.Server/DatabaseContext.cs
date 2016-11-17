@@ -92,6 +92,8 @@ namespace Galleria.Api.Server
             configurator.Property(x => x.LastChangedDate)
                 .HasColumnName("LastChangedDate")
                 .IsRequired();
+
+            configurator.ToTable(nameof(UserProfile));
         }
     }
 }
