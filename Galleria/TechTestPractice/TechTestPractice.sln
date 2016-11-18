@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galleria.Profiles.Api.Clien
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galleria.Support", "Galleria.Support\Galleria.Support.csproj", "{C473AFC4-EA72-495B-A60D-77B1BDA87DE9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galleria.Profiles.Api.WebClient", "Galleria.Profiles.Api.WebClient\Galleria.Profiles.Api.WebClient.csproj", "{AEA16CDA-85A2-479F-8742-69FB55657A55}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{C473AFC4-EA72-495B-A60D-77B1BDA87DE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C473AFC4-EA72-495B-A60D-77B1BDA87DE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C473AFC4-EA72-495B-A60D-77B1BDA87DE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEA16CDA-85A2-479F-8742-69FB55657A55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEA16CDA-85A2-479F-8742-69FB55657A55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEA16CDA-85A2-479F-8742-69FB55657A55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEA16CDA-85A2-479F-8742-69FB55657A55}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

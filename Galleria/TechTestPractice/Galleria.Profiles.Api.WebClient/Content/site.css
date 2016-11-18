@@ -1,0 +1,21 @@
+﻿div.container {
+    box-shadow: 0 0 5px #AAAAAA;
+    margin-top: 15px;
+    padding: 0;
+}
+
+header {
+    background-color: #222222;
+    padding: 40px 20px;
+    color: #AAAAAA;
+}
+
+.content {
+    margin-top: 50px;
+    min-height: 300px;
+}
+
+footer {
+    background-color: rgb(248, 245, 236);
+    padding: 40px 20px;
+}
