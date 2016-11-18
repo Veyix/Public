@@ -151,6 +151,7 @@
     <Content Include="index.html" />
     <Content Include="packages.config" />
     <None Include="Scripts\app\errorHandler.jsx" />
+    <Content Include="Scripts\app\api.js" />
     <Content Include="Scripts\lib\bootstrap.js" />
     <Content Include="Scripts\lib\bootstrap.min.js" />
     <Content Include="Scripts\app\loginForm.jsx" />

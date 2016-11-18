@@ -46,8 +46,8 @@
 
         $(document).ready(
             function () {
-                var api = new API();
                 var handler = new ErrorHandler('error');
+                var api = new API(handler, 'http://localhost:51827/');
 
                 try {
                     var app = new ClientApplication(handler, api, 'content');
