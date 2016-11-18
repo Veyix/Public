@@ -6,6 +6,7 @@
 	<meta charset="utf-8" />
 
     <link type="text/css" rel="stylesheet" href="Content/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="Content/loginForm.css" />
     <link type="text/css" rel="stylesheet" href="Content/site.css" />
 </head>
 <body>
@@ -14,8 +15,14 @@
             <h1>Galleria - API Client</h1>
         </header>
 
-        <div class="content">
+        <div id="error">
 
+        </div>
+
+        <div id="content" class="content">
+            <p class="text-muted text-center">
+                Loading...
+            </p>
         </div>
 
         <footer>
@@ -31,6 +38,27 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.7.1/remarkable.min.js"></script>
 
     <!-- Application Files -->
+    <script type="text/javascript" src="Scripts/app/errorHandler.jsx"></script>
+    <script type="text/javascript" src="Scripts/app/api.js"></script>
+    <script type="text/javascript" src="Scripts/app/loginForm.jsx"></script>
     <script type="text/javascript" src="Scripts/app/main.jsx"></script>
+    <script type="text/javascript">
+
+        $(document).ready(
+            function () {
+                var api = new API();
+                var handler = new ErrorHandler('error');
+
+                try {
+                    var app = new ClientApplication(handler, api, 'content');
+                    app.run();
+                }
+                catch (error) {
+                    handler.handle(error, "Failed to start the client app");
+                }
+            }
+        );
+
+    </script>
 </body>
 </html>

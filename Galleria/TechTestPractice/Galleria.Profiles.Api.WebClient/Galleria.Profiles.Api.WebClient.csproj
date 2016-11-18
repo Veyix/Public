@@ -146,12 +146,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\loginForm.css" />
     <Content Include="Content\site.css" />
     <Content Include="index.html" />
     <Content Include="packages.config" />
+    <None Include="Scripts\app\errorHandler.jsx" />
     <Content Include="Scripts\lib\bootstrap.js" />
     <Content Include="Scripts\lib\bootstrap.min.js" />
-    <Content Include="Scripts\app\main.jsx" />
+    <Content Include="Scripts\app\loginForm.jsx" />
+    <None Include="Scripts\app\main.jsx" />
     <None Include="Scripts\lib\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\lib\jquery-1.10.2.js" />
     <Content Include="Scripts\lib\jquery-1.10.2.min.js" />
