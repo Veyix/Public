@@ -4,12 +4,16 @@
 window.API = (function () {
     var _errorHandler;
     var _baseAddress;
-    var _accessToken;
+    var _accessToken = null;
 
     function API(errorHandler, baseAddress) {
         _errorHandler = errorHandler;
         _baseAddress = baseAddress;
     }
+
+    API.prototype.getIsLoggedIn = function () {
+        return _accessToken !== null;
+    };
 
     API.prototype.login = function (username, password, successCallback) {
 
@@ -27,18 +31,8 @@ window.API = (function () {
                     storeAccessToken(response);
                     successCallback(response);
                 })
-                .error(function (response, status, error) {
-
-                    // Build the description of the error
-                    var description = response.status + ": " + response.statusText;
-                    if (response.responseText) {
-
-                        // We have a response object, so try to read more error information from it
-                        var object = JSON.parse(response.responseText);
-                        description = object.error_description || description;
-                    }
-
-                    _errorHandler.handle(description, "Login Failed");
+                .error(function (response) {
+                    handleError(response, "Login Failed");
                 });
         }
         catch (error) {
@@ -48,6 +42,49 @@ window.API = (function () {
 
     function storeAccessToken(response) {
         _accessToken = response.access_token;
+
+        // Store the auth token as a global AJAX header
+        $.ajaxSetup({
+            beforeSend: function (request) {
+                request.setRequestHeader('Authorization', 'Bearer ' + _accessToken);
+            }
+        });
+    }
+
+    API.prototype.getUsers = function (successCallback) {
+        try {
+            var payload = {
+                contentType: 'application/json',
+                dataType: 'json',
+                url: getUrl('api/users'),
+                type: 'GET'
+            };
+
+            $.ajax(payload)
+                .done(function (response) {
+                    successCallback(response);
+                })
+                .error(function (response) {
+                    handleError(response, "Failed to retrieve users");
+                });
+        }
+        catch (error) {
+            _errorHandler.handle(error, "Failed to retrieve users");
+        }
+    };
+
+    function handleError(response, header) {
+
+        // Build the description of the error
+        var description = response.status + ": " + response.statusText;
+        if (response.responseText) {
+
+            // We have a response object, so try to read more error information from it
+            var object = JSON.parse(response.responseText);
+            description = object.error_description || description;
+        }
+
+        _errorHandler.handle(description, header);
     }
 
     function getUrl(address) {

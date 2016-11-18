@@ -5,13 +5,11 @@ window.ClientApplication = (function () {
     var _errorHandler;
     var _api;
     var _elementId;
-    var _isLoggedIn;
 
     function ClientApplication(errorHandler, api, elementId) {
         _errorHandler = errorHandler;
         _api = api;
 		_elementId = elementId;
-		_isLoggedIn = false;
 	}
 
     ClientApplication.prototype.run = function () {
@@ -21,9 +19,8 @@ window.ClientApplication = (function () {
 	function updateDisplay() {
 
 	    var control = null;
-	    if (_isLoggedIn) {
-	        // TODO: Render the application.
-            control = <p className="alert alert-success">Login Successful!</p>
+	    if (_api.getIsLoggedIn()) {
+            control = <UsersView errorHandler={_errorHandler} api={_api} />
 	    }
 	    else {
 
@@ -48,8 +45,6 @@ window.ClientApplication = (function () {
     };
 
     function handleLoginSuccess(response) {
-        _isLoggedIn = true;
-
         updateDisplay();
     }
 

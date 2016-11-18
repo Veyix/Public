@@ -156,6 +156,7 @@
     <Content Include="Scripts\lib\bootstrap.min.js" />
     <Content Include="Scripts\app\loginForm.jsx" />
     <None Include="Scripts\app\main.jsx" />
+    <None Include="Scripts\app\users.jsx" />
     <None Include="Scripts\lib\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\lib\jquery-1.10.2.js" />
     <Content Include="Scripts\lib\jquery-1.10.2.min.js" />
