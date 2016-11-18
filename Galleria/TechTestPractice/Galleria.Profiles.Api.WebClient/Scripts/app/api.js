@@ -16,6 +16,7 @@ window.API = (function () {
     };
 
     API.prototype.login = function (username, password, successCallback) {
+        _errorHandler.reset();
 
         try {
             var payload = {
@@ -52,6 +53,8 @@ window.API = (function () {
     }
 
     API.prototype.getUsers = function (successCallback) {
+        _errorHandler.reset();
+
         try {
             var payload = {
                 contentType: 'application/json',

@@ -14,7 +14,7 @@ header {
     margin-top: 50px;
     margin-left: 20px;
     margin-right: 20px;
-    min-height: 300px;
+    margin-bottom: 20px;
 }
 
 footer {
@@ -30,4 +30,9 @@ form label {
 .form-control {
     margin-top: 1px;
     margin-bottom: 7px;
+}
+
+.panel-body {
+    padding-top: 0;
+    padding-bottom: 0;
 }

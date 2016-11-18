@@ -25,12 +25,21 @@ window.ErrorHandler = (function () {
         var message = error.message || error.toString();
         var header = description || "Error";
 
-        var container = document.getElementById(this.errorElementId);
+        render(this.errorElementId, header, message);
+    };
+
+    ErrorHandler.prototype.reset = function () {
+        render(this.errorElementId, null, null);
+    };
+
+    function render(containerId, header, message) {
+
+        var container = document.getElementById(containerId);
         ReactDOM.render(
             <ErrorMessage header={header} message={message} />,
             container
         );
-    };
+    }
 
     return ErrorHandler;
 })();
