@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galleria.Api.Service", "Gal
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galleria.Api.Contract", "Galleria.Api.Contract\Galleria.Api.Contract.csproj", "{6A968D55-58F3-4949-9AB8-B918C44AA50E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galleria.Api.Client", "Galleria.Api.Client\Galleria.Api.Client.csproj", "{C4F9D62E-6382-4F2D-8725-524F4F359ECB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{6A968D55-58F3-4949-9AB8-B918C44AA50E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A968D55-58F3-4949-9AB8-B918C44AA50E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A968D55-58F3-4949-9AB8-B918C44AA50E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4F9D62E-6382-4F2D-8725-524F4F359ECB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4F9D62E-6382-4F2D-8725-524F4F359ECB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4F9D62E-6382-4F2D-8725-524F4F359ECB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4F9D62E-6382-4F2D-8725-524F4F359ECB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
