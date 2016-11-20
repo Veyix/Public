@@ -67,6 +67,7 @@ namespace Galleria.Api.Client
         {
             var user = new UserProfile()
             {
+                UserId = 4,
                 CompanyId = 1,
                 Title = "Dr",
                 Forename = "UpdatedUser",

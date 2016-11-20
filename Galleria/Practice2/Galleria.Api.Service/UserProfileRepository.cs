@@ -1,5 +1,4 @@
 ﻿using Galleria.Api.Contract;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,65 +6,48 @@ namespace Galleria.Api.Service
 {
     public sealed class UserProfileRepository
     {
-        private static List<UserProfile> Profiles =
-            new List<UserProfile>()
-            {
-                new UserProfile()
-                {
-                    UserId = 1,
-                    CompanyId = 1,
-                    Title = "Mr",
-                    Forename = "Samuel",
-                    Surname = "Slade",
-                    DateOfBirth = new DateTime(1988, 9, 13)
-                },
-                new UserProfile()
-                {
-                    UserId = 2,
-                    CompanyId = 2,
-                    Title = "Ms",
-                    Forename = "Jane",
-                    Surname = "Smith",
-                    DateOfBirth = new DateTime(1990, 1, 4)
-                },
-                new UserProfile()
-                {
-                    UserId = 3,
-                    CompanyId = 2,
-                    Title = "Miss",
-                    Forename = "Juliet",
-                    Surname = "Smith",
-                    DateOfBirth = new DateTime(1967, 6, 21)
-                }
-            };
-
         public IEnumerable<UserProfile> GetUsers()
         {
-            return Profiles.ToArray();
+            using (var context = new DatabaseContext())
+            {
+                return context.Set<UserProfile>().ToArray();
+            }
         }
 
         public IEnumerable<UserProfile> GetUsers(int companyId)
         {
-            return Profiles.Where(x => x.CompanyId == companyId).ToArray();
+            using (var context = new DatabaseContext())
+            {
+                return context.Set<UserProfile>()
+                    .Where(x => x.CompanyId == companyId)
+                    .ToArray();
+            }
         }
 
         public UserProfile GetUser(int userId)
         {
-            return Profiles.SingleOrDefault(x => x.UserId == userId);
+            using (var context = new DatabaseContext())
+            {
+                return context.Set<UserProfile>()
+                    .SingleOrDefault(x => x.UserId == userId);
+            }
         }
 
         public void CreateUser(UserProfile profile)
         {
-            profile.UserId = Profiles.Max(x => x.UserId) + 1;
-            Profiles.Add(profile);
+            using (var context = new DatabaseContext())
+            {
+                context.Entry(profile).State = System.Data.Entity.EntityState.Added;
+                context.SaveChanges();
+            }
         }
 
         public void UpdateUser(UserProfile profile)
         {
-            int index = Profiles.IndexOf(profile);
-            if (index >= 0)
+            using (var context = new DatabaseContext())
             {
-                Profiles[index] = profile;
+                context.Entry(profile).State = System.Data.Entity.EntityState.Modified;
+                context.SaveChanges();
             }
         }
 
@@ -74,7 +56,11 @@ namespace Galleria.Api.Service
             var user = GetUser(userId);
             if (user != null)
             {
-                Profiles.Remove(user);
+                using (var context = new DatabaseContext())
+                {
+                    context.Entry(user).State = System.Data.Entity.EntityState.Deleted;
+                    context.SaveChanges();
+                }
             }
         }
     }
