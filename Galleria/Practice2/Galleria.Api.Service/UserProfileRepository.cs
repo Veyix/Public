@@ -18,6 +18,24 @@ namespace Galleria.Api.Service
                     Forename = "Samuel",
                     Surname = "Slade",
                     DateOfBirth = new DateTime(1988, 9, 13)
+                },
+                new UserProfile()
+                {
+                    UserId = 2,
+                    CompanyId = 2,
+                    Title = "Ms",
+                    Forename = "Jane",
+                    Surname = "Smith",
+                    DateOfBirth = new DateTime(1990, 1, 4)
+                },
+                new UserProfile()
+                {
+                    UserId = 3,
+                    CompanyId = 2,
+                    Title = "Miss",
+                    Forename = "Juliet",
+                    Surname = "Smith",
+                    DateOfBirth = new DateTime(1967, 6, 21)
                 }
             };
 

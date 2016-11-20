@@ -80,6 +80,11 @@ namespace Galleria.Api.Client
             var resultTask = task.Result.Content.ReadAsStringAsync();
             resultTask.Wait();
 
+            if (String.IsNullOrWhiteSpace(resultTask.Result))
+            {
+                return;
+            }
+
             var result = JObject.Parse(resultTask.Result);
 
             JToken errorToken;
@@ -92,7 +97,7 @@ namespace Galleria.Api.Client
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _client.Dispose();
         }
     }
 }
