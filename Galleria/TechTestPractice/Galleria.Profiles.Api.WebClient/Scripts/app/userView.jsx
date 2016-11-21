@@ -63,6 +63,12 @@ class UserEditView extends React.Component {
         this.handleDateOfBirthChanged = this.handleDateOfBirthChanged.bind(this);
     }
 
+    componentWillMount() {
+        if (this.props.addButton) {
+            this.props.addButton("Save", () => this.props.onSave(this.state.user));
+        }
+    }
+
     handleTitleChanged(event) {
         
         var user = this.state.user;
@@ -146,11 +152,23 @@ class UserEditView extends React.Component {
 }
 
 class User extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.save = this.save.bind(this);
+    }
+
+    save(user) {
+        if (this.props.isEditMode && this.props.onSave) {
+            this.props.onSave(user);
+        }
+    }
+
     render() {
         const user = this.props.user;
 
         if (this.props.isEditMode) {
-            return <UserEditView user={user} onSave={this.save} />;
+            return <UserEditView user={user} onSave={this.save} addButton={this.props.addButton} />;
         }
         else {
             return <UserReadonlyView user={user} />

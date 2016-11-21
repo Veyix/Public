@@ -124,6 +124,31 @@ window.API = (function () {
         }
     };
 
+    API.prototype.saveUser = function (user, successCallback) {
+        _errorHandler.reset();
+
+        try {
+            var payload = {
+                contentType: 'application/json',
+                dataType: 'json',
+                url: getUrl('api/users'),
+                type: user.id == 0 ? 'POST' : 'PUT',
+                data: JSON.stringify(user)
+            };
+
+            $.ajax(payload)
+                .done(function (response) {
+                    successCallback(response);
+                })
+                .error(function (response) {
+                    handleError(response, "Failed to save user: " + user.title + " " + user.forename + " " + user.surname);
+                });
+        }
+        catch (error) {
+            _errorHandler.handle(error, "Failed to save user: " + user.title + " " + user.forename + " " + user.surname);
+        }
+    };
+
     function handleError(response, header) {
 
         // Build the description of the error

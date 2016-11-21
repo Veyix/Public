@@ -16,6 +16,7 @@ class UsersView extends React.Component {
         this.viewUser = this.viewUser.bind(this);
         this.editUser = this.editUser.bind(this);
         this.deleteUser = this.deleteUser.bind(this);
+        this.saveUser = this.saveUser.bind(this);
     }
 
     componentWillMount() {
@@ -57,20 +58,23 @@ class UsersView extends React.Component {
         );
     }
 
+    saveUser(user) {
+
+        // Update the user then refresh the view
+        this.api.saveUser(
+            user,
+            (response) => this.refresh()
+        );
+    }
+
     showUser(user, isEditMode) {
 
         var dialog = new Dialog('dialog');
         var title = user.title + " " + user.forename + " " + user.surname;
 
-        if (isEditMode) {
-            dialog.addButton("Save", function () {
-                alert("Save");
-            });
-        }
-
         dialog.show(
             title,
-            <User user={user} isEditMode={isEditMode} />
+            <User user={user} isEditMode={isEditMode} addButton={dialog.addButton} onSave={(user) => { dialog.close(); this.saveUser(user); }} />
         );
     }
 

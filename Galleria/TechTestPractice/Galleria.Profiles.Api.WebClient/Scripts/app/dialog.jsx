@@ -3,7 +3,9 @@
         this.elementId = elementId;
         this.buttons = [];
 
-        close = close.bind(this);
+        this.addButton = this.addButton.bind(this);
+        this.show = this.show.bind(this);
+        this.close = this.close.bind(this);
     }
 
     Dialog.prototype.addButton = function (text, callback) {
@@ -51,9 +53,7 @@
         element.className = element.className.replace(" hide", "");
     };
 
-    function close(event) {
-        event.preventDefault();
-
+    Dialog.prototype.close = function () {
         var element = document.getElementById(this.elementId);
         element.className += " hide";
     };
