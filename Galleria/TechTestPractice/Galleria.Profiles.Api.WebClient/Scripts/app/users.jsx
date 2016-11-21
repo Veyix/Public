@@ -35,24 +35,30 @@ class UsersView extends React.Component {
         // Get the user for the dialog
         this.api.getUser(
             userId,
-            (response) => this.showUser(response)
+            (response) => this.showUser(response, false)
         );
     }
 
     editUser(userId) {
+
+        // Get the user for the dialog and show in edit mode
+        this.api.getUser(
+            userId,
+            (response) => this.showUser(response, true)
+        );
     }
 
     deleteUser(userId) {
     }
 
-    showUser(user) {
+    showUser(user, isEditMode) {
 
         var dialog = new Dialog('dialog');
         var title = user.title + " " + user.forename + " " + user.surname;
 
         dialog.show(
             title,
-            <User user={user} />
+            <User user={user} isEditMode={isEditMode} />
         );
     }
 
