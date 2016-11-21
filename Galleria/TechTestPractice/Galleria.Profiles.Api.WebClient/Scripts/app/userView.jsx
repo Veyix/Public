@@ -153,7 +153,7 @@ class User extends React.Component {
             return <UserEditView user={user} onSave={this.save} />;
         }
         else {
-            return <UserDisplayView user={user} />
+            return <UserReadonlyView user={user} />
         }
     }
 }

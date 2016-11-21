@@ -1,9 +1,14 @@
 ﻿window.Dialog = (function () {
     function Dialog(elementId) {
         this.elementId = elementId;
+        this.buttons = [];
 
         close = close.bind(this);
     }
+
+    Dialog.prototype.addButton = function (text, callback) {
+        this.buttons.push(<button className="btn btn-default" onClick={callback}>{text}</button>);
+    };
 
     // Instance Methods
     Dialog.prototype.show = function (title, content) {
@@ -27,6 +32,8 @@
                                     {content}
                                 </div>
                                 <div className="buttons">
+                                    {this.buttons}
+
                                     <button className="btn btn-default" onClick={close}>
                                         Close
                                     </button>

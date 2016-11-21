@@ -56,6 +56,12 @@ class UsersView extends React.Component {
         var dialog = new Dialog('dialog');
         var title = user.title + " " + user.forename + " " + user.surname;
 
+        if (isEditMode) {
+            dialog.addButton("Save", function () {
+                alert("Save");
+            });
+        }
+
         dialog.show(
             title,
             <User user={user} isEditMode={isEditMode} />
