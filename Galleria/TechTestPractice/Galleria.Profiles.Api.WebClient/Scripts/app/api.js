@@ -100,6 +100,30 @@ window.API = (function () {
         }
     };
 
+    API.prototype.deleteUser = function (userId, successCallback) {
+        _errorHandler.reset();
+
+        try {
+            var payload = {
+                contentType: 'application/json',
+                dataType: 'json',
+                url: getUrl('api/users/' + userId),
+                type: 'DELETE'
+            };
+
+            $.ajax(payload)
+            .done(function (response) {
+                successCallback(response);
+            })
+            .error(function (response) {
+                handleError(response, "Failed to delete user " + userId);
+            });
+        }
+        catch (error) {
+            _errorHandler.handle(error, "Failed to delete user " + userId);
+        }
+    };
+
     function handleError(response, header) {
 
         // Build the description of the error

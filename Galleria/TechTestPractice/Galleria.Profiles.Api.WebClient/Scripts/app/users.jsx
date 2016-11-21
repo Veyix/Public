@@ -49,6 +49,12 @@ class UsersView extends React.Component {
     }
 
     deleteUser(userId) {
+
+        // Delete the user then refresh the data
+        this.api.deleteUser(
+            userId,
+            (response) => this.refresh()
+        );
     }
 
     showUser(user, isEditMode) {
