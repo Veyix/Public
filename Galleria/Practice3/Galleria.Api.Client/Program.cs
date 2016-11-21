@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 
 namespace Galleria.Api.Client
 {
@@ -16,6 +17,8 @@ namespace Galleria.Api.Client
 
         private void Run()
         {
+            Console.WriteLine("Starting the program...");
+
             GetAllUsers();
             GetUsersForCompany2();
             CreateUser4();
@@ -23,6 +26,12 @@ namespace Galleria.Api.Client
             UpdateUser4();
             DeleteUser3();
             GetAllUsers();
+
+            if (Debugger.IsAttached)
+            {
+                Console.WriteLine("Press any key to continue...");
+                Console.ReadKey(intercept: true);
+            }
         }
 
         private void GetAllUsers()
