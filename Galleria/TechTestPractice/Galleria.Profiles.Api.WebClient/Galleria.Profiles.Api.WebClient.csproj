@@ -159,8 +159,9 @@
     <Content Include="Scripts\lib\bootstrap.min.js" />
     <Content Include="Scripts\app\loginForm.jsx" />
     <None Include="Scripts\app\main.jsx" />
-    <Content Include="Scripts\app\user.jsx" />
+    <Content Include="Scripts\app\userSummary.jsx" />
     <None Include="Scripts\app\users.jsx" />
+    <Content Include="Scripts\app\userView.jsx" />
     <None Include="Scripts\lib\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\lib\jquery-1.10.2.js" />
     <Content Include="Scripts\lib\jquery-1.10.2.min.js" />

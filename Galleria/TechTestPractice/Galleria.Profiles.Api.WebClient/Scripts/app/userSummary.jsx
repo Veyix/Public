@@ -1,4 +1,4 @@
-﻿class User extends React.Component {
+﻿class UserSummary extends React.Component {
     constructor(props) {
         super(props);
 
