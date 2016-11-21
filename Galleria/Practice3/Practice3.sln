@@ -3,7 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galleria.Api.Service", "Galleria.Api.Service\Galleria.Api.Service.csproj", "{977FFA71-1739-4E44-9879-EA429B98D403}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Galleria.Api.Contract", "Galleria.Api.Contract\Galleria.Api.Contract.csproj", "{7CA06A5C-431F-41A9-B589-951E204EB389}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{977FFA71-1739-4E44-9879-EA429B98D403}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{977FFA71-1739-4E44-9879-EA429B98D403}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{977FFA71-1739-4E44-9879-EA429B98D403}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{977FFA71-1739-4E44-9879-EA429B98D403}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CA06A5C-431F-41A9-B589-951E204EB389}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CA06A5C-431F-41A9-B589-951E204EB389}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CA06A5C-431F-41A9-B589-951E204EB389}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CA06A5C-431F-41A9-B589-951E204EB389}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
