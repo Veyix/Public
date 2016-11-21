@@ -1,54 +1,6 @@
 ﻿/// <reference path="errorHandler.jsx" />
+/// <reference path="dialog.js" />
 /// <reference path="api.js" />
-
-class User extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.viewUser = this.viewUser.bind(this);
-        this.editUser = this.editUser.bind(this);
-        this.deleteUser = this.deleteUser.bind(this);
-    }
-
-    viewUser(event) {
-        event.preventDefault();
-
-        if (this.props.onViewUser) {
-            this.props.onViewUser(this.props.user.userId);
-        }
-    }
-
-    editUser(event) {
-        event.preventDefault();
-
-        if (this.props.onEditUser) {
-            this.props.onEditUser(this.props.user.userId);
-        }
-    }
-
-    deleteUser(event) {
-        event.preventDefault();
-
-        if (this.props.onDeleteUser) {
-            this.props.onDeleteUser(this.props.user.userId);
-        }
-    }
-
-    render() {
-        return (
-            <div className="row user">
-                <div className="col-xs-8 user-info">
-                    {this.props.user.title} {this.props.user.forename} {this.props.user.surname}
-                </div>
-                <div className="col-xs-4 actions">
-                    <a onClick={this.viewUser}>view</a>
-                    <a onClick={this.editUser}>edit</a>
-                    <a onClick={this.deleteUser}>delete</a>
-                </div>
-            </div>
-        );
-    }
-}
 
 class UsersView extends React.Component {
     constructor(props) {
@@ -60,6 +12,10 @@ class UsersView extends React.Component {
         this.state = {
             users: []
         };
+
+        this.viewUser = this.viewUser.bind(this);
+        this.editUser = this.editUser.bind(this);
+        this.deleteUser = this.deleteUser.bind(this);
     }
 
     componentWillMount() {
@@ -74,9 +30,78 @@ class UsersView extends React.Component {
         );
     }
 
+    viewUser(userId) {
+
+        // Get the user for the dialog
+        this.api.getUser(
+            userId,
+            (response) => this.showUser(response)
+        );
+    }
+
+    editUser(userId) {
+    }
+
+    deleteUser(userId) {
+    }
+
+    showUser(user) {
+
+        var dialog = new Dialog('dialog');
+        var title = user.title + " " + user.forename + " " + user.surname;
+
+        dialog.show(
+            title,
+            (
+                <div className="text-left">
+                    <div className="row">
+                        <div className="col-sm-6">
+                            <div><strong>User Id</strong></div>
+                            <div className="text-display">{user.id}</div>
+                        </div>
+                        <div className="col-sm-6">
+                            <div><strong>Company Id</strong></div>
+                            <div className="text-display">{user.companyId}</div>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-sm-6">
+                            <div><strong>Title</strong></div>
+                            <div className="text-display">{user.title}</div>
+                        </div>
+                        <div className="col-sm-6">
+                            <div><strong>Forename</strong></div>
+                            <div className="text-display">{user.forename}</div>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-sm-6">
+                            <div><strong>Surname</strong></div>
+                            <div className="text-display">{user.surname}</div>
+                        </div>
+                        <div className="col-sm-6">
+                            <div><strong>Date of Birth</strong></div>
+                            <div className="text-display">{user.dateOfBirth}</div>
+                        </div>
+                    </div>
+                    <div className="row text-muted">
+                        <div className="col-sm-6">
+                            <div><strong>Created</strong></div>
+                            <div className="text-display">{user.createdDate}</div>
+                        </div>
+                        <div className="col-sm-6">
+                            <div><strong>Last Changed</strong></div>
+                            <div className="text-display">{user.lastChangedDate}</div>
+                        </div>
+                    </div>
+                </div>
+            )
+        );
+    }
+
     render() {
         const users = this.state.users.map(
-            (user) => <User key={user.userId} user={user} />
+            (user) => <User key={user.id} user={user} onViewUser={this.viewUser} onEditUser={this.editUser} onDeleteUser={this.deleteUser} />
         );
 
         return (

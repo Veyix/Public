@@ -3,9 +3,10 @@
 <html>
 <head>
     <title>Galleria - API Client</title>
-	<meta charset="utf-8" />
+    <meta charset="utf-8" />
 
     <link type="text/css" rel="stylesheet" href="Content/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="Content/dialog.css" />
     <link type="text/css" rel="stylesheet" href="Content/loginForm.css" />
     <link type="text/css" rel="stylesheet" href="Content/users.css" />
     <link type="text/css" rel="stylesheet" href="Content/site.css" />
@@ -29,6 +30,10 @@
         <footer>
             <h4>Samuel Slade</h4>
         </footer>
+
+        <div id="dialog" class="dialog-container hide">
+
+        </div>
     </div>
 
     <!-- Library Files -->
@@ -40,8 +45,10 @@
 
     <!-- Application Files -->
     <script type="text/javascript" src="Scripts/app/errorHandler.jsx"></script>
+    <script type="text/javascript" src="Scripts/app/dialog.jsx"></script>
     <script type="text/javascript" src="Scripts/app/api.js"></script>
     <script type="text/javascript" src="Scripts/app/loginForm.jsx"></script>
+    <script type="text/javascript" src="Scripts/app/user.jsx"></script>
     <script type="text/javascript" src="Scripts/app/users.jsx"></script>
     <script type="text/javascript" src="Scripts/app/main.jsx"></script>
     <script type="text/javascript">

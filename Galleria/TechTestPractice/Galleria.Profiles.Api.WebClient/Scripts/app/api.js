@@ -76,6 +76,30 @@ window.API = (function () {
         }
     };
 
+    API.prototype.getUser = function (userId, successCallback) {
+        _errorHandler.reset();
+
+        try {
+            var payload = {
+                contentType: 'application/json',
+                dataType: 'json',
+                url: getUrl('api/users/' + userId),
+                type: 'GET'
+            };
+
+            $.ajax(payload)
+            .done(function (response) {
+                successCallback(response);
+            })
+            .error(function (response) {
+                handleError(response, "Failed to retrieve user " + userId);
+            });
+        }
+        catch (error) {
+            _errorHandler.handle(error, "Failed to retrieve user " + userId);
+        }
+    };
+
     function handleError(response, header) {
 
         // Build the description of the error
