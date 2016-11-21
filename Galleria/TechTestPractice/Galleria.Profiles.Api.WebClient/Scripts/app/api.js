@@ -46,6 +46,7 @@ window.API = (function () {
 
         // Store the auth token as a global AJAX header
         $.ajaxSetup({
+            cache: false,
             beforeSend: function (request) {
                 request.setRequestHeader('Authorization', 'Bearer ' + _accessToken);
             }
