@@ -1,6 +1,8 @@
 ﻿window.Dialog = (function () {
     function Dialog(elementId) {
         this.elementId = elementId;
+
+        close = close.bind(this);
     }
 
     // Instance Methods
@@ -21,7 +23,14 @@
                                 <h3>{title}</h3>
                             </div>
                             <div className="panel-body">
-                                {content}
+                                <div>
+                                    {content}
+                                </div>
+                                <div className="buttons">
+                                    <button className="btn btn-default" onClick={close}>
+                                        Close
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -33,6 +42,13 @@
 
         // Show the dialog
         element.className = element.className.replace(" hide", "");
+    };
+
+    function close(event) {
+        event.preventDefault();
+
+        var element = document.getElementById(this.elementId);
+        element.className += " hide";
     };
 
     return Dialog;
