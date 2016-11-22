@@ -15,13 +15,18 @@ namespace Galleria.Api.Service
             builder.UseOAuthAuthorizationServer(
                 new OAuthAuthorizationServerOptions()
                 {
-                    TokenEndpointPath = new PathString("/api/token"),
-                    Provider = new CredentialVerificationProvider()
+                    TokenEndpointPath = new PathString("/api/login"),
+                    Provider = new CredentialVerificationProvider(),
+                    AllowInsecureHttp = true
                 }
             );
 
             builder.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
             builder.UseWebApi(config);
+
+            // JSON Formatting
+            //var formatter = config.Formatters.OfType<JsonMediaTypeFormatter>().First();
+            //formatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
         }
     }
 }

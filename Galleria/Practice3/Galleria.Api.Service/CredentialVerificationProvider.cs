@@ -8,7 +8,7 @@ namespace Galleria.Api.Service
 {
     public sealed class CredentialVerificationProvider : OAuthAuthorizationServerProvider
     {
-        public override Task GrantClientCredentials(OAuthGrantClientCredentialsContext context)
+        public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
             context.Validated();
 
@@ -26,7 +26,7 @@ namespace Galleria.Api.Service
             }
             else
             {
-                var identity = new GenericIdentity(securityUser.Username, context.Request.MediaType);
+                var identity = new GenericIdentity(securityUser.Username, context.Options.AuthenticationType);
                 identity.AddClaim(new Claim(ClaimTypes.Name, securityUser.Username));
                 identity.AddClaim(new Claim(ClaimTypes.Role, securityUser.Roles));
 
