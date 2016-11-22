@@ -53,6 +53,12 @@ window.API = (function () {
         });
     }
 
+    API.prototype.logout = function () {
+        _accessToken = null;
+
+        $.ajaxSetup({ beforeSend: null });
+    };
+
     API.prototype.getUsers = function (successCallback) {
         _errorHandler.reset();
 

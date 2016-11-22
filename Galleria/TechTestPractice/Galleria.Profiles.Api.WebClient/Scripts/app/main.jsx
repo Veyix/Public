@@ -20,7 +20,7 @@ window.ClientApplication = (function () {
 
 	    var control = null;
 	    if (_api.getIsLoggedIn()) {
-            control = <UsersView errorHandler={_errorHandler} api={_api} />
+            control = <UsersView errorHandler={_errorHandler} api={_api} onLoggedOut={() => updateDisplay()} />
 	    }
 	    else {
 

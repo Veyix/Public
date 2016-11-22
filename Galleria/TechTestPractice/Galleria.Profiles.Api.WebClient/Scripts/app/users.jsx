@@ -17,6 +17,7 @@ class UsersView extends React.Component {
         this.editUser = this.editUser.bind(this);
         this.deleteUser = this.deleteUser.bind(this);
         this.saveUser = this.saveUser.bind(this);
+        this.logout = this.logout.bind(this);
     }
 
     componentWillMount() {
@@ -78,6 +79,14 @@ class UsersView extends React.Component {
         );
     }
 
+    logout() {
+        this.api.logout();
+
+        if (this.props.onLoggedOut) {
+            this.props.onLoggedOut();
+        }
+    }
+
     render() {
         const users = this.state.users.map(
             (user) => <UserSummary key={user.id} user={user} onViewUser={this.viewUser} onEditUser={this.editUser} onDeleteUser={this.deleteUser} />
@@ -86,7 +95,12 @@ class UsersView extends React.Component {
         return (
             <div className="panel panel-default">
                 <div className="panel-heading">
-                    <h3>Users</h3>
+                    <div className="row">
+                        <h3 className="col-xs-11">Users</h3>
+                        <div className="col-xs-1 vertical-align">
+                            <a className="btn btn-default" onClick={this.logout}>Logout</a>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="panel-body">
