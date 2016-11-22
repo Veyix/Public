@@ -1,0 +1,38 @@
+﻿div.container {
+    box-shadow: 0 0 5px #AAAAAA;
+    margin-top: 15px;
+    padding: 0;
+}
+
+header {
+    background-color: #222222;
+    padding: 40px 20px;
+    color: #AAAAAA;
+}
+
+.content {
+    margin-top: 50px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+footer {
+    background-color: rgb(248, 245, 236);
+    padding: 40px 20px;
+}
+
+form label {
+    margin-top: 2px;
+    margin-bottom: 0;
+}
+
+.form-control {
+    margin-top: 1px;
+    margin-bottom: 7px;
+}
+
+.panel-body {
+    padding-top: 0;
+    padding-bottom: 0;
+}
