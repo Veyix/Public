@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Galleria - API Client</title>
+    <meta charset="utf-8" />
+
+    <link type="text/css" rel="stylesheet" href="Content/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="Content/dialog.css" />
+    <link type="text/css" rel="stylesheet" href="Content/loginForm.css" />
+    <link type="text/css" rel="stylesheet" href="Content/users.css" />
+    <link type="text/css" rel="stylesheet" href="Content/site.css" />
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Galleria - API Client</h1>
+        </header>
+
+        <div id="error">
+
+        </div>
+
+        <div id="content" class="content">
+            <p class="text-muted text-center">
+                Loading...
+            </p>
+        </div>
+
+        <footer>
+            <h4>Samuel Slade</h4>
+        </footer>
+
+        <div id="dialog" class="dialog-container hide">
+
+        </div>
+    </div>
+
+    <!-- Library Files -->
+    <script type="text/javascript" src="Scripts/lib/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="Scripts/lib/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react-dom.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.7.1/remarkable.min.js"></script>
+
+    <!-- Application Files -->
+    <script type="text/javascript" src="Scripts/app/errorHandler.jsx"></script>
+    <script type="text/javascript" src="Scripts/app/dialog.jsx"></script>
+    <script type="text/javascript" src="Scripts/app/api.js"></script>
+    <script type="text/javascript" src="Scripts/app/loginForm.jsx"></script>
+    <script type="text/javascript" src="Scripts/app/userSummary.jsx"></script>
+    <script type="text/javascript" src="Scripts/app/userView.jsx"></script>
+    <script type="text/javascript" src="Scripts/app/users.jsx"></script>
+    <script type="text/javascript" src="Scripts/app/main.jsx"></script>
+    <script type="text/javascript">
+
+        $(document).ready(
+            function () {
+                var handler = new ErrorHandler('error');
+                var api = new API(handler, 'http://localhost:51827/');
+
+                try {
+                    var app = new ClientApplication(handler, api, 'content');
+                    app.run();
+                }
+                catch (error) {
+                    handler.handle(error, "Failed to start the client app");
+                }
+            }
+        );
+
+    </script>
+</body>
+</html>
