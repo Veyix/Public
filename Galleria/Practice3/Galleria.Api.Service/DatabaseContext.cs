@@ -1,5 +1,6 @@
 ﻿using Galleria.Api.Contract;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration;
 
 namespace Galleria.Api.Service
 {
@@ -14,9 +15,20 @@ namespace Galleria.Api.Service
         {
             base.OnModelCreating(modelBuilder);
 
-            var builder = modelBuilder.Entity<UserProfile>();
+            MapUserProfile(modelBuilder.Entity<UserProfile>());
+            MapSecurityUser(modelBuilder.Entity<SecurityUser>());
+        }
+
+        private static void MapUserProfile(EntityTypeConfiguration<UserProfile> builder)
+        {
             builder.HasKey(x => x.Id);
             builder.ToTable("UserProfile");
+        }
+
+        private static void MapSecurityUser(EntityTypeConfiguration<SecurityUser> builder)
+        {
+            builder.HasKey(x => x.Id);
+            builder.ToTable("SecurityUser");
         }
     }
 }

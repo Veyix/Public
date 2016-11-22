@@ -15,9 +15,18 @@ namespace Galleria.Api.Client
             _client = client;
         }
 
-        private void Run()
+        private void Run(bool isAdmin)
         {
             Console.WriteLine("Starting the program...");
+
+            if (isAdmin)
+            {
+                _client.Login("admin", "4dm1n");
+            }
+            else
+            {
+                _client.Login("guest", "test");
+            }
 
             GetAllUsers();
             GetUsersForCompany2();
@@ -26,12 +35,6 @@ namespace Galleria.Api.Client
             UpdateUser4();
             DeleteUser3();
             GetAllUsers();
-
-            if (Debugger.IsAttached)
-            {
-                Console.WriteLine("Press any key to continue...");
-                Console.ReadKey(intercept: true);
-            }
         }
 
         private void GetAllUsers()
@@ -117,6 +120,8 @@ namespace Galleria.Api.Client
 
         public static void Main()
         {
+            bool isAdmin = Convert.ToBoolean(ConfigurationManager.AppSettings["RunAsAdmin"] ?? Boolean.FalseString);
+
             string serviceAddress = ConfigurationManager.AppSettings["ServiceAddress"];
             var client = new UserProfileApiClient(serviceAddress);
 
@@ -124,7 +129,7 @@ namespace Galleria.Api.Client
             {
                 using (var program = new Program(client))
                 {
-                    program.Run();
+                    program.Run(isAdmin);
                 }
             }
             catch (Exception exception)
@@ -135,6 +140,12 @@ namespace Galleria.Api.Client
             finally
             {
                 Console.ResetColor();
+            }
+
+            if (Debugger.IsAttached)
+            {
+                Console.WriteLine("Press any key to continue...");
+                Console.ReadKey(intercept: true);
             }
         }
     }

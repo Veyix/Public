@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace Galleria.Api.Client
@@ -16,6 +17,20 @@ namespace Galleria.Api.Client
         {
             _client = new HttpClient();
             _client.BaseAddress = new Uri(serviceAddress);
+        }
+
+        public void Login(string username, string password)
+        {
+            var values = new List<KeyValuePair<string, string>>();
+            values.Add(new KeyValuePair<string, string>("grant_type", "password"));
+            values.Add(new KeyValuePair<string, string>("username", username));
+            values.Add(new KeyValuePair<string, string>("password", password));
+
+            var content = new FormUrlEncodedContent(values);
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
+
+            var task = _client.PostAsync("api/login", content);
+            HandleResponse(task);
         }
 
         public void CreateUser(UserProfile profile)
@@ -76,6 +91,11 @@ namespace Galleria.Api.Client
         {
             task.Wait();
 
+            if (!task.Result.IsSuccessStatusCode)
+            {
+                throw new InvalidOperationException($"Operation Failed: {task.Result.ReasonPhrase}");
+            }
+
             var resultTask = task.Result.Content.ReadAsStringAsync();
             resultTask.Wait();
 
@@ -91,6 +111,13 @@ namespace Galleria.Api.Client
                 || result.TryGetValue("error", out error))
             {
                 throw new InvalidOperationException(error.Value<string>());
+            }
+
+            JToken accessToken;
+            if (result.TryGetValue("access_token", out accessToken))
+            {
+                _client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", accessToken.Value<string>());
             }
         }
 

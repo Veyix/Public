@@ -9,6 +9,7 @@ namespace Galleria.Api.Service
     {
         [HttpPost]
         [Route("api/users")]
+        [Authorize(Roles = SecurityRoles.Administrator)]
         public void CreateUser(UserProfile profile)
         {
             using (var context = new DatabaseContext())
@@ -20,6 +21,7 @@ namespace Galleria.Api.Service
 
         [HttpDelete]
         [Route("api/users/{userId:int}")]
+        [Authorize(Roles = SecurityRoles.Administrator)]
         public void DeleteUser(int userId)
         {
             var user = GetUser(userId);
@@ -35,6 +37,7 @@ namespace Galleria.Api.Service
 
         [HttpGet]
         [Route("api/users/{userId:int}")]
+        [AuthorizeRoles(SecurityRoles.BasicUser, SecurityRoles.Administrator)]
         public UserProfile GetUser(int userId)
         {
             using (var context = new DatabaseContext())
@@ -46,6 +49,7 @@ namespace Galleria.Api.Service
 
         [HttpGet]
         [Route("api/users")]
+        [AuthorizeRoles(SecurityRoles.BasicUser, SecurityRoles.Administrator)]
         public IEnumerable<UserProfile> GetUsers()
         {
             using (var context = new DatabaseContext())
@@ -57,6 +61,7 @@ namespace Galleria.Api.Service
 
         [HttpGet]
         [Route("api/company/{companyId:int}/users")]
+        [AuthorizeRoles(SecurityRoles.BasicUser, SecurityRoles.Administrator)]
         public IEnumerable<UserProfile> GetUsers(int companyId)
         {
             using (var context = new DatabaseContext())
@@ -69,6 +74,7 @@ namespace Galleria.Api.Service
 
         [HttpPut]
         [Route("api/users")]
+        [AuthorizeRoles(SecurityRoles.BasicUser, SecurityRoles.Administrator)]
         public void UpdateUser(UserProfile profile)
         {
             using (var context = new DatabaseContext())
