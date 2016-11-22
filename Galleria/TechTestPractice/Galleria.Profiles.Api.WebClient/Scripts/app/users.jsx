@@ -13,6 +13,7 @@ class UsersView extends React.Component {
             users: []
         };
 
+        this.addUser = this.addUser.bind(this);
         this.viewUser = this.viewUser.bind(this);
         this.editUser = this.editUser.bind(this);
         this.deleteUser = this.deleteUser.bind(this);
@@ -30,6 +31,12 @@ class UsersView extends React.Component {
         this.api.getUsers(
             (response) => this.setState({ users: response })
         );
+    }
+
+    addUser() {
+
+        // Show an empty user in edit mode
+        this.showUser({ id: 0 }, true);
     }
 
     viewUser(userId) {
@@ -73,6 +80,10 @@ class UsersView extends React.Component {
         var dialog = new Dialog('dialog');
         var title = user.title + " " + user.forename + " " + user.surname;
 
+        if (user.id === 0) {
+            title = "Add User";
+        }
+
         dialog.show(
             title,
             <User user={user} isEditMode={isEditMode} addButton={dialog.addButton} onSave={(user) => { dialog.close(); this.saveUser(user); }} />
@@ -96,8 +107,9 @@ class UsersView extends React.Component {
             <div className="panel panel-default">
                 <div className="panel-heading">
                     <div className="row">
-                        <h3 className="col-xs-11">Users</h3>
-                        <div className="col-xs-1 vertical-align">
+                        <h3 className="col-xs-10">Users</h3>
+                        <div className="col-xs-2 vertical-align buttons">
+                            <a className="btn btn-default" onClick={this.addUser}>Add User</a>
                             <a className="btn btn-default" onClick={this.logout}>Logout</a>
                         </div>
                     </div>

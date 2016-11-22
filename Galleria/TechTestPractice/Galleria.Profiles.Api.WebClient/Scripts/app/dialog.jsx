@@ -36,7 +36,7 @@
                                 <div className="buttons">
                                     {this.buttons}
 
-                                    <button className="btn btn-default" onClick={close}>
+                                    <button className="btn btn-default" onClick={(event) => { event.preventDefault(); this.close(); }}>
                                         Close
                                     </button>
                                 </div>
