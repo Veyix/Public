@@ -1,4 +1,6 @@
-﻿using Owin;
+﻿using Autofac;
+using Autofac.Integration.WebApi;
+using Owin;
 using System.Web.Http;
 
 namespace Galleria.Api.Service
@@ -17,7 +19,20 @@ namespace Galleria.Api.Service
             var config = new HttpConfiguration();
             config.MapHttpAttributeRoutes();
 
+            var container = CreateContainer();
+            config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
+
+            builder.UseAutofacMiddleware(container);
+            builder.UseAutofacWebApi(config);
             builder.UseWebApi(config);
+        }
+
+        private IContainer CreateContainer()
+        {
+            var builder = new ContainerBuilder();
+            builder.RegisterApiControllers(GetType().Assembly);
+
+            return builder.Build();
         }
     }
 }
