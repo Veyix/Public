@@ -28,6 +28,21 @@ namespace Galleria.Api.Client
         }
 
         /// <summary>
+        /// Logs into the hosted API using the given credentials.
+        /// </summary>
+        /// <param name="username">The username to use.</param>
+        /// <param name="password">The password to use.</param>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="username"/> or
+        /// <paramref name="password"/> is null or empty.</exception>
+        public void Login(string username, string password)
+        {
+            Verify.NotNullOrEmpty(username, nameof(username));
+            Verify.NotNullOrEmpty(password, nameof(password));
+
+            // TODO
+        }
+
+        /// <summary>
         /// Gets all users from the API.
         /// </summary>
         /// <returns>A collection of user profiles.</returns>

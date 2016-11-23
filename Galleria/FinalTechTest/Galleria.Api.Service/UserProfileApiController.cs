@@ -30,6 +30,7 @@ namespace Galleria.Api.Service
         /// <returns>A response containing the users.</returns>
         [HttpGet]
         [Route("api/users")]
+        [AuthorizeRoles(SecurityRoles.BasicUser, SecurityRoles.Administrator)]
         public IHttpActionResult GetUsers()
         {
             return Ok(Users);
@@ -42,6 +43,7 @@ namespace Galleria.Api.Service
         /// <returns>A response containing the users.</returns>
         [HttpGet]
         [Route("api/company/{companyId:int}/users")]
+        [AuthorizeRoles(SecurityRoles.BasicUser, SecurityRoles.Administrator)]
         public IHttpActionResult GetUsers(int companyId)
         {
             var users = Users.Where(x => x.CompanyId == companyId);
@@ -55,6 +57,7 @@ namespace Galleria.Api.Service
         /// <returns>A response containing the user if found.</returns>
         [HttpGet]
         [Route("api/users/{userId:int}")]
+        [AuthorizeRoles(SecurityRoles.BasicUser, SecurityRoles.Administrator)]
         public IHttpActionResult GetUser(int userId)
         {
             var user = Users.SingleOrDefault(x => x.UserId == userId);

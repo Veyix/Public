@@ -40,9 +40,15 @@ namespace Galleria.Api.Client
             string serviceAddress = ConfigurationManager.AppSettings["ServiceAddress"];
             Verify.NotNullOrEmpty(serviceAddress, nameof(serviceAddress));
 
+            string username = ConfigurationManager.AppSettings["Username"];
+            Verify.NotNullOrEmpty(username, nameof(username));
+
+            string password = ConfigurationManager.AppSettings["Password"];
+            Verify.NotNullOrEmpty(password, nameof(password));
+
             using (var application = new ClientApplication(serviceAddress))
             {
-                application.Run();
+                application.Run(username, password);
             }
         }
     }

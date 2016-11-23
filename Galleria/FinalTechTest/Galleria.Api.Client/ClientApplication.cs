@@ -27,8 +27,17 @@ namespace Galleria.Api.Client
         /// <summary>
         /// Runs the client application.
         /// </summary>
-        public void Run()
+        /// <param name="username">The username to use when logging into the API.</param>
+        /// <param name="password">The password to use when logging into the API.</param>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="username"/> or
+        /// <paramref name="password"/> is null or empty.</exception>
+        public void Run(string username, string password)
         {
+            Verify.NotNullOrEmpty(username, nameof(username));
+            Verify.NotNullOrEmpty(password, nameof(password));
+
+            _service.Login(username, password);
+
             GetAllUsers();
             GetUsersForCompany2();
         }

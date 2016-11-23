@@ -10,6 +10,11 @@ namespace Galleria.Api.Service
         protected override void Load(ContainerBuilder builder)
         {
             base.Load(builder);
+
+            // Register the authentication server
+            builder.RegisterType<CredentialVerificationProvider>()
+                .AsImplementedInterfaces()
+                .InstancePerLifetimeScope();
         }
     }
 }
