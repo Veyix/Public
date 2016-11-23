@@ -1,5 +1,6 @@
 ﻿using Galleria.Api.Contract;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System;
 using System.Net;
 using System.Net.Http;
@@ -18,7 +19,9 @@ namespace Galleria.Api.Service.Tests
         [TestInitialize]
         public void Initialize()
         {
-            _controller = new UserProfileApiController();
+            var repositoryMock = new Mock<IUserProfileRepository>();
+
+            _controller = new UserProfileApiController(repositoryMock.Object);
             _controller.ControllerContext = new HttpControllerContext()
             {
                 Configuration = new System.Web.Http.HttpConfiguration()

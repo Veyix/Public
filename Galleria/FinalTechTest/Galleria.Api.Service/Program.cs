@@ -49,6 +49,8 @@ namespace Galleria.Api.Service
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("Database is already up to date");
                 Console.ResetColor();
+
+                return;
             }
 
             Console.WriteLine("Upgrading the database...");

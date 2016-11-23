@@ -1,7 +1,4 @@
 ﻿using Galleria.Api.Contract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web.Http;
 
 namespace Galleria.Api.Service
@@ -11,18 +8,19 @@ namespace Galleria.Api.Service
     /// </summary>
     public sealed class UserProfileApiController : ApiController
     {
-        private static readonly IEnumerable<UserProfile> Users = new[]
-            {
-                new UserProfile()
-                {
-                    UserId = 1,
-                    CompanyId = 1,
-                    Title = "Mr",
-                    Forename = "Test",
-                    Surname = "Tester",
-                    DateOfBirth = DateTime.Today.AddYears(-20)
-                }
-            };
+        private readonly IUserProfileRepository _userProfileRepository;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserProfileApiController"/> class.
+        /// </summary>
+        /// <param name="userProfileRepository">A repository that manages instances of the <see cref="UserProfile"/> class.</param>
+        /// <exception cref="ArgumentNullException">Thrown when any of the given parameters are null.</exception>
+        public UserProfileApiController(IUserProfileRepository userProfileRepository)
+        {
+            Verify.NotNull(userProfileRepository, nameof(userProfileRepository));
+
+            _userProfileRepository = userProfileRepository;
+        }
 
         /// <summary>
         /// Retrieves a collection of all users.
@@ -33,7 +31,8 @@ namespace Galleria.Api.Service
         [AuthorizeRoles(SecurityRoles.BasicUser, SecurityRoles.Administrator)]
         public IHttpActionResult GetUsers()
         {
-            return Ok(Users);
+            var users = _userProfileRepository.GetUsers();
+            return Ok(users);
         }
 
         /// <summary>
@@ -46,7 +45,7 @@ namespace Galleria.Api.Service
         [AuthorizeRoles(SecurityRoles.BasicUser, SecurityRoles.Administrator)]
         public IHttpActionResult GetUsers(int companyId)
         {
-            var users = Users.Where(x => x.CompanyId == companyId);
+            var users = _userProfileRepository.GetUsers(companyId);
             return Ok(users);
         }
 
@@ -60,7 +59,7 @@ namespace Galleria.Api.Service
         [AuthorizeRoles(SecurityRoles.BasicUser, SecurityRoles.Administrator)]
         public IHttpActionResult GetUser(int userId)
         {
-            var user = Users.SingleOrDefault(x => x.UserId == userId);
+            var user = _userProfileRepository.GetUser(userId);
             if (user == null)
             {
                 return NotFound();

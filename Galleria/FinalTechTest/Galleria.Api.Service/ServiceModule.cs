@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using System.Linq;
 
 namespace Galleria.Api.Service
 {
@@ -10,6 +11,20 @@ namespace Galleria.Api.Service
         protected override void Load(ContainerBuilder builder)
         {
             base.Load(builder);
+
+            // Register the data context
+            builder.RegisterType<DatabaseContext>()
+                .AsImplementedInterfaces()
+                .InstancePerLifetimeScope();
+
+            // Register repositories
+            var repositoryTypes = ThisAssembly.GetTypes()
+                .Where(type => type.IsClass && !type.IsAbstract && type.Name.EndsWith("Repository"))
+                .ToArray();
+
+            builder.RegisterTypes(repositoryTypes)
+                .AsImplementedInterfaces()
+                .InstancePerDependency();
 
             // Register the authentication server
             builder.RegisterType<CredentialVerificationProvider>()
