@@ -34,5 +34,12 @@ namespace Galleria.Api.Service
         /// <param name="profile">The profile to be added.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="profile"/> is null.</exception>
         void AddUser(UserProfile profile);
+
+        /// <summary>
+        /// Updates the given user profile within the system.
+        /// </summary>
+        /// <param name="profile">The profile to be updated.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="profile"/> is null.</exception>
+        void UpdateUser(UserProfile profile);
     }
 }

@@ -54,5 +54,13 @@ namespace Galleria.Api.Service
             _entityStore.AddEntity(profile);
             _entityStore.Save();
         }
+
+        public void UpdateUser(UserProfile profile)
+        {
+            Verify.NotNull(profile, nameof(profile));
+
+            _entityStore.UpdateEntity(profile);
+            _entityStore.Save();
+        }
     }
 }

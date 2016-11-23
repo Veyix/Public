@@ -49,6 +49,13 @@ namespace Galleria.Api.Service
             Entry(entity).State = EntityState.Added;
         }
 
+        void IEntityStore.UpdateEntity<TEntity>(TEntity entity)
+        {
+            Verify.NotNull(entity, nameof(entity));
+
+            Entry(entity).State = EntityState.Modified;
+        }
+
         void IEntityStore.Save()
         {
             SaveChanges();

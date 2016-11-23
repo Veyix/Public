@@ -42,6 +42,8 @@ namespace Galleria.Api.Client
             GetUsersForCompany2();
             CreateUser();
             GetAllUsers();
+            UpdateLatestUser();
+            GetAllUsers();
         }
 
         private void GetAllUsers()
@@ -83,6 +85,33 @@ namespace Galleria.Api.Client
             try
             {
                 _service.CreateUser(2, "Dr", "Jane", "Doe", DateTime.Today.AddYears(-50));
+            }
+            catch (Exception exception)
+            {
+                LogError(exception);
+            }
+        }
+
+        private void UpdateLatestUser()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Updating the latest user...");
+
+            try
+            {
+                var users = _service.GetUsers();
+                var user = users.LastOrDefault();
+
+                Console.Write("Updating user: ");
+                DisplayUser(user);
+
+                if (user != null)
+                {
+                    user.CompanyId++;
+                    user.Surname = "This surname has been changed";
+                }
+
+                _service.UpdateUser(user);
             }
             catch (Exception exception)
             {

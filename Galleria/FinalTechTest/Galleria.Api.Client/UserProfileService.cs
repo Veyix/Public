@@ -109,6 +109,23 @@ namespace Galleria.Api.Client
             HandleResponse(task);
         }
 
+        /// <summary>
+        /// Updates the record for the given user.
+        /// </summary>
+        /// <param name="profile">The profile to be updated to.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="profile"/> is null.</exception>
+        public void UpdateUser(UserProfile profile)
+        {
+            Verify.NotNull(profile, nameof(profile));
+
+            string data = JsonConvert.SerializeObject(profile);
+            var content = new StringContent(data);
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+            var task = _client.PutAsync("api/users", content);
+            HandleResponse(task);
+        }
+
         public void Dispose()
         {
             _client.Dispose();

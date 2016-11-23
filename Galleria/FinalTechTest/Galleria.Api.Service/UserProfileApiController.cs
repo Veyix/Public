@@ -92,5 +92,25 @@ namespace Galleria.Api.Service
 
             return Ok();
         }
+
+        [HttpPut]
+        [Route("api/users")]
+        [Authorize(Roles = SecurityRoles.Administrator)]
+        public IHttpActionResult UpdateUser(UserProfile profile)
+        {
+            if (profile == null)
+            {
+                return BadRequest("No user profile was given");
+            }
+
+            if (profile.UserId == 0)
+            {
+                return BadRequest("PUT cannot be used to create a new user. Use POST instead.");
+            }
+
+            _userProfileRepository.UpdateUser(profile);
+
+            return Ok();
+        }
     }
 }
