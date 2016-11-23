@@ -126,6 +126,7 @@
     <Compile Include="HostService.Designer.cs">
       <DependentUpon>HostService.cs</DependentUpon>
     </Compile>
+    <Compile Include="IEntityStore.cs" />
     <Compile Include="IQueryProvider.cs" />
     <Compile Include="IUserProfileRepository.cs" />
     <Compile Include="Program.cs" />

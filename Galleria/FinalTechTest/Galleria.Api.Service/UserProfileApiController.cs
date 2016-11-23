@@ -88,7 +88,7 @@ namespace Galleria.Api.Service
                 return BadRequest("POST cannot be used to modify an existing user. Use PUT instead.");
             }
 
-            // TODO: Add the user to the system.
+            _userProfileRepository.AddUser(profile);
 
             return Ok();
         }

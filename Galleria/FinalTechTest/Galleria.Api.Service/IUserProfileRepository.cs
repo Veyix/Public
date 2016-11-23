@@ -27,5 +27,12 @@ namespace Galleria.Api.Service
         /// <param name="userId">The Id of the user to get.</param>
         /// <returns>The requested user, if found; otherwise null.</returns>
         UserProfile GetUser(int userId);
+
+        /// <summary>
+        /// Adds the given user profile to the system.
+        /// </summary>
+        /// <param name="profile">The profile to be added.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="profile"/> is null.</exception>
+        void AddUser(UserProfile profile);
     }
 }

@@ -8,7 +8,7 @@ namespace Galleria.Api.Service
     /// <summary>
     /// A class that manages the context of database connections.
     /// </summary>
-    internal sealed class DatabaseContext : DbContext, IQueryProvider
+    internal sealed class DatabaseContext : DbContext, IQueryProvider, IEntityStore
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DatabaseContext"/> class.
@@ -32,10 +32,19 @@ namespace Galleria.Api.Service
             configuration.ToTable("UserProfile");
         }
 
-        public IQueryable<TEntity> CreateQuery<TEntity>()
-            where TEntity : class
+        IQueryable<TEntity> IQueryProvider.CreateQuery<TEntity>()
         {
             return Set<TEntity>();
+        }
+
+        void IEntityStore.AddEntity<TEntity>(TEntity entity)
+        {
+            Entry(entity).State = EntityState.Added;
+        }
+
+        void IEntityStore.Save()
+        {
+            SaveChanges();
         }
     }
 }
