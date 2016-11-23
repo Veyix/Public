@@ -1,4 +1,5 @@
-﻿using Microsoft.Owin.Security.OAuth;
+﻿using Galleria.Api.Contract;
+using Microsoft.Owin.Security.OAuth;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -9,6 +10,20 @@ namespace Galleria.Api.Service
     /// </summary>
     public sealed class CredentialVerificationProvider : OAuthAuthorizationServerProvider
     {
+        private readonly ISecurityUserRepository _securityUserRepository;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CredentialVerificationProvider"/> class.
+        /// </summary>
+        /// <param name="securityUserRepository">A repository that manages instances of the <see cref="SecurityUser"/> class.</param>
+        /// <exception cref="ArgumentNullException">Thrown when any of the given parameters are null.</exception>
+        public CredentialVerificationProvider(ISecurityUserRepository securityUserRepository)
+        {
+            Verify.NotNull(securityUserRepository, nameof(securityUserRepository));
+
+            _securityUserRepository = securityUserRepository;
+        }
+
         public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
             // Always validate the client as there is only one
@@ -19,7 +34,7 @@ namespace Galleria.Api.Service
 
         public override Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-            var user = GetUser(context.UserName, context.Password);
+            var user = _securityUserRepository.GetSecurityUser(context.UserName, context.Password);
             if (user == null)
             {
                 context.SetError("Invalid Credentials");

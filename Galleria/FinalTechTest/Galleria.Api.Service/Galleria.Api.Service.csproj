@@ -128,11 +128,13 @@
     </Compile>
     <Compile Include="IEntityStore.cs" />
     <Compile Include="IQueryProvider.cs" />
+    <Compile Include="ISecurityUserRepository.cs" />
     <Compile Include="IUserProfileRepository.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SecurityRoles.cs" />
     <Compile Include="SecurityUser.cs" />
+    <Compile Include="SecurityUserRepository.cs" />
     <Compile Include="ServiceModule.cs" />
     <Compile Include="ServiceStartup.cs" />
     <Compile Include="UserProfileApiController.cs" />
@@ -151,6 +153,10 @@
   <ItemGroup>
     <EmbeddedResource Include="Scripts\01-UserProfile.table.sql" />
     <EmbeddedResource Include="Scripts\02-UserProfile.data.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\03-SecurityUser.table.sql" />
+    <EmbeddedResource Include="Scripts\04-SecurityUser.data.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -23,6 +23,7 @@ namespace Galleria.Api.Service
             base.OnModelCreating(modelBuilder);
 
             MapUserProfile(modelBuilder.Entity<UserProfile>());
+            MapSecurityUser(modelBuilder.Entity<SecurityUser>());
         }
 
         private static void MapUserProfile(EntityTypeConfiguration<UserProfile> configuration)
@@ -30,6 +31,12 @@ namespace Galleria.Api.Service
             configuration.HasKey(x => x.UserId);
             configuration.Property(x => x.UserId).HasColumnName("Id");
             configuration.ToTable("UserProfile");
+        }
+
+        private static void MapSecurityUser(EntityTypeConfiguration<SecurityUser> configuration)
+        {
+            configuration.HasKey(x => x.Id);
+            configuration.ToTable("SecurityUser");
         }
 
         IQueryable<TEntity> IQueryProvider.CreateQuery<TEntity>()

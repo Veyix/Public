@@ -48,8 +48,15 @@ namespace Galleria.Api.Client
         {
             Console.WriteLine("Getting all users...");
 
-            var users = _service.GetUsers();
-            DisplayUsers(users);
+            try
+            {
+                var users = _service.GetUsers();
+                DisplayUsers(users);
+            }
+            catch (Exception exception)
+            {
+                LogError(exception);
+            }
         }
 
         private void GetUsersForCompany2()
@@ -57,8 +64,15 @@ namespace Galleria.Api.Client
             Console.WriteLine();
             Console.WriteLine("Getting users for company 2...");
 
-            var users = _service.GetUsers(companyId: 2);
-            DisplayUsers(users);
+            try
+            {
+                var users = _service.GetUsers(companyId: 2);
+                DisplayUsers(users);
+            }
+            catch (Exception exception)
+            {
+                LogError(exception);
+            }
         }
 
         private void CreateUser()
@@ -66,7 +80,14 @@ namespace Galleria.Api.Client
             Console.WriteLine();
             Console.WriteLine("Creating a new user...");
 
-            _service.CreateUser(2, "Dr", "Jane", "Doe", DateTime.Today.AddYears(-50));
+            try
+            {
+                _service.CreateUser(2, "Dr", "Jane", "Doe", DateTime.Today.AddYears(-50));
+            }
+            catch (Exception exception)
+            {
+                LogError(exception);
+            }
         }
 
         private static void DisplayUsers(IEnumerable<UserProfile> users)
@@ -97,6 +118,13 @@ namespace Galleria.Api.Client
                 Console.WriteLine($"User {user.UserId} for Company {user.CompanyId}: {user.Title} {user.Forename} {user.Surname} born on {user.DateOfBirth:dd MMM yyyy}");
             }
 
+            Console.ResetColor();
+        }
+
+        private static void LogError(Exception exception)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(exception.Message);
             Console.ResetColor();
         }
 
