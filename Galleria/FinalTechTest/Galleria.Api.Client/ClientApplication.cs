@@ -40,6 +40,8 @@ namespace Galleria.Api.Client
 
             GetAllUsers();
             GetUsersForCompany2();
+            CreateUser();
+            GetAllUsers();
         }
 
         private void GetAllUsers()
@@ -57,6 +59,14 @@ namespace Galleria.Api.Client
 
             var users = _service.GetUsers(companyId: 2);
             DisplayUsers(users);
+        }
+
+        private void CreateUser()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Creating a new user...");
+
+            _service.CreateUser(2, "Dr", "Jane", "Doe", DateTime.Today.AddYears(-50));
         }
 
         private static void DisplayUsers(IEnumerable<UserProfile> users)

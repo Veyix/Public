@@ -76,6 +76,39 @@ namespace Galleria.Api.Client
             return GetResult<IEnumerable<UserProfile>>(task);
         }
 
+        /// <summary>
+        /// Creates a new user profile within the system.
+        /// </summary>
+        /// <param name="companyId">The Id of the company the user is assigned to.</param>
+        /// <param name="title">The user's title.</param>
+        /// <param name="forename">The user's forename.</param>
+        /// <param name="surname">The user's surname.</param>
+        /// <param name="dateOfBirth">The user's date of birth.</param>
+        /// <exception cref="ArgumentException">Thrown when any of <paramref name="title"/>,
+        /// <paramref name="forename"/> or <paramref name="surname"/> are null or empty.</exception>
+        public void CreateUser(int companyId, string title, string forename, string surname, DateTime dateOfBirth)
+        {
+            Verify.NotNullOrEmpty(title, nameof(title));
+            Verify.NotNullOrEmpty(forename, nameof(forename));
+            Verify.NotNullOrEmpty(surname, nameof(surname));
+
+            var user = new UserProfile()
+            {
+                CompanyId = companyId,
+                Title = title,
+                Forename = forename,
+                Surname = surname,
+                DateOfBirth = dateOfBirth
+            };
+
+            string data = JsonConvert.SerializeObject(user);
+            var content = new StringContent(data);
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+            var task = _client.PostAsync("api/users", content);
+            HandleResponse(task);
+        }
+
         public void Dispose()
         {
             _client.Dispose();
