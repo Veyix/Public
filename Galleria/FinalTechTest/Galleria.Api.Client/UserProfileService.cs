@@ -1,5 +1,6 @@
 ﻿using Galleria.Api.Contract;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -39,7 +40,19 @@ namespace Galleria.Api.Client
             Verify.NotNullOrEmpty(username, nameof(username));
             Verify.NotNullOrEmpty(password, nameof(password));
 
-            // TODO
+            var content = new FormUrlEncodedContent(
+                new[]
+                {
+                    new KeyValuePair<string, string>("grant_type", "password"),
+                    new KeyValuePair<string, string>("username", username),
+                    new KeyValuePair<string, string>("password", password)
+                }
+            );
+
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/x-www-form-urlencoded");
+
+            var task = _client.PostAsync("api/login", content);
+            HandleResponse(task);
         }
 
         /// <summary>
@@ -87,6 +100,43 @@ namespace Galleria.Api.Client
 
             // Read the result as a JSON object
             return JsonConvert.DeserializeObject<TResult>(resultTask.Result);
+        }
+
+        private void HandleResponse(Task<HttpResponseMessage> task)
+        {
+            task.Wait();
+
+            if (!task.Result.IsSuccessStatusCode)
+            {
+                throw new InvalidOperationException("Operation Failed: " + task.Result.StatusCode);
+            }
+
+            var resultTask = task.Result.Content.ReadAsStringAsync();
+            resultTask.Wait();
+
+            if (String.IsNullOrWhiteSpace(resultTask.Result))
+            {
+                return;
+            }
+
+            // Read the response as a JSON object and check for an error
+            var result = JObject.Parse(resultTask.Result);
+            JToken error;
+
+            if (result.TryGetValue("error_description", out error)
+                || result.TryGetValue("error", out error))
+            {
+                throw new InvalidOperationException(error.Value<string>());
+            }
+
+            // Check for an access token
+            JToken accessToken;
+            if (result.TryGetValue("access_token", out accessToken))
+            {
+                // Add the bearer token to the default headers to be used in all subsequent requests
+                _client.DefaultRequestHeaders.Authorization =
+                    new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken.Value<string>());
+            }
         }
     }
 }
