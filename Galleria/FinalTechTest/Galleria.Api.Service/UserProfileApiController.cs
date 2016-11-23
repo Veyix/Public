@@ -68,5 +68,30 @@ namespace Galleria.Api.Service
 
             return Ok(user);
         }
+
+        /// <summary>
+        /// Creates a new user record with the given information.
+        /// </summary>
+        /// <param name="profile">The information from which to create the record.</param>
+        /// <returns>A response detailing whether the operation completed successfully or not.</returns>
+        [HttpPost]
+        [Route("api/users")]
+        [Authorize(Roles = SecurityRoles.Administrator)]
+        public IHttpActionResult CreateUser(UserProfile profile)
+        {
+            if (profile == null)
+            {
+                return BadRequest("No user profile was given");
+            }
+
+            if (profile.UserId != 0)
+            {
+                return BadRequest("POST cannot be used to modify an existing user. Use PUT instead.");
+            }
+
+            // TODO: Add the user to the system.
+
+            return Ok();
+        }
     }
 }
