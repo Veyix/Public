@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DbUp;
+using Galleria.Api.Contract;
+using System;
 using System.Configuration;
 using System.ServiceProcess;
 
@@ -16,6 +18,7 @@ namespace Galleria.Api.Service
         {
             try
             {
+                UpgradeDatabase();
                 Run();
             }
             catch (Exception exception)
@@ -27,6 +30,38 @@ namespace Galleria.Api.Service
             {
                 Console.ResetColor();
             }
+        }
+
+        private static void UpgradeDatabase()
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["Galleria"]?.ConnectionString;
+            Verify.NotNullOrEmpty(connectionString, nameof(connectionString));
+
+            Console.WriteLine($"Checking database {connectionString}...");
+            EnsureDatabase.For.SqlDatabase(connectionString);
+
+            var deployer = DeployChanges.To.SqlDatabase(connectionString)
+                .WithScriptsEmbeddedInAssembly(typeof(Program).Assembly)
+                .Build();
+
+            if (!deployer.IsUpgradeRequired())
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("Database is already up to date");
+                Console.ResetColor();
+            }
+
+            Console.WriteLine("Upgrading the database...");
+
+            var result = deployer.PerformUpgrade();
+            if (!result.Successful)
+            {
+                throw result.Error;
+            }
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Upgrade successful!");
+            Console.ResetColor();
         }
 
         private static void Run()
