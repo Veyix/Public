@@ -1,4 +1,5 @@
 ﻿using Galleria.Api.Contract;
+using System;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
 using System.Linq;
@@ -59,6 +60,11 @@ namespace Galleria.Api.Service
         void IEntityStore.Save()
         {
             SaveChanges();
+        }
+
+        public void DeleteEntity<TEntity>(TEntity entity) where TEntity : class
+        {
+            throw new NotImplementedException();
         }
     }
 }

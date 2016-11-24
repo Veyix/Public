@@ -52,17 +52,5 @@ namespace Galleria.Api.Service
 
             return Task.FromResult<object>(null);
         }
-
-        private static SecurityUser GetUser(string username, string password)
-        {
-            // TODO: Lookup in the database.
-            return new SecurityUser()
-            {
-                Id = 1,
-                Username = username,
-                Password = password,
-                Role = "Administrator"
-            };
-        }
     }
 }

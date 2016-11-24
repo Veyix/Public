@@ -24,6 +24,14 @@
             where TEntity : class;
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="entity"></param>
+        void DeleteEntity<TEntity>(TEntity entity)
+            where TEntity : class;
+
+        /// <summary>
         /// Persists all store changes made.
         /// </summary>
         void Save();

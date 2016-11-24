@@ -93,6 +93,11 @@ namespace Galleria.Api.Service
             return Ok();
         }
 
+        /// <summary>
+        /// Updates the matching user.
+        /// </summary>
+        /// <param name="profile">The new values for the user.</param>
+        /// <returns>A response describing the result of the action.</returns>
         [HttpPut]
         [Route("api/users")]
         [Authorize(Roles = SecurityRoles.Administrator)]
@@ -109,6 +114,29 @@ namespace Galleria.Api.Service
             }
 
             _userProfileRepository.UpdateUser(profile);
+
+            return Ok();
+        }
+
+        /// <summary>
+        /// Deletes the specified user.
+        /// </summary>
+        /// <param name="userId">The Id of the user to delete.</param>
+        /// <returns>A response describing the result of the action.</returns>
+        [HttpDelete]
+        [Route("api/users/{userId:int}")]
+        [Authorize(Roles = SecurityRoles.Administrator)]
+        public IHttpActionResult DeleteUser(int userId)
+        {
+            // Get hold of the current user to delete it
+            var user = _userProfileRepository.GetUser(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            // Delete the user from the system
+            _userProfileRepository.DeleteUser(user);
 
             return Ok();
         }
