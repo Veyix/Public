@@ -18,7 +18,8 @@ namespace Robat.SpindleFileConverter
         public void Process()
         {
             ProcessCommands();
-            //OptimiseCommands();
+            OptimiseCommands();
+            InsertMissingDrillStarts();
             RemoveRedundantCommands();
         }
 
@@ -230,6 +231,63 @@ namespace Robat.SpindleFileConverter
         #endregion
 
         #region Error Checking
+
+        private void InsertMissingDrillStarts()
+        {
+            bool drill1Started = false;
+            bool drill2Started = false;
+
+            for (int index = 0; index < _processedCommands.Count; index++)
+            {
+                var command = _processedCommands[index];
+
+                if (command is StartDrillCommand)
+                {
+                    var startDrillCommand = (StartDrillCommand)command;
+                    if (startDrillCommand.HeadNumber == 1)
+                    {
+                        drill1Started = true;
+                    }
+                    else
+                    {
+                        drill2Started = true;
+                    }
+                }
+                else if (command is StopDrillCommand)
+                {
+                    var stopDrillCommand = (StopDrillCommand)command;
+                    if (stopDrillCommand.HeadNumber == 1)
+                    {
+                        drill1Started = false;
+                    }
+                    else
+                    {
+                        drill2Started = false;
+                    }
+                }
+                else if (command is DrillHoleCommand)
+                {
+                    var drillHoleCommand = (DrillHoleCommand)command;
+                    if (!drill1Started && !drill2Started && drillHoleCommand.XCoordinate.HasValue)
+                    {
+                        double xCoordinate = drillHoleCommand.XCoordinate.Value;
+                        int headNumber = xCoordinate <= 500 ? 1 : 2;
+
+                        var startDrillCommand = StartDrillCommand.FromHeadNumber(headNumber);
+                        _processedCommands.Insert(index, startDrillCommand);
+
+                        if (headNumber == 1)
+                        {
+                            drill1Started = true;
+                        }
+                        else
+                        {
+                            drill2Started = true;
+                        }
+                    }
+                }
+            }
+        }
 
         private void RemoveRedundantCommands()
         {
