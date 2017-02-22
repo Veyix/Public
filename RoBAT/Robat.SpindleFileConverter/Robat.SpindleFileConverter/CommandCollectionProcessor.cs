@@ -156,30 +156,73 @@ namespace Robat.SpindleFileConverter
             // Get a copy of the commands
             var commands = _processedCommands.ToArray();
 
-            for (int i = 0; i < commands.Length - 1; i++)
+            for (int currentIndex = 0; currentIndex < commands.Length - 1; currentIndex++)
             {
-                var command = commands[i];
-                var stopDrillCommand = command as StopDrillCommand;
+                var command = commands[currentIndex];
 
+                var stopDrillCommand = command as StopDrillCommand;
                 if (stopDrillCommand != null)
                 {
-                    // See if we can find a start drill command before a tool change
-                    var nextCommands = commands.Skip(i + 1).ToArray();
-                    foreach (var nextCommand in nextCommands)
-                    {
-                        if (nextCommand is ToolSelectionCommand)
-                        {
-                            // We are changing the tool, so it's OK to stop the drill
-                            break;
-                        }
+                    CheckForStartCommand(commands, stopDrillCommand, currentIndex);
 
-                        var startDrillCommand = nextCommand as StartDrillCommand;
-                        if (startDrillCommand != null && startDrillCommand.HeadNumber == stopDrillCommand.HeadNumber)
-                        {
-                            // We don't need to stop and re-start the drill, so remove these commands
-                            _processedCommands.Remove(command);
-                            _processedCommands.Remove(nextCommand);
-                        }
+                    continue;
+                }
+
+                var startDrillCommand = command as StartDrillCommand;
+                if (startDrillCommand != null)
+                {
+                    CheckOtherDrillIsStopped(commands, startDrillCommand, currentIndex);
+                }
+            }
+        }
+
+        private void CheckForStartCommand(ICommand[] commands, StopDrillCommand command, int currentIndex)
+        {
+            // See if we can find a start drill command before a tool change
+            var nextCommands = commands.Skip(currentIndex + 1).ToArray();
+            foreach (var nextCommand in nextCommands)
+            {
+                if (nextCommand is ToolSelectionCommand)
+                {
+                    // We are changing the tool, so it's OK to stop the drill
+                    break;
+                }
+
+                var startDrillCommand = nextCommand as StartDrillCommand;
+                if (startDrillCommand != null && startDrillCommand.HeadNumber == command.HeadNumber)
+                {
+                    // We don't need to stop and re-start the drill, so remove these commands
+                    _processedCommands.Remove(command);
+                    _processedCommands.Remove(nextCommand);
+                }
+            }
+        }
+
+        private void CheckOtherDrillIsStopped(ICommand[] commands, StartDrillCommand command, int currentIndex)
+        {
+            // Look at the previous commands and make sure we find a stop command for the other drill before a start command
+            var previousCommands = commands.Take(currentIndex).Reverse().ToArray();
+            foreach (var previousCommand in previousCommands)
+            {
+                var stopDrillCommand = previousCommand as StopDrillCommand;
+                if (stopDrillCommand != null && stopDrillCommand.HeadNumber != command.HeadNumber)
+                {
+                    // The other drill has been stopped before this one has been started
+                    break;
+                }
+
+                var startDrillCommand = previousCommand as StartDrillCommand;
+                if (startDrillCommand != null && startDrillCommand.HeadNumber != command.HeadNumber)
+                {
+                    // The other drill was started but not stopped before this drill was started,
+                    // so create a new command to stop the other drill
+                    var stopOtherDrillCommand = StopDrillCommand.FromHeadNumber(startDrillCommand.HeadNumber);
+                    int newCommandIndex = _processedCommands.IndexOf(command);
+
+                    if (newCommandIndex > -1)
+                    {
+                        // Note: If we don't find the index it's because the command has already been removed.
+                        _processedCommands.Insert(newCommandIndex, stopOtherDrillCommand);
                     }
                 }
             }
