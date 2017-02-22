@@ -53,12 +53,11 @@ namespace Robat.SpindleFileConverter
 
         private void WriteCommands(IEnumerable<ICommand> commands, string outputFilePath)
         {
-            using (var writer = new StreamWriter(outputFilePath))
+            using (var writer = new StreamWriter(outputFilePath, append: false))
             {
                 foreach (var command in commands)
                 {
-                    var translatedCommand = command.Translate();
-                    writer.WriteLine(translatedCommand.CommandText);
+                    writer.WriteLine(command.CommandText);
                 }
             }
         }

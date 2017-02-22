@@ -25,6 +25,10 @@ namespace Robat.SpindleFileConverter
 
         public string CommandText { get; }
 
+        public double? XCoordinate => _xCoordinate;
+        public double? YCoordinate => _yCoordinate;
+        public double ZCoordinate => _zCoordinate;
+
         public ICommand Translate()
         {
             // TODO
@@ -103,6 +107,25 @@ namespace Robat.SpindleFileConverter
             }
 
             return zCoordinate;
+        }
+
+        public static ICommand FromCoordinates(double? xCoordinate, double? yCoordinate, double zCoordinate)
+        {
+            string commandText = "G73";
+
+            if (xCoordinate.HasValue)
+            {
+                commandText += $" X{xCoordinate.Value}";
+            }
+
+            if (yCoordinate.HasValue)
+            {
+                commandText += $" Y{yCoordinate.Value}";
+            }
+
+            commandText += $" Z{zCoordinate}";
+
+            return new DrillHoleCommand(commandText, xCoordinate, yCoordinate, zCoordinate);
         }
     }
 }

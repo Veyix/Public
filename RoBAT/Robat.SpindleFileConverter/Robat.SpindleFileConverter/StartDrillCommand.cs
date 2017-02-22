@@ -54,5 +54,17 @@ namespace Robat.SpindleFileConverter
 
             return headNumber;
         }
+
+        public static ICommand FromHeadNumber(int? headNumber = null)
+        {
+            string commandText = "M03";
+
+            if (headNumber.HasValue)
+            {
+                commandText += $" H{headNumber.Value}";
+            }
+
+            return new StartDrillCommand(commandText, headNumber);
+        }
     }
 }
