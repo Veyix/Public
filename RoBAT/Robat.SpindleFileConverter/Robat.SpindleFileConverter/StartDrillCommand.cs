@@ -21,6 +21,8 @@ namespace Robat.SpindleFileConverter
 
         public string CommandText { get; }
 
+        public int? HeadNumber => _headNumber;
+
         public ICommand Translate()
         {
             // TODO

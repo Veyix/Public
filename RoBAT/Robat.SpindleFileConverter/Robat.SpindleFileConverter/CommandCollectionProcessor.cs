@@ -153,7 +153,36 @@ namespace Robat.SpindleFileConverter
 
         private void OptimiseCommands()
         {
-            // TODO: Remove commands if they are not needed.
+            // Get a copy of the commands
+            var commands = _processedCommands.ToArray();
+
+            for (int i = 0; i < commands.Length - 1; i++)
+            {
+                var command = commands[i];
+                var stopDrillCommand = command as StopDrillCommand;
+
+                if (stopDrillCommand != null)
+                {
+                    // See if we can find a start drill command before a tool change
+                    var nextCommands = commands.Skip(i + 1).ToArray();
+                    foreach (var nextCommand in nextCommands)
+                    {
+                        if (nextCommand is ToolSelectionCommand)
+                        {
+                            // We are changing the tool, so it's OK to stop the drill
+                            break;
+                        }
+
+                        var startDrillCommand = nextCommand as StartDrillCommand;
+                        if (startDrillCommand != null && startDrillCommand.HeadNumber == stopDrillCommand.HeadNumber)
+                        {
+                            // We don't need to stop and re-start the drill, so remove these commands
+                            _processedCommands.Remove(command);
+                            _processedCommands.Remove(nextCommand);
+                        }
+                    }
+                }
+            }
         }
 
         #endregion
