@@ -24,8 +24,11 @@ namespace Robat.SpindleFileConverter
         public string Convert()
         {
             var commands = CreateCommandsFromInputFile();
-            // TODO: Fix commands - error detection / correction.
-            // TODO: Optimize commands.
+
+            var processor = new CommandCollectionProcessor(commands);
+            processor.Process();
+
+            commands = processor.GetCommands();
 
             string outputFilePath = GetOutputFilePath(_inputFilePath);
             WriteCommands(commands, outputFilePath);
