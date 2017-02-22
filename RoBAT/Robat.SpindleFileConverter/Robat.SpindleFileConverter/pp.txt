@@ -1,0 +1,30 @@
+% RoBAT Software Test #3
+% Test part program
+
+% Drilling holes with tool 1
+T1 H1
+M03 H1
+
+G73 X100.00 Y60.00 Z2.00
+G73 X400.00 Z2.00
+G73 X600.00 Z2.00
+G73 X900.00 Z2.00
+M05 H1
+
+% Drilling holes with tool 2
+T2 H1
+
+M03 H1
+G73 Y250.00 Z2.00
+G73 X100.00 Z2.00
+M05 H1
+
+% Drilling holes with tool 3
+T3 H1
+M03 H1
+G73 Y440.00 Z2.00
+G73 X400.00 Z2.00
+G73 X600.00 Z2.00
+G73 X900.00 Z2.00
+
+M05 H1
