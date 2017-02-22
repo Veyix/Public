@@ -17,10 +17,9 @@ namespace Robat.SpindleFileConverter
 
         public void Process()
         {
-            // TODO: Fix commands - error detection / correction.
-
             ProcessCommands();
-            OptimiseCommands();
+            //OptimiseCommands();
+            RemoveRedundantCommands();
         }
 
         #region Command Processing
@@ -225,6 +224,85 @@ namespace Robat.SpindleFileConverter
                         _processedCommands.Insert(newCommandIndex, stopOtherDrillCommand);
                     }
                 }
+            }
+        }
+
+        #endregion
+
+        #region Error Checking
+
+        private void RemoveRedundantCommands()
+        {
+            bool drill1Started = false;
+            bool drill2Started = false;
+
+            var commandsToRemove = new List<ICommand>();
+            foreach (var command in _processedCommands)
+            {
+                var startDrillCommand = command as StartDrillCommand;
+                if (startDrillCommand != null)
+                {
+                    if (startDrillCommand.HeadNumber == 1)
+                    {
+                        if (drill1Started)
+                        {
+                            // The drill has already been started, so remove this command
+                            commandsToRemove.Add(command);
+                        }
+                        else
+                        {
+                            drill1Started = true;
+                        }
+                    }
+                    else if (startDrillCommand.HeadNumber == 2)
+                    {
+                        if (drill2Started)
+                        {
+                            // The drill has already been started, so remove this command
+                            commandsToRemove.Add(command);
+                        }
+                        else
+                        {
+                            drill2Started = true;
+                        }
+                    }
+
+                    continue;
+                }
+
+                var stopDrillCommand = command as StopDrillCommand;
+                if (stopDrillCommand != null)
+                {
+                    if (stopDrillCommand.HeadNumber == 1)
+                    {
+                        if (drill1Started)
+                        {
+                            drill1Started = false;
+                        }
+                        else
+                        {
+                            // The drill has already been stopped, so remove this command
+                            commandsToRemove.Add(command);
+                        }
+                    }
+                    else if (stopDrillCommand.HeadNumber == 2)
+                    {
+                        if (drill2Started)
+                        {
+                            drill2Started = false;
+                        }
+                        else
+                        {
+                            // The drill has already been stopped, so remove this command
+                            commandsToRemove.Add(command);
+                        }
+                    }
+                }
+            }
+
+            foreach (var command in commandsToRemove)
+            {
+                _processedCommands.Remove(command);
             }
         }
 
