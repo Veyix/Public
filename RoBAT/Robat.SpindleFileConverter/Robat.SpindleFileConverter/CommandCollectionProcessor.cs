@@ -50,11 +50,19 @@ namespace Robat.SpindleFileConverter
             if (drillCommand != null)
             {
                 ProcessDrillHoleCommand(commandIndex, drillCommand);
+
+                return;
             }
-            else
+
+            var toolCommand = command as ToolSelectionCommand;
+            if (toolCommand != null)
             {
-                _processedCommands.Add(command);
+                ProcessToolSelectionCommand(commandIndex, toolCommand);
+
+                return;
             }
+
+            _processedCommands.Add(command);
         }
 
         private void ProcessDrillHoleCommand(int commandIndex, DrillHoleCommand command)
@@ -82,6 +90,13 @@ namespace Robat.SpindleFileConverter
             {
                 _processedCommands.Add(command);
             }
+        }
+
+        private void ProcessToolSelectionCommand(int commandIndex, ToolSelectionCommand command)
+        {
+            // Create a new tool selection command but don't specify a head number so that both heads are changed
+            var toolCommand = ToolSelectionCommand.FromNumbers(command.ToolNumber);
+            _processedCommands.Add(toolCommand);
         }
 
         private double GetXCoordinate(DrillHoleCommand command, int commandIndex)

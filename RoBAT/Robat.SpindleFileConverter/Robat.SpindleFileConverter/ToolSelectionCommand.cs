@@ -23,6 +23,9 @@ namespace Robat.SpindleFileConverter
 
         public string CommandText { get; }
 
+        public int ToolNumber => _toolNumber;
+        public int? HeadNumber => _headNumber;
+
         public ICommand Translate()
         {
             // TODO
@@ -76,6 +79,18 @@ namespace Robat.SpindleFileConverter
             }
 
             return headNumber;
+        }
+
+        public static ICommand FromNumbers(int toolNumber, int? headNumber = null)
+        {
+            string commandText = $"T{toolNumber}";
+
+            if (headNumber.HasValue)
+            {
+                commandText += $" H{headNumber.Value}";
+            }
+
+            return new ToolSelectionCommand(commandText, toolNumber, headNumber);
         }
     }
 }
