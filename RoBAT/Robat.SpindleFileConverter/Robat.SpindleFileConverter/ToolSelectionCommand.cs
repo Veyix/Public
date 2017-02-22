@@ -8,7 +8,7 @@ namespace Robat.SpindleFileConverter
         private readonly int _toolNumber;
         private readonly int? _headNumber;
 
-        public ToolSelectionCommand(string commandText, int toolNumber, int? headNumber = null)
+        public ToolSelectionCommand(string commandText, int toolNumber, int? headNumber)
         {
             CommandText = commandText;
 
