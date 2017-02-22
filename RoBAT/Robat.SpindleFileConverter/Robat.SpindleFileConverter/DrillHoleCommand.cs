@@ -115,15 +115,15 @@ namespace Robat.SpindleFileConverter
 
             if (xCoordinate.HasValue)
             {
-                commandText += $" X{xCoordinate.Value}";
+                commandText += $" X{xCoordinate.Value:#.00}";
             }
 
             if (yCoordinate.HasValue)
             {
-                commandText += $" Y{yCoordinate.Value}";
+                commandText += $" Y{yCoordinate.Value:#.00}";
             }
 
-            commandText += $" Z{zCoordinate}";
+            commandText += $" Z{zCoordinate:#.00}";
 
             return new DrillHoleCommand(commandText, xCoordinate, yCoordinate, zCoordinate);
         }
