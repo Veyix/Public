@@ -6,6 +6,11 @@
     public interface ICommand
     {
         /// <summary>
+        /// Gets or sets the value that identifies this command.
+        /// </summary>
+        int CommandId { get; set; }
+
+        /// <summary>
         /// Gets the text of the command.
         /// </summary>
         string CommandText { get; }

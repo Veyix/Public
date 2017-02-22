@@ -7,6 +7,11 @@
             CommandText = commandText;
         }
 
+        /// <summary>
+        /// Gets or sets the value that identifies this command.
+        /// </summary>
+        public int CommandId { get; set; }
+
         public string CommandText { get; }
 
         public ICommand Translate()

@@ -38,9 +38,13 @@ namespace Robat.SpindleFileConverter
             var factory = new CommandFactory();
             var lines = File.ReadLines(_inputFilePath);
 
+            int commandId = 1;
             foreach (string commandText in lines)
             {
-                yield return factory.CreateCommand(commandText);
+                var command = factory.CreateCommand(commandText);
+                command.CommandId = commandId++;
+
+                yield return command;
             }
         }
 
