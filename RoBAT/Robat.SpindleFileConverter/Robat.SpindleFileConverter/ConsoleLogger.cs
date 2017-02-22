@@ -20,6 +20,15 @@ namespace Robat.SpindleFileConverter
             WriteError(exception.Message);
         }
 
+        public static void WriteSuccess(string message)
+        {
+            Verify.NotNullOrEmpty(message, nameof(message));
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(message);
+            Console.ResetColor();
+        }
+
         public static void WriteInformation(string message)
         {
             Verify.NotNullOrEmpty(message, nameof(message));

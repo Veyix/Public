@@ -41,7 +41,20 @@ namespace Robat.SpindleFileConverter
 
         private static void Process(string filePath)
         {
-            ConsoleLogger.WriteInformation(File.ReadAllText(filePath));
+            try
+            {
+                var converter = new SpindleConverter(filePath);
+                string outputFilePath = converter.Convert();
+
+                ConsoleLogger.WriteSuccess($"File conversion completed successfully!");
+                ConsoleLogger.WriteInformation($"Output file: {outputFilePath}");
+            }
+            catch
+            {
+                ConsoleLogger.WriteError($"Failed to convert the single-spindle command file");
+
+                throw;
+            }
         }
     }
 }
