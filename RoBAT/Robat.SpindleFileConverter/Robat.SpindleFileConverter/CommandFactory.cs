@@ -10,7 +10,10 @@ namespace Robat.SpindleFileConverter
 
         public CommandFactory()
         {
-            // TODO: Setup the creation functions.
+            _commandCreationFunctions[CommandType.ToolSelection] = ToolSelectionCommand.FromCommandText;
+            _commandCreationFunctions[CommandType.StartDrill] = StartDrillCommand.FromCommandText;
+            _commandCreationFunctions[CommandType.StopDrill] = StopDrillCommand.FromCommandText;
+            _commandCreationFunctions[CommandType.DrillHole] = DrillHoleCommand.FromCommandText;
         }
 
         public ICommand CreateCommand(string commandText)
@@ -26,7 +29,7 @@ namespace Robat.SpindleFileConverter
 
             if (!_commandCreationFunctions.TryGetValue(commandType, out commandCreationFunction))
             {
-                commandCreationFunction = CreateNullCommand;
+                commandCreationFunction = NullCommand.FromCommandText;
             }
 
             return commandCreationFunction;
@@ -67,11 +70,6 @@ namespace Robat.SpindleFileConverter
             // TODO: What if the command starts with the right type but is of the wrong format?
 
             return CommandType.Unknown;
-        }
-
-        private static ICommand CreateNullCommand(string commandText)
-        {
-            return new NullCommand(commandText);
         }
 
         private enum CommandType

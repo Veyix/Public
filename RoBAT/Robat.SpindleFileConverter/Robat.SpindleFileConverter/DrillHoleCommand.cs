@@ -1,8 +1,8 @@
 ﻿namespace Robat.SpindleFileConverter
 {
-    public sealed class NullCommand : ICommand
+    public sealed class DrillHoleCommand : ICommand
     {
-        public NullCommand(string commandText)
+        public DrillHoleCommand(string commandText)
         {
             CommandText = commandText;
         }
@@ -11,13 +11,14 @@
 
         public ICommand Translate()
         {
-            // This command cannot be translated
+            // TODO
             return this;
         }
 
         public static ICommand FromCommandText(string commandText)
         {
-            return new NullCommand(commandText);
+            // TODO: Create properly
+            return new DrillHoleCommand(commandText);
         }
     }
 }
