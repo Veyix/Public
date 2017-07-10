@@ -5,6 +5,7 @@ package slade.customers;
  */
 public class Customer {
 
+    public Integer id;
     public String title;
     public String forename;
     public String surname;
