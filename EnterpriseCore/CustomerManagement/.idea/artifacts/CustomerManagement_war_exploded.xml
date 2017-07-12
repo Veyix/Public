@@ -7,6 +7,10 @@
         <element id="directory" name="classes">
           <element id="module-output" name="CustomerManagement" />
         </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="javax.ws.rs-api-2.0" />
+          <element id="library" level="project" name="gson-2.8.1" />
+        </element>
       </element>
     </root>
   </artifact>

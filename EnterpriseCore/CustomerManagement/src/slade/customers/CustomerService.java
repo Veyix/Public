@@ -1,18 +1,16 @@
 package slade.customers;
 
 import com.google.gson.Gson;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
+import javax.jws.WebService;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-/**
- * Created by samue on 10/07/2017.
- */
+@WebService()
 @Path("/customers")
-public class CustomerService {
+public class CustomerService implements ICustomerService {
 
     private static Map<Integer, Customer> Customers = new HashMap<>();
 
