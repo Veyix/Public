@@ -3,6 +3,8 @@ package slade.customers.services;
 import com.google.gson.Gson;
 import slade.customers.PATCH;
 import slade.customers.infrastructure.Customer;
+import slade.customers.infrastructure.CustomerRepositoryProvider;
+import slade.customers.infrastructure.ICustomerRepository;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,9 +19,17 @@ public class CustomerService implements ICustomerService {
 
     private static Map<Integer, Customer> Customers = new HashMap<>();
 
+    private final ICustomerRepository customerRepository;
+
+    public CustomerService() {
+        this.customerRepository = CustomerRepositoryProvider.create();
+    }
+
     @GET
     public Response getCustomers() {
-        return ok(Customers.values());
+
+        Customer[] customers = this.customerRepository.getCustomers();
+        return ok(customers);
     }
 
     @PUT
