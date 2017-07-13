@@ -1,4 +1,4 @@
-package slade.customers;
+package slade.customers.infrastructure;
 
 /**
  * Created by samue on 10/07/2017.

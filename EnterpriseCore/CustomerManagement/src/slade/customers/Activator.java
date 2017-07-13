@@ -3,6 +3,8 @@ package slade.customers;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
+import slade.customers.services.CustomerService;
+import slade.customers.services.ICustomerService;
 
 public class Activator implements BundleActivator {
 

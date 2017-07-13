@@ -1,5 +1,7 @@
 package slade.customers;
 
+import slade.customers.services.CustomerService;
+
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 import java.util.HashSet;

@@ -1,4 +1,6 @@
-package slade.customers;
+package slade.customers.services;
+
+import slade.customers.infrastructure.Customer;
 
 import javax.jws.WebService;
 import javax.ws.rs.core.Response;

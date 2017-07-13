@@ -1,6 +1,9 @@
-package slade.customers;
+package slade.customers.services;
 
 import com.google.gson.Gson;
+import slade.customers.PATCH;
+import slade.customers.infrastructure.Customer;
+
 import java.util.HashMap;
 import java.util.Map;
 import javax.jws.WebService;
