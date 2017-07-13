@@ -6,8 +6,6 @@ import slade.customers.infrastructure.Customer;
 import slade.customers.infrastructure.CustomerRepositoryProvider;
 import slade.customers.infrastructure.ICustomerRepository;
 
-import java.util.HashMap;
-import java.util.Map;
 import javax.jws.WebService;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -16,8 +14,6 @@ import javax.ws.rs.core.Response;
 @WebService()
 @Path("/customers")
 public class CustomerService implements ICustomerService {
-
-    private static Map<Integer, Customer> Customers = new HashMap<>();
 
     private final ICustomerRepository customerRepository;
 
@@ -40,9 +36,7 @@ public class CustomerService implements ICustomerService {
             return badRequest();
         }
 
-        customer.id = Customers.size() + 1;
-        Customers.put(customer.id, customer);
-
+        customer = this.customerRepository.addCustomer(customer);
         return created(customer);
     }
 
@@ -53,11 +47,9 @@ public class CustomerService implements ICustomerService {
             return badRequest();
         }
 
-        if (!Customers.containsKey(customer.id)) {
+        if (!this.customerRepository.updateCustomer(customer)) {
             return notFound();
         }
-
-        Customers.replace(customer.id, customer);
 
         return noContent();
     }
@@ -66,11 +58,9 @@ public class CustomerService implements ICustomerService {
     @Path("/{customerId}")
     public Response deleteCustomer(@PathParam("customerId") Integer customerId) {
 
-        if (!Customers.containsKey(customerId)) {
+        if (!this.customerRepository.deleteCustomer(customerId)) {
             return notFound();
         }
-
-        Customers.remove(customerId);
 
         return noContent();
     }
