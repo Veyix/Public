@@ -7,13 +7,14 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PostegresqlCustomerRepository implements ICustomerRepository {
+public class PostegresqlCustomerRepository implements ICustomerRepository, AutoCloseable {
 
     private static Map<Integer, Customer> Customers = new HashMap<>();
+    private final PostgresqlDatabaseContext context;
 
     public PostegresqlCustomerRepository() {
 
-        PostgresqlDatabaseContext context = new PostgresqlDatabaseContext();
+        this.context = new PostgresqlDatabaseContext();
 
         try {
             context.connect();
@@ -66,5 +67,10 @@ public class PostegresqlCustomerRepository implements ICustomerRepository {
         Customers.remove(customerId);
 
         return true;
+    }
+
+    @Override
+    public void close() throws Exception {
+        this.context.disconnect();
     }
 }

@@ -1,6 +1,6 @@
 package slade.customers.infrastructure;
 
-public interface ICustomerRepository {
+public interface ICustomerRepository extends AutoCloseable {
 
     Customer[] getCustomers();
     Customer addCustomer(Customer customer);

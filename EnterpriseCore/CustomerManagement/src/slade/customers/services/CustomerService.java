@@ -21,9 +21,17 @@ public class CustomerService implements ICustomerService {
         this.customerRepository = CustomerRepositoryProvider.create();
     }
 
+    @Override
+    public void finalize() {
+        try {
+            this.customerRepository.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @GET
     public Response getCustomers() {
-
         Customer[] customers = this.customerRepository.getCustomers();
         return ok(customers);
     }
