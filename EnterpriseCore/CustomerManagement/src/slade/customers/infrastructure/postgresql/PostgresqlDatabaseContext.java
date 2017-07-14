@@ -11,18 +11,33 @@ public class PostgresqlDatabaseContext {
     private Connection connection;
 
     public void connect() throws SQLException, ClassNotFoundException {
+
+        boolean initializing = false;
+        if (!databaseExists()) {
+            initializing = true;
+
+            createDatabase();
+        }
+
+        this.connection = createConnection("test");
+
+        if (initializing) {
+            createCustomerTable();
+        }
+    }
+
+    private static Connection createConnection(String databaseName) throws SQLException, ClassNotFoundException {
         Class.forName("org.postgresql.Driver");
 
         String databaseConnectionString = "jdbc:postgresql://localhost/";
+        if (databaseName != null && !databaseName.isEmpty()) {
+            databaseConnectionString += databaseName;
+        }
 
         Properties properties = new Properties();
         properties.setProperty("user", "postgres");
 
-        this.connection = DriverManager.getConnection(databaseConnectionString, properties);
-
-        if (!databaseExists()) {
-            createDatabase();
-        }
+        return DriverManager.getConnection(databaseConnectionString, properties);
     }
 
     public void disconnect() throws SQLException {
@@ -33,33 +48,51 @@ public class PostgresqlDatabaseContext {
         }
     }
 
-    private boolean databaseExists() throws SQLException {
+    private boolean databaseExists() throws SQLException, ClassNotFoundException {
 
-        Statement statement = this.connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT TOP 1 1 FROM INFORMATION_SCHEMA.TABLES WHERE [TABLE_NAME] = 'test';");
+        try (Connection connection = createConnection(null)) {
 
-        return resultSet.getBoolean(0);
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT 1 FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'test' LIMIT 1;");
+
+            return resultSet.getRow() >= 0;
+        }
     }
 
-    private void createDatabase() throws SQLException {
+    private void createDatabase() throws SQLException, ClassNotFoundException {
+
+        try (Connection connection = createConnection(null)) {
+            Statement statement = this.connection.createStatement();
+            statement.execute("CREATE DATABASE test;");
+        }
+    }
+
+    private void createCustomerTable() throws SQLException {
 
         Statement statement = this.connection.createStatement();
-        statement.execute("CREATE DATABASE [test];");
+
+        final String sql = "CREATE TABLE Customer ("
+                + "Id SERIAL NOT NULL PRIMARY KEY,"
+                + "Title VARCHAR(50) NOT NULL,"
+                + "Forename VARCHAR(256) NOT NULL,"
+                + "Surname VARCHAR(256) NOT NULL"
+                + ");";
+
+        statement.execute(sql);
     }
 
     // TODO: Make this method operate on generics.
     public ArrayList<Customer> getCustomers() throws SQLException {
 
         Statement statement = this.connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT [Id], [Title], [Forename], [Surname] FROM [Customer]");
+        ResultSet resultSet = statement.executeQuery("SELECT Id, Title, Forename, Surname FROM Customer;");
 
         ArrayList<Customer> customers = new ArrayList<>();
 
-        do {
+        while (resultSet.next()) {
             Customer customer = createCustomer(resultSet);
             customers.add(customer);
         }
-        while (!resultSet.isLast() && resultSet.next());
 
         return customers;
     }

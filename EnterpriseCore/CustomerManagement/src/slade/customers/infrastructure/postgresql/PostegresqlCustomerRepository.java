@@ -37,7 +37,7 @@ public class PostegresqlCustomerRepository implements ICustomerRepository, AutoC
 
             return new Customer[0];
         }
-        
+
         Customer[] customers = new Customer[customerList.size()];
 
         for (Integer index = 0; index < customerList.size(); index++) {
