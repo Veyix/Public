@@ -4,6 +4,7 @@ import slade.customers.infrastructure.Customer;
 import slade.customers.infrastructure.ICustomerRepository;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,10 +28,20 @@ public class PostegresqlCustomerRepository implements ICustomerRepository, AutoC
 
     @Override
     public Customer[] getCustomers() {
-        Customer[] customers = new Customer[Customers.size()];
+        final ArrayList<Customer> customerList;
 
-        for (Integer index = 0; index < Customers.size(); index++) {
-            customers[index] = Customers.get(index);
+        try {
+            customerList = this.context.getCustomers();
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+            return new Customer[0];
+        }
+        
+        Customer[] customers = new Customer[customerList.size()];
+
+        for (Integer index = 0; index < customerList.size(); index++) {
+            customers[index] = customerList.get(index);
         }
 
         return customers;

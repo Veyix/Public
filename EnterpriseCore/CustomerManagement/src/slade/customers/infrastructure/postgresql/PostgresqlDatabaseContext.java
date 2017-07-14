@@ -1,6 +1,9 @@
 package slade.customers.infrastructure.postgresql;
 
+import slade.customers.infrastructure.Customer;
+
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Properties;
 
 public class PostgresqlDatabaseContext {
@@ -42,5 +45,33 @@ public class PostgresqlDatabaseContext {
 
         Statement statement = this.connection.createStatement();
         statement.execute("CREATE DATABASE [test];");
+    }
+
+    // TODO: Make this method operate on generics.
+    public ArrayList<Customer> getCustomers() throws SQLException {
+
+        Statement statement = this.connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("SELECT [Id], [Title], [Forename], [Surname] FROM [Customer]");
+
+        ArrayList<Customer> customers = new ArrayList<>();
+
+        do {
+            Customer customer = createCustomer(resultSet);
+            customers.add(customer);
+        }
+        while (!resultSet.isLast() && resultSet.next());
+
+        return customers;
+    }
+
+    private static Customer createCustomer(ResultSet resultSet) throws SQLException {
+        final Customer customer = new Customer();
+
+        customer.id = resultSet.getInt("Id");
+        customer.title = resultSet.getString("Title");
+        customer.forename = resultSet.getString("Forename");
+        customer.surname = resultSet.getString("Surname");
+
+        return customer;
     }
 }
