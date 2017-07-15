@@ -6,6 +6,6 @@ public interface ICustomerRepository extends AutoCloseable {
 
     Customer[] getCustomers() throws SQLException;
     Customer addCustomer(Customer customer) throws SQLException;
-    boolean updateCustomer(Customer customer);
+    void updateCustomer(Customer customer) throws SQLException;
     boolean deleteCustomer(Integer customerId);
 }

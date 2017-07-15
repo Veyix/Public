@@ -5,12 +5,9 @@ import slade.customers.infrastructure.ICustomerRepository;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class PostegresqlCustomerRepository implements ICustomerRepository, AutoCloseable {
 
-    private static Map<Integer, Customer> Customers = new HashMap<>();
     private final PostgresqlDatabaseContext context;
 
     public PostegresqlCustomerRepository() {
@@ -45,25 +42,14 @@ public class PostegresqlCustomerRepository implements ICustomerRepository, AutoC
     }
 
     @Override
-    public boolean updateCustomer(Customer customer) {
-
-        if (!Customers.containsKey(customer.id)) {
-            return false;
-        }
-
-        Customers.replace(customer.id, customer);
-
-        return true;
+    public void updateCustomer(Customer customer) throws SQLException {
+        this.context.updateCustomer(customer);
     }
 
     @Override
     public boolean deleteCustomer(Integer customerId) {
 
-        if (!Customers.containsKey(customerId)) {
-            return false;
-        }
-
-        Customers.remove(customerId);
+        // TODO
 
         return true;
     }

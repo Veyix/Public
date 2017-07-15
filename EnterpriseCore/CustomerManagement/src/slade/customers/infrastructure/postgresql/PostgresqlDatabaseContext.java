@@ -132,4 +132,21 @@ public class PostgresqlDatabaseContext {
 
         return customer;
     }
+
+    public void updateCustomer(Customer customer) throws SQLException {
+
+        String sql = "UPDATE Customer "
+                + "SET Title = '" + customer.title + "', "
+                + "Forename = '" + customer.forename + "', "
+                + "Surname = '" + customer.surname + "' "
+                + "WHERE Id = " + customer.id.toString() + ";";
+
+        try (PreparedStatement statement = this.connection.prepareStatement(sql)) {
+            int rowsAffected = statement.executeUpdate();
+
+            if (rowsAffected == 0) {
+                throw new SQLException("No records updated");
+            }
+        }
+    }
 }

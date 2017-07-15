@@ -68,8 +68,10 @@ public class CustomerService implements ICustomerService {
             return badRequest();
         }
 
-        if (!this.customerRepository.updateCustomer(customer)) {
-            return notFound();
+        try {
+            this.customerRepository.updateCustomer(customer);
+        } catch (SQLException e) {
+            return internalServerError(e.getMessage());
         }
 
         return noContent();
