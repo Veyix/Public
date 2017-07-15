@@ -139,7 +139,7 @@ public class PostgresqlDatabaseContext {
                 + "SET Title = '" + customer.title + "', "
                 + "Forename = '" + customer.forename + "', "
                 + "Surname = '" + customer.surname + "' "
-                + "WHERE Id = " + customer.id.toString() + ";";
+                + "WHERE Id = " + customer.id + ";";
 
         try (PreparedStatement statement = this.connection.prepareStatement(sql)) {
             int rowsAffected = statement.executeUpdate();
@@ -147,6 +147,16 @@ public class PostgresqlDatabaseContext {
             if (rowsAffected == 0) {
                 throw new SQLException("No records updated");
             }
+        }
+    }
+
+    public boolean deleteCustomer(int customerId) throws SQLException {
+
+        String sql = "DELETE FROM Customer WHERE Id = " + customerId + ";";
+        try (PreparedStatement statement = this.connection.prepareStatement(sql)) {
+
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected == 1;
         }
     }
 }

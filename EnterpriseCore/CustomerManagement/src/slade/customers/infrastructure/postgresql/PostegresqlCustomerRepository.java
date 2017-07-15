@@ -47,11 +47,8 @@ public class PostegresqlCustomerRepository implements ICustomerRepository, AutoC
     }
 
     @Override
-    public boolean deleteCustomer(Integer customerId) {
-
-        // TODO
-
-        return true;
+    public boolean deleteCustomer(int customerId) throws SQLException {
+        return this.context.deleteCustomer(customerId);
     }
 
     @Override

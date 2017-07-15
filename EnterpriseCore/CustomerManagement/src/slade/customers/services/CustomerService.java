@@ -81,8 +81,12 @@ public class CustomerService implements ICustomerService {
     @Path("/{customerId}")
     public Response deleteCustomer(@PathParam("customerId") Integer customerId) {
 
-        if (!this.customerRepository.deleteCustomer(customerId)) {
-            return notFound();
+        try {
+            if (!this.customerRepository.deleteCustomer(customerId)) {
+                return notFound();
+            }
+        } catch (SQLException e) {
+            return internalServerError(e.getMessage());
         }
 
         return noContent();
