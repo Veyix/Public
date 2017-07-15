@@ -10,6 +10,7 @@ import javax.jws.WebService;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.sql.SQLException;
 
 @WebService()
 @Path("/customers")
@@ -32,7 +33,14 @@ public class CustomerService implements ICustomerService {
 
     @GET
     public Response getCustomers() {
-        Customer[] customers = this.customerRepository.getCustomers();
+        Customer[] customers;
+
+        try {
+            customers = this.customerRepository.getCustomers();
+        } catch (SQLException e) {
+            return internalServerError(e.getMessage());
+        }
+
         return ok(customers);
     }
 
@@ -44,7 +52,12 @@ public class CustomerService implements ICustomerService {
             return badRequest();
         }
 
-        customer = this.customerRepository.addCustomer(customer);
+        try {
+            customer = this.customerRepository.addCustomer(customer);
+        } catch (SQLException e) {
+            return internalServerError(e.getMessage());
+        }
+
         return created(customer);
     }
 
@@ -91,6 +104,10 @@ public class CustomerService implements ICustomerService {
 
     private static Response noContent() {
         return createResponse(Response.Status.NO_CONTENT);
+    }
+
+    private static Response internalServerError(String message) {
+        return createResponse(message, Response.Status.INTERNAL_SERVER_ERROR);
     }
 
     private static Response createResponse(Response.Status status) {

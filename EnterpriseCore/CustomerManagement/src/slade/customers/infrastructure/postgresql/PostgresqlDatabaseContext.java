@@ -107,4 +107,29 @@ public class PostgresqlDatabaseContext {
 
         return customer;
     }
+
+    public Customer addCustomer(Customer customer) throws SQLException {
+
+        String sql = "INSERT INTO Customer (Title, Forename, Surname)"
+                + "VALUES ('" + customer.title + "', '" + customer.forename + "', '" + customer.surname + "');";
+
+        try (PreparedStatement statement = this.connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            int rowsAffected = statement.executeUpdate();
+
+            if (rowsAffected == 0) {
+                throw new SQLException("No records were inserted");
+            }
+
+            try (ResultSet resultSet = statement.getGeneratedKeys()) {
+                if (resultSet.next()) {
+                    customer.id = resultSet.getInt(1);
+                }
+                else {
+                    throw new SQLException("Failed to retrieve the new Id");
+                }
+            }
+        }
+
+        return customer;
+    }
 }

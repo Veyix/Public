@@ -10,4 +10,4 @@ packages
 *.user
 *.class
 out
-/.idea/workspace.xml
+workspace.xml

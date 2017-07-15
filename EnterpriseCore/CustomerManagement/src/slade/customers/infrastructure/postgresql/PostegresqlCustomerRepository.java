@@ -27,16 +27,8 @@ public class PostegresqlCustomerRepository implements ICustomerRepository, AutoC
     }
 
     @Override
-    public Customer[] getCustomers() {
-        final ArrayList<Customer> customerList;
-
-        try {
-            customerList = this.context.getCustomers();
-        } catch (SQLException e) {
-            e.printStackTrace();
-
-            return new Customer[0];
-        }
+    public Customer[] getCustomers() throws SQLException {
+        final ArrayList<Customer> customerList  = this.context.getCustomers();
 
         Customer[] customers = new Customer[customerList.size()];
 
@@ -48,12 +40,8 @@ public class PostegresqlCustomerRepository implements ICustomerRepository, AutoC
     }
 
     @Override
-    public Customer addCustomer(Customer customer) {
-
-        customer.id = Customers.size() + 1;
-        Customers.put(customer.id, customer);
-
-        return customer;
+    public Customer addCustomer(Customer customer) throws SQLException {
+        return this.context.addCustomer(customer);
     }
 
     @Override
