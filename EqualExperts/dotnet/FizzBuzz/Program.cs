@@ -21,7 +21,7 @@ namespace FizzBuzz
             fizzer.Run(Numbers);
 
             string report = tracker.GetTrackerReport();
-            outputter.Output(report);
+            outputter.Output($" {report}");
 
             Console.WriteLine();
             Console.WriteLine();
