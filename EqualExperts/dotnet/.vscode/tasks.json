@@ -5,18 +5,12 @@
             "label": "build",
             "command": "dotnet",
             "type": "process",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
             "args": [
                 "build",
-                "${workspaceFolder}/FizzBuzz/FizzBuzz.csproj"
-            ],
-            "problemMatcher": "$tsc"
-        },
-        {
-            "label": "publish",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "publish",
                 "${workspaceFolder}/FizzBuzz/FizzBuzz.csproj"
             ],
             "problemMatcher": "$tsc"
@@ -29,6 +23,20 @@
                 "watch",
                 "run",
                 "${workspaceFolder}/FizzBuzz/FizzBuzz.csproj"
+            ],
+            "problemMatcher": "$tsc"
+        },
+        {
+            "label": "watch",
+            "command": "dotnet",
+            "type": "process",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "args": [
+                "test",
+                "${workspaceFolder}/FizzBuzz.Tests/FizzBuzz.Tests.csproj"
             ],
             "problemMatcher": "$tsc"
         }
