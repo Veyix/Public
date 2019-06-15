@@ -15,9 +15,13 @@ namespace FizzBuzz
             Console.WriteLine("=== Running Fizzer ===");
 
             var outputter = new ConsoleOutputter();
-            var fizzer = new Fizzer(outputter);
+            var tracker = new Tracker();
+            var fizzer = new Fizzer(outputter, tracker);
 
             fizzer.Run(Numbers);
+
+            string report = tracker.GetTrackerReport();
+            outputter.Output(report);
 
             Console.WriteLine();
             Console.WriteLine();

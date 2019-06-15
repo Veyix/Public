@@ -5,10 +5,12 @@ namespace FizzBuzz
     public class Fizzer
     {
         private readonly IOutputter _outputter;
+        private readonly Tracker _tracker;
 
-        public Fizzer(IOutputter outputter)
+        public Fizzer(IOutputter outputter, Tracker tracker)
         {
             _outputter = outputter ?? throw new ArgumentNullException(nameof(outputter));
+            _tracker = tracker ?? throw new ArgumentNullException(nameof(tracker));
         }
 
         public void Run(params int[] numbers)
@@ -34,6 +36,7 @@ namespace FizzBuzz
             if (DoesNumberContainThree(number))
             {
                 _outputter.Output("lucky");
+                _tracker.TrackLucky();
             }
             else
             {
@@ -43,18 +46,22 @@ namespace FizzBuzz
                 if (isMultipleOfThree && isMultipleOfFive)
                 {
                     _outputter.Output("fizzbuzz");
+                    _tracker.TrackFizzBuzz();
                 }
                 else if (isMultipleOfThree)
                 {
                     _outputter.Output("fizz");
+                    _tracker.TrackFizz();
                 }
                 else if (isMultipleOfFive)
                 {
                     _outputter.Output("buzz");
+                    _tracker.TrackBuzz();
                 }
                 else
                 {
                     _outputter.Output(number.ToString());
+                    _tracker.TrackNumber();
                 }
             }
         }
