@@ -14,7 +14,7 @@ Appropriate scripts have been provided for building the code, running the tests 
 
 ```bash
 # Windows Command Line
-.\run.cmd
+.\run-on-windows.cmd
 
 # Linux Command Line
-./run.sh
+./run-on-linux.sh
