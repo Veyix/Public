@@ -8,7 +8,6 @@ Equal Experts coding challenge exercise. See [here](https://equalexperts.github.
 The following are required to be installed in order to build and run this program and associated tests:
 
 1. [.NET Core 2.2 SDK](https://dotnet.microsoft.com/download/dotnet-core/2.2) *when running from the command line*
-2. [Docker CE](https://docs.docker.com/install/) *to build and run inside of Docker*
 
 ## Build and Run
 Appropriate scripts have been provided for building the code, running the tests and running the program.
@@ -19,10 +18,3 @@ Appropriate scripts have been provided for building the code, running the tests 
 
 # Linux Command Line
 ./run.sh
-
-# Docker CE on Windows
-.\run-in-docker.cmd
-
-# Docker CE on Linux
-./run-in-docker.sh
-```
