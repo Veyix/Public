@@ -1,0 +1,16 @@
+{
+  "name": "fizzbuzz",
+  "version": "1.0.0",
+  "description": "Version: c52851081674597ecf5d5a4ed3bf750b39e3f8e5",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "test": "mocha ./test/"
+  },
+  "author": "Samuel Slade",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4"
+  }
+}
