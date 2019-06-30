@@ -22,6 +22,16 @@ const transform = (number) => {
   return number.toString()
 }
 
-const fizzer = (numbers) => numbers.map(transform).join(" ")
+const fizzer = (numbers, trackerCallback) => {
+  const results = numbers.map(number => {
+    
+    const result = transform(number)
+    trackerCallback(result)
+
+    return result
+  })
+  
+  return results.join(" ")
+}
 
 module.exports = fizzer
