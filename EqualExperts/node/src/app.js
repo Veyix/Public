@@ -1,8 +1,13 @@
-const { tracker, getReport } = require("./tracker")
+const { reset, tracker, getReport } = require("./tracker")
 const fizzer = require("./fizzer")
 
-const numbers = [...Array(21).keys()].splice(1)
-const output = fizzer(numbers, tracker)
-const report = getReport()
+const app = (numbers) => {
+  reset()
 
-console.log(`${output} ${report}`)
+  const output = fizzer(numbers, tracker)
+  const report = getReport()
+
+  return `${output} ${report}`
+}
+
+module.exports = app
